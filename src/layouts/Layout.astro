@@ -1,0 +1,62 @@
+---
+import { NextUIProvider } from "@nextui-org/react";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+import { ViewTransitions } from "astro:transitions";
+
+
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <ViewTransitions />
+  </head>
+
+  <body>
+    <NextUIProvider>
+      <main class="text-foreground bg-background">
+        <slot />
+      </main>
+    </NextUIProvider>
+  </body>
+</html>
+
+<script is:inline>
+  const applyTheme = (theme) => {
+    if (theme === "light") {
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+    }
+    window.localStorage.setItem("theme", theme);
+  };
+
+  const getPreferredTheme = () => {
+    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+      return localStorage.getItem("theme");
+    }
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+    return "light";
+  };
+
+  const theme = getPreferredTheme();
+  applyTheme(theme);
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (e) => {
+      const newTheme = e.matches ? "dark" : "light";
+      applyTheme(newTheme);
+    });
+</script>
