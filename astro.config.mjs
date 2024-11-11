@@ -5,15 +5,13 @@ import tailwind from '@astrojs/tailwind';
 
 import react from '@astrojs/react';
 
-import icon from 'astro-icon';
+import auth from 'auth-astro';
 
 import vercel from '@astrojs/vercel/serverless';
 
-import auth from 'auth-astro';
-
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), react(), icon(), auth()],
+  integrations: [tailwind(), react(), auth()],
   output: 'server',
-  adapter: vercel()
+  adapter: vercel(),
 });

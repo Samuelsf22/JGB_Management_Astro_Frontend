@@ -1,6 +1,6 @@
 import { signIn } from "auth-astro/client";
 import { Button } from "@nextui-org/react";
-import Google from "../../icons/google";
+import Google from "../../icons/Google";
 
 const SignInGoogle = () => {
   return (
@@ -9,7 +9,7 @@ const SignInGoogle = () => {
         className="w-full"
         color="primary"
         variant="ghost"
-        startContent={<Google className="size-6" />}
+        startContent={<Google />}
         onClick={() => signIn("google")}
       >
         Continue with Google
