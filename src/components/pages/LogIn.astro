@@ -1,13 +1,14 @@
 ---
-import { Image, Picture } from "astro:assets";
+import { Picture } from "astro:assets";
 import BackgroundImage from "../../assets/login_background.webp";
-import LogInForm from "../form/LogInForm.tsx";
-import SignInGoogle from "../form/SignInGoogle.tsx";
-import Divider from "../ui/Divider.tsx";
+import LogInForm from "../form/LogInForm.astro";
+import SignInGoogle from "../form/SignInGoogle.astro";
+import Toggle from "../../components/Toggle.astro";
 ---
 
-<main class="flex h-screen overflow-hidden">
-  <div class=" hidden md:block w-full h-full">
+<div class="flex h-screen overflow-hidden">
+  <!-- Background Image Section -->
+  <div class="hidden md:block w-full h-full">
     <Picture
       src={BackgroundImage}
       alt="background"
@@ -15,25 +16,34 @@ import Divider from "../ui/Divider.tsx";
     />
   </div>
 
-    <div
-      class="w-[600px] flex flex-col justify-between items-center flex-grow p-6"
-    >
-      <div class="flex flex-col items-center justify-center flex-grow">
-        <img src="favicon.svg" alt="logo" class="w-40 mx-auto mb-14" />
-        <SignInGoogle client:load />
-        <div
-          class="w-full flex items-center justify-center text-center mt-6 mb-6"
-        >
-          <Divider className="w-5/12 flex-grow" />
-            <span class="w-2/12 text-small text-default-300">OR</span>
-          <Divider className="w-5/12 flex-grow" />
-        </div>
-        <LogInForm client:load />
+  <!-- Main Content Section -->
+  <div class="w-[600px] h-full animate-fade-in-up flex flex-col justify-between items-center flex-grow md:p-12 p-6">
+    <Toggle />
+
+    <!-- Login Form and Logo Section -->
+    <div class="w-80 flex flex-col items-center justify-center flex-grow">
+      <img src="favicon.svg" alt="logo" class="w-40 mx-auto mb-14" />
+      <SignInGoogle />
+
+      <!-- Divider with 'OR' Text -->
+      <div
+        class="w-full py-8 flex items-center text-center text-xs text-light-foreground-300 dark:text-dark-foreground-500 
+               before:flex-grow before:border-t before:me-2 
+               after:ms-2 before:border-light-foreground-300 
+               dark:before:border-dark-foreground-500 
+               after:flex-grow after:border-t after:border-light-foreground-300 
+               dark:after:border-dark-foreground-500"
+      >
+        OR
       </div>
 
-      <footer class="w-80 text-small text-center text-default-300 mt-4">
-        <Divider className="mb-4" />
-        <span>José Gálvez Barrenechea - 2024</span>
-      </footer>
+      <LogInForm />
     </div>
-  </main>
+
+    <!-- Footer Section -->
+    <footer class="w-80 text-sm text-center text-light-foreground-300 dark:text-dark-foreground-500">
+      <hr class="mb-4 border-light-foreground-300 dark:border-dark-foreground-500" />
+      <span>José Gálvez Barrenechea - 2024</span>
+    </footer>
+  </div>
+</div>

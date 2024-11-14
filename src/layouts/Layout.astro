@@ -3,7 +3,6 @@ interface Props {
   title: string;
 }
 
-import { NextUIProvider } from "@nextui-org/react";
 import { ViewTransitions } from "astro:transitions";
 
 const { title } = Astro.props;
@@ -20,39 +19,12 @@ const { title } = Astro.props;
   </head>
 
   <body>
-    <NextUIProvider>
-      <main class="text-foreground bg-background"><slot /></main>
-    </NextUIProvider>
+    <main
+      class="text-light-foreground dark:text-dark-foreground bg-light-background dark:bg-dark-background  max-h-screen overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-light-background-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-light-background-300 dark:[&::-webkit-scrollbar-track]:bg-dark-background-700 dark:[&::-webkit-scrollbar-thumb]:bg-dark-background-500"
+    >
+      <slot />
+    </main>
   </body>
 </html>
-
-<script is:inline>
-  const applyTheme = (theme) => {
-    if (theme === "light") {
-      document.documentElement.classList.remove("dark");
-    } else {
-      document.documentElement.classList.add("dark");
-    }
-    window.localStorage.setItem("theme", theme);
-  };
-
-  const getPreferredTheme = () => {
-    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-      return localStorage.getItem("theme");
-    }
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      return "dark";
-    }
-    return "light";
-  };
-
-  const theme = getPreferredTheme();
-  applyTheme(theme);
-
-  window
-    .matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", (e) => {
-      const newTheme = e.matches ? "dark" : "light";
-      applyTheme(newTheme);
-    });
-</script>
+<!-- <script is:inline src="./node_modules/preline/preline.js"></script> -->
+<script src="../../node_modules/preline/dist/preline.js"></script>

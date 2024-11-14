@@ -1,0 +1,54 @@
+---
+interface Props {
+  id: string;
+  name: "solid" | "outline" | "white";
+  icon?: {
+    start?: boolean;
+    end?: boolean;
+    name: string;
+    class: string;
+    size: number;
+  };
+  text?: string;
+  disabled?: boolean;
+}
+
+import { Icon } from "astro-icon/components";
+
+const { id, name, icon, text, disabled = false } = Astro.props as Props;
+const buttonStyles = [
+  {
+    name: "solid",
+    class:
+      "w-full py-3 px-4 flex justify-center items-center gap-x-2 text-sm rounded-lg border border-transparent bg-primary text-white hover:bg-primary-700 focus:outline-none disabled:opacity-50 disabled:pointer-events-none transition-all duration-200 ease-in-out",
+  },
+  {
+    name: "outline",
+    class:
+      "w-full py-3 px-4 flex justify-center items-center gap-x-2 text-sm rounded-lg border border-light-foreground-300 hover:border-primary hover:text-primary focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:border-dark-foreground-700 dark:hover:text-primary-500 dark:hover:border-primary-500 transition-all duration-200 ease-in-out",
+  },
+  {
+    name: "white",
+    class:
+      "w-full py-3 px-4 flex justify-center items-center gap-x-2 text-sm rounded-lg border border-light-background-300 hover:bg-light-background-100 disabled:opacity-50 disabled:pointer-events-none dark:border-dark-foreground-700 dark:hover:bg-dark-foreground-800 transition-all duration-200 ease-in-out",
+  }
+];
+
+const selected = buttonStyles.find((button) => button.name === name);
+---
+
+{
+  selected ? (
+    <button id={id} type="button" class={selected.class} disabled={disabled}>
+      {icon?.start && (
+        <Icon name={icon.name} class={icon.class} size={icon.size} />
+      )}
+      {text}
+      {icon?.end && (
+        <Icon name={icon.name} class={icon.class} size={icon.size} />
+      )}
+    </button>
+  ) : (
+    <p>Button style not found</p>
+  )
+}
