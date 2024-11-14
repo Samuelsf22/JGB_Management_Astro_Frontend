@@ -1,0 +1,24 @@
+---
+import Button from "../ui/Button.astro";
+---
+
+<div class="w-full">
+  <Button
+    id="google-signin"
+    name="white"
+    icon={{ name: "logos:google-icon", class: "", size: 20, start: true }}
+    text="Sign in with Google"
+  />
+</div>
+
+<script>
+  import { signIn } from "auth-astro/client";
+
+  function handleGoogleSignIn() {
+    signIn("google");
+  }
+
+  document
+    .getElementById("google-signin")
+    ?.addEventListener("click", handleGoogleSignIn);
+</script>

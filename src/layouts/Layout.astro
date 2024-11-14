@@ -1,0 +1,30 @@
+---
+interface Props {
+  title: string;
+}
+
+import { ViewTransitions } from "astro:transitions";
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <ViewTransitions />
+  </head>
+
+  <body>
+    <main
+      class="text-light-foreground dark:text-dark-foreground bg-light-background dark:bg-dark-background  max-h-screen overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-light-background-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-light-background-300 dark:[&::-webkit-scrollbar-track]:bg-dark-background-700 dark:[&::-webkit-scrollbar-thumb]:bg-dark-background-500"
+    >
+      <slot />
+    </main>
+  </body>
+</html>
+<!-- <script is:inline src="./node_modules/preline/preline.js"></script> -->
+<script src="../../node_modules/preline/dist/preline.js"></script>

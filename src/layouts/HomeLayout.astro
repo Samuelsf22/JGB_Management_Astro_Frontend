@@ -1,0 +1,19 @@
+---
+interface Props {
+  title: string;
+}
+
+import Layout from "./Layout.astro";
+// import { getSession } from "auth-astro/server";
+
+const { title } = Astro.props;
+// const session = await getSession(Astro.request);
+// const user = {
+//   name: session?.user?.name ?? "",
+//   email: session?.user?.email ?? "",
+// };
+---
+
+<Layout title={title}>
+  <slot />
+</Layout>
