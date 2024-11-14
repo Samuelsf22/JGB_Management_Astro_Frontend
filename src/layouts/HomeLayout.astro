@@ -4,24 +4,16 @@ interface Props {
 }
 
 import Layout from "./Layout.astro";
-import NavBar from "../components/ui/NavBar.tsx";
-import { getSession } from "auth-astro/server";
-import Footer from "../components/ui/Footer";
+// import { getSession } from "auth-astro/server";
 
 const { title } = Astro.props;
-const session = await getSession(Astro.request);
-const user = {
-  name: session?.user?.name ?? "",
-  email: session?.user?.email ?? "",
-};
+// const session = await getSession(Astro.request);
+// const user = {
+//   name: session?.user?.name ?? "",
+//   email: session?.user?.email ?? "",
+// };
 ---
 
 <Layout title={title}>
-  <div class="">
-    <NavBar user={user} client:load />
-    <div class="max-w-7xl mx-auto lg:px-0 px-3">
-      <slot />
-      <Footer />
-    </div>
-  </div>
-</Layout>
+  <slot />
+</Layout>

@@ -20,11 +20,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   );
 
   if (!session && !isLogInPath) {
-    return context.redirect("/login",302);
+    return context.redirect("/login", 302);
   }
 
   if (session && context.url.pathname === "/login") {
-    return context.redirect("/",302);
+    return context.redirect("/", 302);
   }
 
   if (session && isPrivatePath) {
