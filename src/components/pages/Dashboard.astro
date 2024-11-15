@@ -1,0 +1,54 @@
+---
+import Button from "../ui/Button.astro";
+import NavLink from "../NavLink.astro";
+---
+
+<!-- Main layout container -->
+<div class="lg:ml-64"> <!-- This adds margin equal to sidebar width on lg screens -->
+  <div class="py-16 w-96 text-center">
+    <Button
+      name="solid"
+      aria-haspopup="dialog"
+      aria-expanded="false"
+      aria-controls="hs-offcanvas-example"
+      aria-label="Toggle navigation"
+      data-hs-overlay="#hs-offcanvas-example"
+      text="Open Sidebar"
+    />
+  </div>
+</div>
+
+<!-- Sidebar -->
+<div
+  id="hs-offcanvas-example"
+  class="hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-800 dark:border-neutral-700"
+  role="dialog"
+  tabindex="-1"
+  aria-label="Sidebar"
+>
+  <div class="px-6">
+    <a
+      class="flex-none font-semibold text-lg text-black focus:outline-none focus:opacity-80 dark:text-white"
+      href="/"
+      aria-label="Brand">José Galvez Barrenechea</a
+    >
+  </div>
+  <nav
+    class="hs-accordion-group p-6 w-full flex flex-col flex-wrap"
+    data-hs-accordion-always-open
+  >
+    <ul class="space-y-1.5">
+      <NavLink href="/" text="Dashboard" icon={{ name: "mdi:view-dashboard-outline" }} />
+      <NavLink
+        id="account-accordion"
+        text="Account"
+        icon={{ name: "mdi:account-badge-outline" }}
+        items={[
+          { href: "/", text: "Link 1" },
+          { href: "/", text: "Link 2" },
+          { href: "/", text: "Link 3" },
+        ]}
+      />
+    </ul>
+  </nav>
+</div>
