@@ -1,0 +1,93 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  id?: string;
+  href?: string;
+  text: string;
+  items?: { href: string; text: string }[];
+  icon: {
+    name: string;
+    class?: string;
+  };
+}
+
+const { id, href, text, items, icon } = Astro.props as Props;
+const currentPath = Astro.url.pathname;
+const isActive = href === currentPath;
+const hasActiveChild = items?.some((item) => item.href === currentPath);
+---
+
+<li class="hs-accordion" id={id}>
+  <button
+    type="button"
+    class:list={[
+      "hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg",
+      "hover:text-primary dark:hover:text-dark-foreground hover:bg-light-background-200 dark:hover:bg-dark-background-800",
+      {
+        "text-primary dark:text-dark-foreground": isActive || hasActiveChild,
+        "text-light-foreground-400 dark:text-dark-foreground-300":
+          !isActive && !hasActiveChild,
+      },
+    ]}
+    aria-expanded={hasActiveChild ? "true" : "false"}
+    aria-controls={id}
+  >
+    <Icon name={icon.name} size={24} />
+    {items ? text : <a href={href}>{text}</a>}
+    {
+      items && (
+        <>
+          <Icon
+            name="mdi:chevron-up"
+            class="ms-auto hs-accordion-active:block hidden"
+            size={20}
+          />
+          <Icon
+            name="mdi:chevron-down"
+            class="ms-auto hs-accordion-active:hidden block"
+            size={20}
+          />
+        </>
+      )
+    }
+  </button>
+
+  {
+    items && (
+      <div
+        id={id}
+        class:list={[
+          "hs-accordion-content w-full overflow-hidden transition-[height] duration-300",
+          { hidden: !hasActiveChild },
+        ]}
+        role="region"
+        aria-labelledby={id}
+      >
+        <ul class="pt-2 ps-2">
+          {items.map((item) => {
+            const isItemActive = item.href === currentPath;
+            return (
+              <li>
+                <a
+                  class:list={[
+                    "flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg",
+                    "hover:text-primary dark:hover:text-dark-foreground hover:bg-light-background-200 dark:hover:bg-dark-background-800",
+                    {
+                      "text-primary dark:text-dark-foreground": isItemActive,
+                      "text-light-foreground-400 dark:text-dark-foreground-300":
+                        !isItemActive,
+                    },
+                  ]}
+                  href={item.href}
+                >
+                  {item.text}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    )
+  }
+</li>

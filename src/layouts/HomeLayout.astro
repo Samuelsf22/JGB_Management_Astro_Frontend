@@ -4,6 +4,7 @@ interface Props {
 }
 
 import Layout from "./Layout.astro";
+import Dashboard from "../components/pages/Dashboard.astro";
 // import { getSession } from "auth-astro/server";
 
 const { title } = Astro.props;
@@ -15,5 +16,7 @@ const { title } = Astro.props;
 ---
 
 <Layout title={title}>
-  <slot />
-</Layout>
+  <Dashboard>
+    <slot />
+  </Dashboard>
+</Layout>
