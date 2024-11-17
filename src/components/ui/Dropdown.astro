@@ -1,118 +1,25 @@
-<div class="hs-dropdown relative inline-flex">
-  <button
-    id="hs-dropdown-with-header"
-    type="button"
-    
-    aria-haspopup="menu"
-    aria-expanded="false"
-    aria-label="Dropdown"
-  >
-    <img
-      class="size-[38px] rounded-full bg-primary"
-      src="https://api.dicebear.com/9.x/initials/svg?seed=test&backgroundColor[]"
-      alt="Avatar"
-    />
-    
-  </button>
+---
+import { Icon } from "astro-icon/components";
 
-  <div
-    class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700"
-    role="menu"
-    aria-orientation="vertical"
-    aria-labelledby="hs-dropdown-with-header"
-  >
-    <div class="py-3 px-4 border-b border-gray-200 dark:border-neutral-700">
-      <p class="text-sm text-gray-500 dark:text-neutral-400">Signed in as</p>
-      <p class="text-sm font-medium text-gray-800 dark:text-neutral-300">
-        james@site.com
-      </p>
-    </div>
-    <div class="p-1 space-y-0.5">
-      <a
-        class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
-        href="#"
-      >
-        <svg
-          class="shrink-0 size-4"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          ><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path
-            d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg
+interface Props {
+  items: { id?: string; name: string; icon: string; href: string }[];
+}
+const { items } = Astro.props;
+---
+
+<div class="hs-dropdown">
+  <div class="p-1 space-y-0.5">
+    {
+      items!.map((item) => (
+        <a
+          id={item.id}
+          class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm focus:outline-none text-light-foreground-400 dark:text-dark-foreground-300 hover:text-primary dark:hover:text-dark-foreground hover:bg-light-background-200 dark:hover:bg-dark-background-800 "
+          href={item.href}
         >
-        Newsletter
-      </a>
-      <a
-        class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
-        href="#"
-      >
-        <svg
-          class="shrink-0 size-4"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          ><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"
-          ></circle><path
-            d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
-          ></path></svg
-        >
-        Purchases
-      </a>
-      <a
-        class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
-        href="#"
-      >
-        <svg
-          class="shrink-0 size-4"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          ><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"
-          ></path><path d="M12 12v9"></path><path d="m8 17 4 4 4-4"></path></svg
-        >
-        Downloads
-      </a>
-      <a
-        class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
-        href="#"
-      >
-        <svg
-          class="shrink-0 size-4"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle
-            cx="9"
-            cy="7"
-            r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path
-            d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg
-        >
-        Team Account
-      </a>
-    </div>
+          <Icon name={item.icon} class="shrink-0 size-4" />
+          {item.name}
+        </a>
+      ))
+    }
   </div>
 </div>
