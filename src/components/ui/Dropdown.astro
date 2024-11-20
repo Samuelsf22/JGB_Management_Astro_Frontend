@@ -1,0 +1,25 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  items: { id?: string; name: string; icon: string; href: string }[];
+}
+const { items } = Astro.props;
+---
+
+<div class="hs-dropdown">
+  <div class="p-1 space-y-0.5">
+    {
+      items!.map((item) => (
+        <a
+          id={item.id}
+          class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm focus:outline-none text-light-foreground-400 dark:text-dark-foreground-300 hover:text-primary dark:hover:text-dark-foreground hover:bg-light-background-200 dark:hover:bg-dark-background-800 "
+          href={item.href}
+        >
+          <Icon name={item.icon} class="shrink-0 size-4" />
+          {item.name}
+        </a>
+      ))
+    }
+  </div>
+</div>

@@ -26,3 +26,5 @@ pnpm-debug.log*
 # packages
 pnpm-lock.yaml
 package-lock.json
+.vercel/
+.vercel
