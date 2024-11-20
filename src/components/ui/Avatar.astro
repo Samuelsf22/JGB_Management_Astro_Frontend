@@ -1,0 +1,66 @@
+---
+import Dropdown from "./Dropdown.astro";
+import { getSession } from "auth-astro/server";
+
+const session = await getSession(Astro.request);
+const user = session?.user;
+
+const items = [
+  {
+    id: "#google-signout",
+    name: "Sign out",
+    icon: "mdi:sign-out",
+    href: "/login",
+  },
+];
+---
+
+<div class="hs-dropdown">
+  <button
+    id="hs-dropdown-with-header"
+    type="button"
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-label="Dropdown"
+  >
+    <img
+      class="size-[38px] rounded-full bg-primary"
+      src={`https://api.dicebear.com/9.x/initials/svg?seed=${user!.name}&backgroundColor[]`}
+      alt="Avatar"
+    />
+  </button>
+  <div
+    class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 shadow-md rounded-lg mt-2 border bg-light-background-100 border-light-background-200 dark:bg-dark-background-900 dark:border-dark-background-800"
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="hs-dropdown-with-header"
+  >
+    <div
+      class="py-3 px-4 border-b border-light-background-200 dark:border-dark-background-800"
+    >
+      <p
+        class="text-sm text-light-foreground-400 dark:text-dark-foreground-300"
+      >
+        {user!.name}
+      </p>
+      <p
+        class="text-sm font-medium text-light-foreground-400 dark:text-dark-foreground-300"
+      >
+        {user!.email}
+      </p>
+    </div>
+    <Dropdown items={items} />
+  </div>
+</div>
+
+<script>
+  import { signOut } from "auth-astro/client";
+
+  function handleGoogleSignOut() {
+    signOut();
+  }
+
+  document
+    .getElementById("#google-signout")
+    ?.addEventListener("click", handleGoogleSignOut);
+</script>

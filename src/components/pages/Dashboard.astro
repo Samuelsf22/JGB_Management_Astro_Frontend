@@ -1,0 +1,53 @@
+---
+import NavBar from "../ui/NavBar.astro";
+import NavLink from "../ui/NavLink.astro";
+---
+
+<div class="flex">
+  <!-- Sidebar -->
+  <div
+    id="hs-offcanvas-example"
+    class="hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all hidden lg:block duration-300 transform fixed top-0 start-0 bottom-0 z-[60] w-64 bg-light-background-100 dark:bg-dark-background-900 pt-7 pb-0 overflow-y-auto h-screen lg:sticky lg:translate-x-0 lg:end-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-light-background-100 [&::-webkit-scrollbar-thumb]:bg-light-background-300 dark:[&::-webkit-scrollbar-track]:bg-dark-background-900 dark:[&::-webkit-scrollbar-thumb]:bg-dark-background-800 border-e border-light-background-200 dark:border-dark-background-800"
+    role="dialog"
+    tabindex="-1"
+    aria-label="Sidebar"
+  >
+    <div class="px-6">
+      <a class="font-semibold text-xl flex items-center space-x-4" href="/" aria-label="logo">
+        <img src="favicon.svg" alt="logo" width={40} />
+        <span>José Gálvez Barrenechea</span>
+      </a>
+    </div>
+    <nav
+      class="hs-accordion-group p-6 w-full flex flex-col flex-wrap"
+      data-hs-accordion-always-open
+    >
+      <ul class="space-y-1.5">
+        <NavLink
+          href="/"
+          text="Dashboard"
+          icon={{ name: "mdi:view-dashboard-outline" }}
+        />
+        <NavLink
+          id="account-accordion"
+          text="Account"
+          icon={{ name: "mdi:account-badge-outline" }}
+          items={[
+            { href: "/hfgdhg", text: "Link 1" },
+            { href: "/", text: "Link 2" },
+            { href: "/hfgghg", text: "Link 3" },
+          ]}
+        />
+      </ul>
+    </nav>
+  </div>
+  <!-- Main Content Slot -->
+  <div class="flex-1 h-screen flex flex-col">
+    <NavBar />
+    <main
+      class="overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-light-background-100 [&::-webkit-scrollbar-thumb]:bg-light-background-300 dark:[&::-webkit-scrollbar-track]:bg-dark-background-900 dark:[&::-webkit-scrollbar-thumb]:bg-dark-background-800"
+    >
+      <slot />
+    </main>
+  </div>
+</div>
