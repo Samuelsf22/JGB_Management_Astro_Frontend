@@ -1,0 +1,47 @@
+---
+interface Props {
+    currentPage?: number;
+    totalPages?: number;
+    urlBase?: string;
+    [key: string]: any;
+}
+const { currentPage = 1, totalPages = 3, urlBase = "" } = Astro.props;
+import Button from "./Button.astro";
+
+const previousPage = currentPage > 1 ? currentPage - 1 : 1;
+const nextPage = currentPage < totalPages ? currentPage + 1 : totalPages;
+---
+
+<nav class="flex justify-center items-center gap-x-1" aria-label="Pagination">
+    <Button
+        name="ghost"
+        class="w-12"
+        icon={{ name: "mdi:chevron-left", size: 20 }}
+        iconStart={true}
+        href={`${urlBase}?page=${previousPage}`}
+        disabled={currentPage <= 1}
+    >
+        <span aria-hidden="true" class="hidden sm:block">Previous</span>
+    </Button>
+    <div class="flex items-center gap-x-1">
+        <input
+            type="number"
+            value={currentPage}
+            min="1"
+            max={totalPages}
+            class="w-12 h-8 block rounded-lg text-sm text-center bg-transparent [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none disabled:opacity-50 disabled:pointer-events-none border-light-foreground-300 focus:border-primary focus:ring-primary dark:border-dark-foreground-700 dark:focus:border-dark-foreground-500 dark:focus:ring-dark-foreground-500"
+        />
+        <span class="py-2 px-1.5 text-sm text-light-foreground-400 dark:text-dark-foreground-300">of</span>
+        <span class="py-2 px-1.5 text-sm text-light-foreground-400 dark:text-dark-foreground-300">{totalPages}</span>
+    </div>
+    <Button
+        name="ghost"
+        class="w-12"
+        icon={{ name: "mdi:chevron-right", size: 20 }}
+        iconEnd={true}
+        href={`${urlBase}?page=${nextPage}`}
+        disabled={currentPage >= totalPages}
+    >
+        <span aria-hidden="true" class="hidden sm:block">Next</span>
+    </Button>
+</nav>
