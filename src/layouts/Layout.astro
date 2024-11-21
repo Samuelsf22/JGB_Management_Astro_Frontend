@@ -3,8 +3,6 @@ interface Props {
   title: string;
 }
 
-import { ViewTransitions } from "astro:transitions";
-
 const { title } = Astro.props;
 ---
 
@@ -15,7 +13,28 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
-    <ViewTransitions />
+    <script transition:persist>
+      const html = document.querySelector("html");
+      if (html) {
+        const isLightOrAuto =
+          localStorage.getItem("hs_theme") === "light" ||
+          (localStorage.getItem("hs_theme") === "auto" &&
+            !window.matchMedia("(prefers-color-scheme: dark)").matches);
+        const isDarkOrAuto =
+          localStorage.getItem("hs_theme") === "dark" ||
+          (localStorage.getItem("hs_theme") === "auto" &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+        if (isLightOrAuto && html.classList.contains("dark"))
+          html.classList.remove("dark");
+        else if (isDarkOrAuto && html.classList.contains("light"))
+          html.classList.remove("light");
+        else if (isDarkOrAuto && !html.classList.contains("dark"))
+          html.classList.add("dark");
+        else if (isLightOrAuto && !html.classList.contains("light"))
+          html.classList.add("light");
+      }
+    </script>
   </head>
 
   <body>
@@ -26,5 +45,5 @@ const { title } = Astro.props;
     </main>
   </body>
 </html>
-<!-- <script is:inline src="./node_modules/preline/preline.js"></script> -->
+
 <script src="../../node_modules/preline/dist/preline.js"></script>
