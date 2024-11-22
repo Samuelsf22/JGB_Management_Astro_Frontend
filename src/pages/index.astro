@@ -1,6 +1,8 @@
 ---
 import HomeLayout from "../layouts/HomeLayout.astro";
 import Button from "../components/ui/Button.astro";
+import Table from "../components/ui/Table.astro";
+import Pagination from "../components/ui/Pagination.astro";
 ---
 
 <HomeLayout title="Home">
@@ -17,4 +19,15 @@ import Button from "../components/ui/Button.astro";
       text="Open Sidebar"
     />
   </div> -->
+  <Table
+    data={[
+      { name: "John Brown", age: 45, address: "New York No. 1 Lake Park" },
+      { name: "Jim Green", age: 27, address: "London No. 1 Lake Park" },
+      { name: "Joe Black", age: 31, address: "Sidney No. 1 Lake Park" },
+      { name: "Edward King", age: 16, address: "LA No. 1 Lake Park" },
+      { name: "Jim Red", age: 45, address: "Melbourne No. 1 Lake Park" },
+    ]}
+    showAction={true}
+  />
+  <Pagination />
 </HomeLayout>
