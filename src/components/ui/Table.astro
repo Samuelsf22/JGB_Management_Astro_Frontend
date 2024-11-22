@@ -23,7 +23,7 @@ console.log('Data:', data);
 ---
 
 <div class="overflow-x-auto">
-    <div class="p-1.5 min-w-full inline-block align-middle">
+    <div class="p-1.5 min-w-full inline-block align-middle rounded-lg border bg-light-background-100 border-light-background-200 dark:bg-dark-background-900 dark:border-dark-background-800">
         <div class="overflow-hidden">
             <table
                 class="min-w-full divide-y divide-light-background-400 dark:divide-dark-background-500"
@@ -33,7 +33,7 @@ console.log('Data:', data);
                         {columns.map(column => (
                             <th
                                 scope="col"
-                                class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
+                                class="px-6 py-3 text-start text-xs font-bold uppercase text-light-foreground-400 dark:text-dark-foreground-300"
                             >
                                 {transformColumnName(column)}
                             </th>
@@ -41,18 +41,18 @@ console.log('Data:', data);
                         {showAction && (
                             <th
                                 scope="col"
-                                class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
+                                class="px-6 py-3 text-start text-xs font-bold uppercase text-light-foreground-400 dark:text-dark-foreground-300"
                             >
                                 Action
                             </th>
                         )}
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+                <tbody class="divide-y divide-light-background-400 dark:divide-dark-background-500">
                     {data.map(row => (
-                        <tr class="hover:bg-gray-100 dark:hover:bg-neutral-700">
+                        <tr class="group text-light-foreground-400 dark:text-dark-foreground-300 hover:bg-light-background-200 dark:hover:bg-dark-background-800 hover:text-primary dark:hover:text-dark-foreground">
                             {columns.map(column => (
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
                                     {row[column]}
                                 </td>
                             ))}
