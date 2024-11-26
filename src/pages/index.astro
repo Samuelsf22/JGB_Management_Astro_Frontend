@@ -1,7 +1,7 @@
 ---
 import HomeLayout from "../layouts/HomeLayout.astro";
 import Table from "../components/ui/Table.astro";
-import Pagination from "../components/ui/Pagination.astro";
+
 const response = await fetch(`${import.meta.env.SERVER_URL}/representantes`);
 const data = await response.json();
 console.log(data)
@@ -21,9 +21,5 @@ console.log(data)
       text="Open Sidebar"
     />
   </div> -->
-  <Table
-    data={data}
-    showAction={true}
-  />
-  <Pagination />
+  <Table data={data} />
 </HomeLayout>

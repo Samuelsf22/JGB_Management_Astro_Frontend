@@ -1,75 +1,53 @@
 ---
 interface Props {
-    data: any[];
-    showAction?: boolean;
-    [key: string]: any;
+  data: any[]
 }
+const { data } = Astro.props as Props;
 
-const { data = [], showAction = false } = Astro.props as Props;
+const columns = Object.keys(data[0]);
 
-// Derive columns from the keys of the first object in the data array
-const columns = data.length > 0 ? Object.keys(data[0]) : [];
-
-// Function to transform column names
 const transformColumnName = (columnName: string) => {
-    return columnName
-        .split('_')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+  return columnName
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 };
-
-console.log('Columns:', columns);
-console.log('Data:', data);
 ---
 
 <div class="overflow-x-auto">
-    <div class="p-1.5 min-w-full inline-block align-middle rounded-lg border bg-light-background-100 border-light-background-200 dark:bg-dark-background-900 dark:border-dark-background-800">
-        <div class="overflow-hidden">
-            <table
-                class="min-w-full divide-y divide-light-background-400 dark:divide-dark-background-500"
-            >
-                <thead>
-                    <tr>
-                        {columns.map(column => (
-                            <th
-                                scope="col"
-                                class="px-6 py-3 text-start text-xs font-bold uppercase text-light-foreground-400 dark:text-dark-foreground-300"
-                            >
-                                {transformColumnName(column)}
-                            </th>
-                        ))}
-                        {showAction && (
-                            <th
-                                scope="col"
-                                class="px-6 py-3 text-start text-xs font-bold uppercase text-light-foreground-400 dark:text-dark-foreground-300"
-                            >
-                                Action
-                            </th>
-                        )}
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-light-background-400 dark:divide-dark-background-500">
-                    {data.map(row => (
-                        <tr class="group text-light-foreground-400 dark:text-dark-foreground-300 hover:bg-light-background-200 dark:hover:bg-dark-background-800 hover:text-primary dark:hover:text-dark-foreground">
-                            {columns.map(column => (
-                                <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                    {row[column]}
-                                </td>
-                            ))}
-                            {showAction && (
-                                <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                    <button
-                                        type="button"
-                                        class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400"
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
-                            )}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    </div>
+  <div
+    class="p-1.5 w-full inline-block align-middle border bg-light-background-100 border-light-background-200 dark:bg-dark-background-900 dark:border-dark-background-800"
+  >
+    <table
+      class="w-full divide-y divide-light-background-400 dark:divide-dark-background-500"
+    >
+      <thead>
+        <tr>
+          {
+            columns.map((column: string) => (
+              <th
+                scope="col"
+                class="px-6 py-3 text-start text-xs font-bold uppercase text-light-foreground-400 dark:text-dark-foreground-300"
+              >
+                {transformColumnName(column)}
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+      <tbody
+        class="divide-y divide-light-background-400 dark:divide-dark-background-500"
+      >
+        {
+          data.map((row) => (
+            <tr class="group text-light-foreground-400 dark:text-dark-foreground-300 hover:bg-light-background-200 dark:hover:bg-dark-background-800 hover:text-primary dark:hover:text-dark-foreground">
+              {columns.map((column: string) => (
+                <td class="px-6 py-4 text-sm">{row[column]}</td>
+              ))}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
