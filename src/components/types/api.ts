@@ -7,72 +7,78 @@ export type postUser = {
 }
 
 export type Teacher = {
-    id:        number;
-    materias:  Materia[];
-    specialty: string;
-    user:      User;
+    id_teacher: number;
+    subjects:   Subject[];
+    user:       User;
+    specialty:  string;
 }
 
-export type Materia = {
-    id_materia: number;
+export type Subject = {
+    id_subject: number;
     name:       string;
-    id_course:  IDCurso;
-    id_teacher: IDTeacher;
+    course:     Course;
+    teacher:    TeacherClass;
 }
 
-export type IDTeacher = {
-    id:        number;
-    specialty: string;
-    user:      number;
+export type TeacherClass = {
+    id_teacher: number;
+    specialty:  string;
+    user:       number;
 }
 
 export type User = {
     id:               number;
-    password:         string;
+    groups:           string[];
     last_login:       null;
     is_superuser:     boolean;
-    username:         string;
     first_name:       string;
     last_name:        string;
     is_staff:         boolean;
     is_active:        boolean;
-    date_joined:      Date;
     email:            string;
-    groups:           number[];
     user_permissions: any[];
 }
 
 export type Course = {
-    id_curso:        number;
-    asistencias:     Asistencia[];
-    evaluaciones:    any[];
-    nombre:          string;
-    horas_semanales: number;
-    id_curriculo:    number;
+    id_course:    number;
+    attendances:  Attendance[];
+    evaluations:  Evaluation[];
+    name:         string;
+    weekly_hours: number;
+    curriculum:   number;
 }
 
-export type Asistencia = {
-    id_asistencia: number;
-    fecha:         Date;
-    estado:        string;
-    id_alumno:     IDAlumno;
-    id_curso:      IDCurso;
+export type Attendance = {
+    id_attendance: number;
+    date:          Date;
+    status:        string;
+    student:       Student;
+    course:        CourseClass;
 }
 
-export type IDAlumno = {
-    id_alumno:         number;
-    nombre:            string;
-    apellido:          string;
-    dni:               string;
-    fecha_nacimiento:  Date;
-    fecha_inscripcion: Date;
-    direccion:         string;
-    id_representante:  number;
+export type CourseClass = {
+    id_course:    number;
+    name:         string;
+    weekly_hours: number;
+    curriculum:   number;
 }
 
-export type IDCurso = {
-    id_curso:        number;
-    nombre:          string;
-    horas_semanales: number;
-    id_curriculo:    number;
+export type Student = {
+    id_student:      number;
+    first_name:      string;
+    last_name:       string;
+    dni:             string;
+    birth_date:      Date;
+    enrollment_date: Date;
+    address:         string;
+    parent:          number;
+}
+
+export type Evaluation = {
+    id_evaluation: number;
+    type:          string;
+    grade:         number;
+    date:          Date;
+    student:       Student;
+    course:        CourseClass;
 }

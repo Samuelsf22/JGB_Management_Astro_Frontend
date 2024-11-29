@@ -12,33 +12,43 @@ export const getTeachers = async () => {
   return teachers;
 };
 
-export const getMaterialsByTeacherId = async (id: number) => {
+export const getSubjectsByTeacherId = async (id: number) => {
   const response = await fetch(`${import.meta.env.SERVER_URL}/teachers/${id}`);
   const teacher: Teacher = await response.json();
-  const materials = teacher.materias.map((materia) => ({
-    name: materia.name,
-    course: materia.id_course.nombre,
+  const subjects = teacher.subjects.map((subject) => ({
+    name: subject.name,
+    course: subject.course.name,
   }));
-  return materials;
+  return subjects;
 };
 
 export const getCoursesByTeacherId = async (id: number) => {
   const response = await fetch(`${import.meta.env.SERVER_URL}/teachers/${id}`);
   const teacher: Teacher = await response.json();
-  const courses = teacher.materias.map((materia) => ({
-    name: materia.id_course.nombre,
-    hours: materia.id_course.horas_semanales,
-    curriculum: materia.id_course.id_curriculo,
+  const courses = teacher.subjects.map((subject) => ({
+    name: subject.course.name,
+    hours: subject.course.weekly_hours,
+    curriculum: subject.course.curriculum,
   }));
   return courses;
 };
 
-export const getAssistanceByTeacherId = async (
+export const getAttendanceByTeacherId = async (
   id_teacher: number,
   id_course: number
 ) => {
-  // const response = await fetch(`${import.meta.env.SERVER_URL}/teachers/${id_teacher}`);
-  // const teacher: Teacher = await response.json();
-  // const courses = teacher.materias.map(materia => materia.id_course);
+  const response = await fetch(`${import.meta.env.SERVER_URL}/teachers/${id_teacher}`);
+  const teacher: Teacher = await response.json();
+  const course = teacher.subjects.find(
+    (subject) => subject.course.id_course === id_course
+  );
+  if (course) {
+    const attendances = course.course.attendances.map((attendance) => ({
+      date: attendance.date,
+      status: attendance.status,
+      student: attendance.student,
+    }));
+    return attendances;
+  }
   return [];
 };
