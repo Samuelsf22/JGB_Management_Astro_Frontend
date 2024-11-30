@@ -1,7 +1,6 @@
 ---
 import { Picture } from "astro:assets";
 import BackgroundImage from "../../assets/login_background.webp";
-import LogInForm from "../form/LogInForm.astro";
 import SignInGoogle from "../form/SignInGoogle.astro";
 import Toggle from "../../components/Toggle.astro";
 ---
@@ -23,16 +22,7 @@ import Toggle from "../../components/Toggle.astro";
     <!-- Login Form and Logo Section -->
     <div class="w-80 flex flex-col items-center justify-center flex-grow">
       <img src="favicon.svg" alt="logo" class="w-40 mx-auto mb-14" />
-      <SignInGoogle />
-
-      <!-- Divider with 'OR' Text -->
-      <div
-        class="w-full py-8 flex items-center text-center text-xs text-light-foreground-400 dark:text-dark-foreground-300 before:flex-grow before:border-t before:me-2 after:ms-2 before:border-light-foreground-300 dark:before:border-dark-foreground-500 after:flex-grow after:border-t after:border-light-foreground-300 dark:after:border-dark-foreground-500"
-      >
-        OR
-      </div>
-
-      <LogInForm />
+      <SignInGoogle />   
     </div>
 
     <!-- Footer Section -->
@@ -43,7 +33,7 @@ import Toggle from "../../components/Toggle.astro";
         class="mb-4 border-light-foreground-300 dark:border-dark-foreground-500"
       />
       <div class="flex items-center justify-center space-x-3">
-        <span>José Gálvez Barrenechea - 2024</span>
+        <span>José Gálvez Barrenechea - {new Date().getFullYear()}</span>
         <Toggle />
       </div>
     </footer>
