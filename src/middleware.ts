@@ -29,22 +29,18 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   if (session && !isLogIn) {
     context.cookies.delete("authjs.callback-url");
-    context.cookies.delete("authjs.session-token");
     context.cookies.delete("authjs.csrf-token");
-    context.cookies.set(
-      "message",
-      "No account associated with this email was found",
-      {
-        path: "/login",
-        maxAge: 20,
-        httpOnly: true,
-        sameSite: "lax",
-        secure: true,
-        encode: (value: string) => value,
-        domain: "jgb-management-astro-frontend.vercel.app",
-        expires: new Date(Date.now() + 20 * 1000),
-      }
-    );
+    context.cookies.delete("authjs.session-token");
+    context.cookies.set("auth","true", {
+      domain: "localhost",
+      httpOnly: false,
+      maxAge: 20,
+      path: "/login",
+      sameSite: "strict",
+      secure: true,
+      encode: (value: string) => value,
+      expires: new Date(Date.now() + 20 * 1000),
+    });
     return context.redirect("/login", 302);
   }
 
