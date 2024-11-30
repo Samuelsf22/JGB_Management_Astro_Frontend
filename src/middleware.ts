@@ -35,7 +35,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
     context.cookies.set("auth", "true", {
       domain: import.meta.env.DOMAIN,
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 20,
       path: "/login",
       sameSite: "lax",
