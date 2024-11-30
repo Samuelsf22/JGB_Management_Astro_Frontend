@@ -36,10 +36,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
       "No account associated with this email was found",
       {
         path: "/login",
-        httpOnly: false,
         maxAge: 20,
-        sameSite: "strict",
-        secure: true
+        httpOnly: true,
+        sameSite: "lax",
+        secure: true,
+        encode: (value: string) => value,
+        domain: "https://jgb-management-astro-frontend.vercel.app",
+        expires: new Date(Date.now() + 20 * 1000),
       }
     );
     return context.redirect("/login", 302);

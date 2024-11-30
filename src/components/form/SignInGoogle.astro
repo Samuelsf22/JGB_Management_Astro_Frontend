@@ -1,5 +1,12 @@
 ---
 import Button from "../ui/Button.astro";
+
+function getCookie(name: string) {
+  const cookie = Astro.cookies.has(name) ? Astro.cookies.get(name)?.value : "";
+  return cookie;
+}
+
+const message = getCookie("message");
 ---
 
 <div class="w-full space-y-4">
@@ -9,35 +16,25 @@ import Button from "../ui/Button.astro";
     icon={{ name: "logos:google-icon", size: 20 }}
     iconStart={true}>Sign in with Google</Button
   >
-  <div id="message-box" class="hidden text-center text-balance font-medium bg-light-background-100 dark:bg-dark-background-900 text-danger-700 dark:text-danger-400 px-4 py-2 rounded-lg border border-light-background-200 dark:border-dark-background-800"></div>
-
+  {
+    message && (
+      <div
+        id="message-box"
+        class="text-center text-balance font-medium bg-danger-100 dark:bg-danger-950 text-danger-700 dark:text-danger-400 px-4 py-2 rounded-lg border border-light-background-200 dark:border-dark-background-800"
+      >
+        {message}
+      </div>
+    )
+  }
 </div>
 
 <script>
   import { signIn } from "auth-astro/client";
 
-  function getCookie(name: string) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-      const part = parts.pop();
-      if (part) return decodeURIComponent(part.split(";").shift()!);
-    }
-    return "";
+  const button = document.getElementById("google-signin");
+  if (button) {
+    button.addEventListener("click", () => {
+      signIn("google");
+    });
   }
-
-  const message = getCookie("message");
-  if (message) {
-    const messageBox = document.getElementById("message-box");
-    if (messageBox) {
-      messageBox.textContent = message; 
-      messageBox.classList.remove("hidden");
-    }
-  }
-
-  function handleGoogleSignIn() {
-    signIn("google");
-  }
-
-  document.getElementById("google-signin")?.addEventListener("click", handleGoogleSignIn);
 </script>
