@@ -2,11 +2,12 @@
 import Button from "../ui/Button.astro";
 
 function getCookie(name: string) {
-  const cookie = Astro.cookies.has(name) ? Astro.cookies.get(name)?.value : "";
+  const cookie = Astro.cookies.has(name) ? Astro.cookies.get(name)?.value : false;
+  console.log(cookie)
   return cookie;
 }
 
-const message = getCookie("message");
+const auth_error = getCookie("auth");
 ---
 
 <div class="w-full space-y-4">
@@ -17,12 +18,12 @@ const message = getCookie("message");
     iconStart={true}>Sign in with Google</Button
   >
   {
-    message && (
+    auth_error && (
       <div
         id="message-box"
         class="text-center text-balance font-medium bg-danger-100 dark:bg-danger-950 text-danger-700 dark:text-danger-400 px-4 py-2 rounded-lg border border-light-background-200 dark:border-dark-background-800"
       >
-        {message}
+        No account associated with this email was found
       </div>
     )
   }
