@@ -20,7 +20,7 @@ const message = getCookie("message");
     message && (
       <div
         id="message-box"
-        class="text-center text-balance font-medium bg-light-background-100 dark:bg-dark-background-900 text-danger-700 dark:text-danger-400 px-4 py-2 rounded-lg border border-light-background-200 dark:border-dark-background-800"
+        class="text-center text-balance font-medium bg-danger-100 dark:bg-danger-950 text-danger-700 dark:text-danger-400 px-4 py-2 rounded-lg border border-light-background-200 dark:border-dark-background-800"
       >
         {message}
       </div>
@@ -31,11 +31,10 @@ const message = getCookie("message");
 <script>
   import { signIn } from "auth-astro/client";
 
-  function handleGoogleSignIn() {
-    signIn("google");
+  const button = document.getElementById("google-signin");
+  if (button) {
+    button.addEventListener("click", () => {
+      signIn("google");
+    });
   }
-
-  document
-    .getElementById("google-signin")
-    ?.addEventListener("click", handleGoogleSignIn);
 </script>
