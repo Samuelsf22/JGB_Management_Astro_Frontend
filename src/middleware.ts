@@ -28,15 +28,17 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   if (session && !isLogIn) {
-    context.cookies.delete("authjs.callback-url");
-    context.cookies.delete("authjs.csrf-token");
-    context.cookies.delete("authjs.session-token");
-    context.cookies.set("auth","true", {
+    const cookies = context.request.headers.get("cookie")?.split(";");
+    cookies?.map((cookie) => {
+      context.cookies.delete(cookie.split("=")[0].trim());
+    });
+
+    context.cookies.set("auth", "true", {
       domain: import.meta.env.DOMAIN,
-      httpOnly: false,
+      httpOnly: true,
       maxAge: 20,
       path: "/login",
-      sameSite: "strict",
+      sameSite: "lax",
       secure: true,
       encode: (value: string) => value,
       expires: new Date(Date.now() + 20 * 1000),
