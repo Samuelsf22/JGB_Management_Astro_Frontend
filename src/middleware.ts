@@ -37,6 +37,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
       {
         path: "/login",
         maxAge: 20,
+        httpOnly: true,
+        sameSite: "lax",
+        secure: true,
+        encode: (value: string) => value,
+        domain: "https://jgb-management-astro-frontend.vercel.app",
+        expires: new Date(Date.now() + 20 * 1000),
       }
     );
     return context.redirect("/login", 302);
