@@ -32,7 +32,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     context.cookies.delete("authjs.csrf-token");
     context.cookies.delete("authjs.session-token");
     context.cookies.set("auth","true", {
-      domain: "localhost",
+      domain: import.meta.env.DOMAIN,
       httpOnly: false,
       maxAge: 20,
       path: "/login",
