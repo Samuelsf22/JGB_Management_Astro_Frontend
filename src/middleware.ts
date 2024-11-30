@@ -39,7 +39,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
         httpOnly: false,
         maxAge: 20,
         sameSite: "strict",
-        secure: true
+        secure: true,
+        encode: String
       }
     );
     return context.redirect("/login", 302);
