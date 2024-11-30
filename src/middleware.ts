@@ -36,11 +36,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       "No account associated with this email was found",
       {
         path: "/login",
-        httpOnly: false,
         maxAge: 20,
-        sameSite: "strict",
-        secure: true,
-        encode: String
       }
     );
     return context.redirect("/login", 302);
