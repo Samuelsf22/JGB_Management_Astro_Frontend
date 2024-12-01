@@ -18,31 +18,24 @@ export const onRequest = defineMiddleware(async (context, next) => {
   );
 
   const session = await getSession(context.request);
-  let isLogIn = false;
 
   if (session) {
-    isLogIn = await logIn(session!.user!.email as string);
-    if (session && !isLogIn) {
-      //production
-      context.cookies.delete("__Host-authjs.csrf-token")
-      context.cookies.delete("__Secure-authjs.callback-url")
-      context.cookies.delete("__Secure-authjs.session-token")
-      //develop
-      context.cookies.delete("authjs.callback-url")
-      context.cookies.delete("authjs.csrf-token")
-      context.cookies.delete("authjs.session-token")
-
-      context.cookies.set("auth", "true", {
-        domain: import.meta.env.DOMAIN,
-        httpOnly: true,
-        maxAge: 20,
-        path: "/login",
-        sameSite: "lax",
-        secure: true,
-        encode: (value: string) => value,
-        expires: new Date(Date.now() + 20 * 1000),
-      });
-      return context.redirect("/login", 302);
+    const isLogIn = await logIn(session.user!.email as string);
+    if (!isLogIn) {
+      if (!context.cookies.has("auth")) {
+        context.cookies.set("auth", "true", {
+          domain: import.meta.env.DOMAIN,
+          httpOnly: true,
+          maxAge: 10,
+          path: "/login",
+          sameSite: "lax",
+          secure: true,
+          encode: (value: string) => value,
+          expires: new Date(Date.now() + 10 * 1000),
+        });
+      } else {
+        return context.redirect("/login", 302);
+      }
     }
 
     if (session && isLogIn) {
