@@ -1,9 +1,7 @@
 ---
 import Button from "../ui/Button.astro";
-
 function getCookie(name: string) {
   const cookie = Astro.cookies.has(name) ? Astro.cookies.get(name)?.value : false;
-  console.log(cookie)
   return cookie;
 }
 

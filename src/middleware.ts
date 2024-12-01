@@ -6,12 +6,6 @@ const LOGIN_PATHS = ["/login", "/api"];
 const AUTHORIZED_PATHS = ["/"];
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  const session = await getSession(context.request);
-  let isLogIn = false;
-  if (session) {
-    isLogIn = await logIn(session!.user!.email as string);
-  }
-
   if (context.url.pathname.startsWith("/_image")) {
     return next();
   }
@@ -23,36 +17,39 @@ export const onRequest = defineMiddleware(async (context, next) => {
     context.url.pathname.startsWith(prefix)
   );
 
+  const session = await getSession(context.request);
+
+  if (session) {
+    const isLogIn = await logIn(session.user!.email as string);
+    if (!isLogIn) {
+      if (!context.cookies.has("auth")) {
+        context.cookies.set("auth", "true", {
+          domain: import.meta.env.DOMAIN,
+          httpOnly: true,
+          maxAge: 10,
+          path: "/login",
+          sameSite: "lax",
+          secure: true,
+          encode: (value: string) => value,
+          expires: new Date(Date.now() + 10 * 1000),
+        });
+      } else {
+        return context.redirect("/login", 302);
+      }
+    }
+
+    if (session && isLogIn) {
+      if (context.url.pathname === "/login") {
+        return context.redirect("/", 302);
+      }
+      if (isPrivatePath) {
+        return next();
+      }
+    }
+  }
+
   if (!session && !isLogInPath) {
     return context.redirect("/login", 302);
-  }
-
-  if (session && !isLogIn) {
-    const cookies = context.request.headers.get("cookie")?.split(";");
-    cookies?.map((cookie) => {
-      context.cookies.delete(cookie.split("=")[0].trim());
-    });
-
-    context.cookies.set("auth", "true", {
-      domain: import.meta.env.DOMAIN,
-      httpOnly: false,
-      maxAge: 20,
-      path: "/login",
-      sameSite: "lax",
-      secure: true,
-      encode: (value: string) => value,
-      expires: new Date(Date.now() + 20 * 1000),
-    });
-    return context.redirect("/login", 302);
-  }
-
-  if (session && isLogIn) {
-    if (context.url.pathname === "/login") {
-      return context.redirect("/", 302);
-    }
-    if (isPrivatePath) {
-      return next();
-    }
   }
 
   return next();
