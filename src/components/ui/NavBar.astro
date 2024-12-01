@@ -1,19 +1,22 @@
 ---
+import { Image } from "astro:assets";
+import Logo from "../../assets/logo.svg";
 import Toggle from "../Toggle.astro";
 import Avatar from "./Avatar.astro";
 ---
+
 <header
-    class="flex items-center text-sm py-3 bg-light-background-100 dark:bg-dark-background-900 border-b border-light-background-200 dark:border-dark-background-800"
+  class="flex items-center text-sm py-3 bg-light-background-100 dark:bg-dark-background-900 border-b border-light-background-200 dark:border-dark-background-800"
 >
-    <nav class="w-full px-3 flex flex-row items-center justify-between">
-        <div class="items-center lg:hidden">
-            <a href="/" aria-label="Logo">
-                <img src="favicon.svg" alt="logo" width={30} />
-            </a>
-        </div>
-        <div class="ml-auto flex items-center space-x-3">
-            <Toggle />
-            <Avatar />
-        </div>
-    </nav>
+  <nav class="w-full px-3 flex flex-row items-center justify-between">
+    <div class="items-center lg:hidden">
+      <a href="/" aria-label="Logo">
+        <Image src={Logo} alt="logo" width={30} />
+      </a>
+    </div>
+    <div class="ml-auto flex items-center space-x-3">
+      <Toggle />
+      <Avatar />
+    </div>
+  </nav>
 </header>

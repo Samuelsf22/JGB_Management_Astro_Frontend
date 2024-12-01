@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import Logo from "../../assets/logo.svg";
 import NavBar from "../ui/NavBar.astro";
 ---
 
@@ -12,8 +14,12 @@ import NavBar from "../ui/NavBar.astro";
     aria-label="Sidebar"
   >
     <div class="px-6">
-      <a class="font-semibold text-xl flex items-center space-x-4" href="/" aria-label="logo">
-        <img src="favicon.svg" alt="logo" width={40} />
+      <a
+        class="font-semibold text-xl flex items-center space-x-4"
+        href="/"
+        aria-label="logo"
+      >
+        <Image src={Logo} alt="logo" width={40} />
         <span>José Gálvez Barrenechea</span>
       </a>
     </div>
@@ -22,7 +28,7 @@ import NavBar from "../ui/NavBar.astro";
       data-hs-accordion-always-open
     >
       <ul class="space-y-1.5">
-        <slot name="sidebar"/>
+        <slot name="sidebar" />
       </ul>
     </nav>
   </div>
@@ -32,7 +38,7 @@ import NavBar from "../ui/NavBar.astro";
     <main
       class="overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-light-background-100 [&::-webkit-scrollbar-thumb]:bg-light-background-300 dark:[&::-webkit-scrollbar-track]:bg-dark-background-900 dark:[&::-webkit-scrollbar-thumb]:bg-dark-background-800"
     >
-      <slot name="main-content"/>
+      <slot name="main-content" />
     </main>
   </div>
 </div>
