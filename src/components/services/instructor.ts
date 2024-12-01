@@ -1,4 +1,4 @@
-import type { Teacher } from "../types/api";
+import type { Course, Teacher } from "../types/api";
 
 export const getTeacherById = async (id: number) => {
   const response = await fetch(`${import.meta.env.SERVER_URL}/teachers/${id}`);
@@ -12,7 +12,7 @@ export const getTeachers = async () => {
   return teachers;
 };
 
-export const getSubjectsByTeacherId = async (id: number) => {
+export const getSubjectsByTeacherId = async (id: string) => {
   const response = await fetch(`${import.meta.env.SERVER_URL}/teachers/${id}`);
   const teacher: Teacher = await response.json();
   const subjects = teacher.subjects.map((subject) => ({
@@ -22,22 +22,13 @@ export const getSubjectsByTeacherId = async (id: number) => {
   return subjects;
 };
 
-export const getCoursesByTeacherId = async (id: number) => {
-  const response = await fetch(`${import.meta.env.SERVER_URL}/teachers/${id}`);
-  const teacher: Teacher = await response.json();
-  const courses = teacher.subjects.map((subject) => ({
-    name: subject.course.name,
-    hours: subject.course.weekly_hours,
-    curriculum: subject.course.curriculum,
-  }));
-  return courses;
-};
-
 export const getAttendanceByTeacherId = async (
   id_teacher: number,
   id_course: number
 ) => {
-  const response = await fetch(`${import.meta.env.SERVER_URL}/teachers/${id_teacher}`);
+  const response = await fetch(
+    `${import.meta.env.SERVER_URL}/teachers/${id_teacher}`
+  );
   const teacher: Teacher = await response.json();
   const course = teacher.subjects.find(
     (subject) => subject.course.id_course === id_course

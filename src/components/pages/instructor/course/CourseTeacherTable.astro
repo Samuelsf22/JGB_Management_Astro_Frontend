@@ -1,0 +1,8 @@
+---
+import { getCoursesByTeacherId } from "../../../services/course";
+import Table from "../../../ui/Table.astro";
+
+const courses = await getCoursesByTeacherId("1");
+---
+
+<Table data={courses} />

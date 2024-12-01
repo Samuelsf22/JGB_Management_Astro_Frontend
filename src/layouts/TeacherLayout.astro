@@ -1,12 +1,18 @@
 ---
+interface Props {
+  title: string;
+}
 import InstructorDashboard from "../components/pages/instructor/InstructorDashboard.astro";
 import Dashboard from "../components/pages/Dashboard.astro";
 import Layout from "../layouts/Layout.astro";
+const { title } = Astro.props as Props;
 ---
 
-<Layout title="teacher">
+<Layout title={title}>
   <Dashboard>
     <InstructorDashboard slot="sidebar" />
-    <div slot="main-content">This is Teacher Page</div>
+    <div slot="main-content">
+      <slot />
+    </div>
   </Dashboard>
 </Layout>
