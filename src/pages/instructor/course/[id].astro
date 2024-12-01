@@ -1,7 +1,7 @@
 ---
-import Dashboard from "../../../components/pages/Dashboard.astro";
+import TeacherLayout from "../../../layouts/TeacherLayout.astro";
+
 import { getCourseById } from "../../../components/services/course.ts";
-import Layout from "../../../layouts/Layout.astro";
 
 const { id } = Astro.params;
 
@@ -11,12 +11,11 @@ if (id) {
 }
 ---
 
-<Layout title="teacher">
-  <Dashboard>
-    <div slot="main-content">
-      <div class="flex flex-col space-y-4">
-        <h1 class="text-2xl font-semibold">Course: {course?.name}</h1>
-      </div>
-    </div>
-  </Dashboard>
-</Layout>
+{
+  course && (
+    <TeacherLayout title={course.name}>
+      <h1>{course.name}</h1>
+    </TeacherLayout>
+  )
+}
+

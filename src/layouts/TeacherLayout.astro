@@ -2,7 +2,7 @@
 interface Props {
   title: string;
 }
-import InstructorDashboard from "../components/pages/instructor/InstructorDashboard.astro";
+import InstructorSidebar from "../components/pages/instructor/InstructorSidebar.astro";
 import Dashboard from "../components/pages/Dashboard.astro";
 import Layout from "../layouts/Layout.astro";
 const { title } = Astro.props as Props;
@@ -10,8 +10,8 @@ const { title } = Astro.props as Props;
 
 <Layout title={title}>
   <Dashboard>
-    <InstructorDashboard slot="sidebar" />
-    <div slot="main-content">
+    <InstructorSidebar slot="sidebar" />
+    <div slot="main-content" class="gap-3 p-3">
       <slot />
     </div>
   </Dashboard>
