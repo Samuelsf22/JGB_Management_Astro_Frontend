@@ -1,0 +1,12 @@
+---
+import InstructorDashboard from "../components/pages/instructor/InstructorDashboard.astro";
+import Dashboard from "../components/pages/Dashboard.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="teacher">
+  <Dashboard>
+    <InstructorDashboard slot="sidebar" />
+    <div slot="main-content">This is Teacher Page</div>
+  </Dashboard>
+</Layout>
