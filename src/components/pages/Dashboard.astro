@@ -1,6 +1,7 @@
 ---
+import { Image } from "astro:assets";
+import Logo from "../../assets/logo.svg";
 import NavBar from "../ui/NavBar.astro";
-import NavLink from "../ui/NavLink.astro";
 ---
 
 <div class="flex">
@@ -13,8 +14,12 @@ import NavLink from "../ui/NavLink.astro";
     aria-label="Sidebar"
   >
     <div class="px-6">
-      <a class="font-semibold text-xl flex items-center space-x-4" href="/" aria-label="logo">
-        <img src="favicon.svg" alt="logo" width={40} />
+      <a
+        class="font-semibold text-xl flex items-center space-x-4"
+        href="/"
+        aria-label="logo"
+      >
+        <Image src={Logo} alt="logo" width={40} />
         <span>José Gálvez Barrenechea</span>
       </a>
     </div>
@@ -23,21 +28,7 @@ import NavLink from "../ui/NavLink.astro";
       data-hs-accordion-always-open
     >
       <ul class="space-y-1.5">
-        <NavLink
-          href="/"
-          text="Dashboard"
-          icon={{ name: "mdi:view-dashboard-outline" }}
-        />
-        <NavLink
-          id="account-accordion"
-          text="Account"
-          icon={{ name: "mdi:account-badge-outline" }}
-          items={[
-            { href: "/hfgdhg", text: "Link 1" },
-            { href: "/", text: "Link 2" },
-            { href: "/hfgghg", text: "Link 3" },
-          ]}
-        />
+        <slot name="sidebar" />
       </ul>
     </nav>
   </div>
@@ -47,7 +38,7 @@ import NavLink from "../ui/NavLink.astro";
     <main
       class="overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-light-background-100 [&::-webkit-scrollbar-thumb]:bg-light-background-300 dark:[&::-webkit-scrollbar-track]:bg-dark-background-900 dark:[&::-webkit-scrollbar-thumb]:bg-dark-background-800"
     >
-      <slot />
+      <slot name="main-content" />
     </main>
   </div>
 </div>

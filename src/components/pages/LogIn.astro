@@ -1,5 +1,7 @@
 ---
 import { Picture } from "astro:assets";
+import { Image } from "astro:assets";
+import Logo from "../../assets/logo.svg";
 import BackgroundImage from "../../assets/login_background.webp";
 import SignInGoogle from "../form/SignInGoogle.astro";
 import Toggle from "../../components/Toggle.astro";
@@ -21,7 +23,7 @@ import Toggle from "../../components/Toggle.astro";
   >
     <!-- Login Form and Logo Section -->
     <div class="w-80 flex flex-col items-center justify-center flex-grow">
-      <img src="favicon.svg" alt="logo" class="w-40 mx-auto mb-14" />
+      <Image src={Logo} alt="logo" class="w-40 mx-auto mb-14" />
       <SignInGoogle />   
     </div>
 
