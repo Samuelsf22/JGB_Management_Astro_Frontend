@@ -1,7 +1,7 @@
 ---
 interface Props {
   id?: string;
-  name: "solid" | "outline" | "white" | "ghost" | "circle";
+  name: "solid" | "outline" | "white" | "ghost" | "circle" | "link";
   icon?: typeof Icon.arguments;
   iconStart?: boolean;
   iconEnd?: boolean;
@@ -36,6 +36,10 @@ const buttonStyles = [
     class:
       "group rounded-full py-3 px-3 flex items-center justify-center font-medium focus:outline-none text-light-foreground-400 dark:text-dark-foreground-300 focus:text-primary hover:text-primary dark:hover:text-dark-foreground hover:bg-light-background-200 dark:hover:bg-dark-background-800 dark:focus:text-dark-foreground disabled:opacity-50 disabled:pointer-events-none border border-transparent transition-colors duration-300 ease-in-out",
   },
+  {
+    name: "link",
+    class: "group flex items-center justify-center font-medium focus:outline-none text-sm font-medium rounded-lg border border-transparent  text-light-foreground-300 hover:text-light-foreground dark:text-dark-foreground-500 dark:hover:text-dark-foreground focus:text-light-foreground dark:focus:text-dark-foreground focus:outline-none disabled:opacity-50 disabled:pointer-events-none  transition-colors duration-200 ease-in-out"
+  }
 ];
 const buttonClass =
   buttonStyles.find((style) => style.name === name)?.class || "";

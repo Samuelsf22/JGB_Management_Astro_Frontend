@@ -1,8 +1,16 @@
 ---
 import { getCoursesByTeacherId } from "../../../services/course";
+import type { CourseClass } from "../../../types/api";
 import Table from "../../../ui/Table.astro";
 
-const courses = await getCoursesByTeacherId("1");
+const courses: CourseClass[] = await getCoursesByTeacherId("1");
 ---
 
-<Table data={courses} />
+<Table
+  href="/instructor/course"
+  id={courses.map((course) => course.id_course)}
+  data={courses.map((course) => ({
+    name: course.name,
+    weekly_hours: course.weekly_hours,
+  }))}
+/>

@@ -1,9 +1,12 @@
 ---
 interface Props {
-  data: any[]
+  href: string;
+  id: number[];
+  data: any[];
 }
-const { data } = Astro.props as Props;
+const { data, id, href } = Astro.props as Props;
 
+import Button from "../ui/Button.astro";
 const columns = Object.keys(data[0]);
 
 const transformColumnName = (columnName: string) => {
@@ -33,17 +36,32 @@ const transformColumnName = (columnName: string) => {
               </th>
             ))
           }
+          <th
+            scope="col"
+            class="px-6 py-3 text-start text-xs font-bold uppercase text-light-foreground-400 dark:text-dark-foreground-300"
+          >
+            Action
+          </th>
         </tr>
       </thead>
       <tbody
         class="divide-y divide-light-background-400 dark:divide-dark-background-500"
       >
         {
-          data.map((row) => (
+          data.map((row, index) => (
             <tr class="group text-light-foreground-400 dark:text-dark-foreground-300 hover:bg-light-background-200 dark:hover:bg-dark-background-800 hover:text-primary dark:hover:text-dark-foreground">
               {columns.map((column: string) => (
                 <td class="px-6 py-4 text-sm">{row[column]}</td>
               ))}
+              <td class="px-6 py-4 text-sm">
+                <Button name="link">
+                  <a
+                    href={`${href}/${id[index]}`}
+                  >
+                    View Course
+                  </a>
+                </Button>
+              </td>
             </tr>
           ))
         }

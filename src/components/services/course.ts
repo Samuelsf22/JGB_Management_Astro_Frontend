@@ -1,4 +1,4 @@
-import type { Course, Teacher } from "../types/api";
+import type { CourseClass, Course, Teacher } from "../types/api";
 
 export const getCourses = async () => {
   const response = await fetch(`${import.meta.env.SERVER_URL}/courses`);
@@ -9,7 +9,7 @@ export const getCourses = async () => {
 export const getCoursesByTeacherId = async (id: string) => {
   const response = await fetch(`${import.meta.env.SERVER_URL}/teachers/${id}`);
   const teacher: Teacher = await response.json();
-  const courses: Course[] = teacher.subjects.map((subject) => subject.course);
+  const courses: CourseClass[] = teacher.subjects.map((subject) => subject.course);
   return courses;
 };
 
