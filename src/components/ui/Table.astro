@@ -22,7 +22,7 @@ const transformColumnName = (columnName: string) => {
     class="p-1.5 w-full inline-block align-middle border bg-light-background-100 border-light-background-200 dark:bg-dark-background-900 dark:border-dark-background-800"
   >
     <table
-      class="w-full divide-y divide-light-background-400 dark:divide-dark-background-500"
+      class="w-full divide-y divide-light-background-400 dark:divide-dark-background-500 group text-center"
     >
       <thead>
         <tr>
@@ -30,7 +30,7 @@ const transformColumnName = (columnName: string) => {
             columns.map((column: string) => (
               <th
                 scope="col"
-                class="px-6 py-3 text-start text-xs font-bold uppercase text-light-foreground-400 dark:text-dark-foreground-300"
+                class="px-6 py-3 text-xs font-bold uppercase text-light-foreground-400 dark:text-dark-foreground-300"
               >
                 {transformColumnName(column)}
               </th>
@@ -38,7 +38,7 @@ const transformColumnName = (columnName: string) => {
           }
           <th
             scope="col"
-            class="px-6 py-3 text-start text-xs font-bold uppercase text-light-foreground-400 dark:text-dark-foreground-300"
+            class="px-6 py-3 text-xs font-bold uppercase text-light-foreground-400 dark:text-dark-foreground-300"
           >
             Action
           </th>

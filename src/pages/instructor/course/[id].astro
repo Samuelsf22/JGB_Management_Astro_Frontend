@@ -2,6 +2,7 @@
 import TeacherLayout from "../../../layouts/TeacherLayout.astro";
 
 import { getCourseById } from "../../../components/services/course.ts";
+import CourseStudentsTable from "../../../components/pages/instructor/course/CourseStudentsTable.astro";
 
 const { id } = Astro.params;
 
@@ -14,7 +15,7 @@ if (id) {
 {
   course && (
     <TeacherLayout title={course.name}>
-      <h1>{course.name}</h1>
+      <CourseStudentsTable course={course}/>
     </TeacherLayout>
   )
 }
