@@ -1,0 +1,32 @@
+---
+import type { Course, Student } from "../../../types/api";
+
+interface Props {
+  course: Course;
+}
+const { course } = Astro.props;
+
+import Table from "../../../ui/Table.astro";
+
+const students: Student[] = course.enrollments?.map(
+  (enrollment) => enrollment.student
+);
+---
+
+{
+  students ? (
+    <Table
+      href={`instructor/course/${course.id_course}`}
+      id={students.map((student: Student) => student.id_student)}
+      data={students.map((student: Student) => ({
+        dni: student.dni,
+        first_name: student.first_name,
+        last_name: student.last_name,
+        address: student.address,
+        parent: student.parent.first_name + " " + student.parent.last_name,
+      }))}
+    />
+  ) : (
+    <p>No students found</p>
+  )
+}
