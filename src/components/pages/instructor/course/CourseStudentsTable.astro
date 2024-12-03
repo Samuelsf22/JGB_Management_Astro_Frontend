@@ -7,14 +7,15 @@ interface Props {
 const { course } = Astro.props;
 
 import Table from "../../../ui/Table.astro";
+let students: Student[] = [];
 
-const students: Student[] = course.enrollments?.map(
-  (enrollment) => enrollment.student
-);
+if (course.enrollments.length > 0) {
+  students = course.enrollments.map((enrollment) => enrollment.student);
+}
 ---
 
 {
-  students ? (
+  students.length > 0 ? (
     <Table
       href={`instructor/course/${course.id_course}`}
       id={students.map((student: Student) => student.id_student)}
@@ -23,7 +24,9 @@ const students: Student[] = course.enrollments?.map(
         first_name: student.first_name,
         last_name: student.last_name,
         address: student.address,
-        parent: student.parent.first_name + " " + student.parent.last_name,
+        parent: student.parent
+          ? `${student.parent.first_name} ${student.parent.last_name}`
+          : "",
       }))}
     />
   ) : (

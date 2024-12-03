@@ -12,7 +12,7 @@ if (session) {
 ---
 
 {
-  courses ? (
+  courses.length > 0 ? (
     <Table
       href="/instructor/course"
       id={courses.map((course) => course.id_course)}
