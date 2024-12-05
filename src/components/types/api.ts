@@ -74,7 +74,7 @@ export type Curriculum = {
 
 export type Enrollment = {
     id_enrollment:   number;
-    student:         Student;
+    student_details:         Student;
     enrollment_date: Date;
     status:          string;
     curriculum:      number;

@@ -10,7 +10,7 @@ import Table from "../../../ui/Table.astro";
 let students: Student[] = [];
 
 if (course.enrollments.length > 0) {
-  students = course.enrollments.map((enrollment) => enrollment.student);
+  students = course.enrollments.map((enrollment) => enrollment.student_details);
 }
 ---
 
