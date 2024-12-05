@@ -11,13 +11,3 @@ export const getTeachers = async () => {
   const teachers: Teacher[] = await response.json();
   return teachers;
 };
-
-export const getSubjectsByTeacherId = async (id: string) => {
-  const response = await fetch(`${import.meta.env.SERVER_URL}/teachers/${id}`);
-  const teacher: Teacher = await response.json();
-  const subjects = teacher.subjects.map((subject) => ({
-    name: subject.name,
-    course: subject.course.name,
-  }));
-  return subjects;
-};

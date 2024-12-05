@@ -16,7 +16,7 @@ export type Teacher = {
 export type Subject = {
     id_subject: number;
     name:       string;
-    course:     CourseClass;
+    course_details:     CourseClass;
 }
 
 export type TeacherClass = {
