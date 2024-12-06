@@ -14,9 +14,9 @@ export type Teacher = {
 }
 
 export type Subject = {
-    id_subject: number;
-    name:       string;
-    course_details:     CourseClass;
+    id_subject:     number;
+    name:           string;
+    course_details: Course;
 }
 
 export type TeacherClass = {
@@ -41,9 +41,6 @@ export type User = {
 
 export type Course = {
     id_course:    number;
-    enrollments:  Enrollment[];
-    attendances:  Attendance[];
-    evaluations:  Evaluation[];
     name:         string;
     weekly_hours: number;
     curriculum:   Curriculum;
@@ -54,14 +51,6 @@ export type Attendance = {
     date:          Date;
     status:        string;
     student:       Attendance;
-    course:        CourseClass;
-}
-
-export type CourseClass = {
-    id_course:    number;
-    name:         string;
-    weekly_hours: number;
-    curriculum:   number;
 }
 
 export type Curriculum = {
@@ -74,7 +63,7 @@ export type Curriculum = {
 
 export type Enrollment = {
     id_enrollment:   number;
-    student_details:         Student;
+    student_details: Student;
     enrollment_date: Date;
     status:          string;
     curriculum:      number;
@@ -83,7 +72,7 @@ export type Enrollment = {
 
 export type Student = {
     id_student:      number;
-    parent:          Parent;
+    parent_details:  Parent;
     first_name:      string;
     last_name:       string;
     dni:             string;
@@ -106,5 +95,4 @@ export type Evaluation = {
     type:          string;
     grade:         number;
     date:          Date;
-    course:        CourseClass;
 }
