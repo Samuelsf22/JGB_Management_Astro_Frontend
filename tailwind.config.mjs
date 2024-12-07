@@ -7,7 +7,7 @@ export default {
 	darkMode: "class",
 	theme: {
 		fontFamily: {
-			'sans': ['Montserrat', ...defaultTheme.fontFamily.sans],
+			'sans': ['Montserrat Variable', ...defaultTheme.fontFamily.sans],
 		},
 		extend: {
 			colors: {
