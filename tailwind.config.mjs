@@ -6,12 +6,7 @@ export default {
 	darkMode: "class",
 	theme: {
 		fontFamily: {
-			'body': [
-				'Montserrat',
-			],
-			'sans': [
-				'Montserrat',
-			],
+			'sans': ['Montserrat', 'sans-serif'],
 		},
 		extend: {
 			colors: {
