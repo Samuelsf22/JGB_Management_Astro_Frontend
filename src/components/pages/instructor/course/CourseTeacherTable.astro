@@ -1,11 +1,11 @@
 ---
 import { getSession } from "auth-astro/server";
 import { getCoursesByTeacherId } from "../../../services/course";
-import type { CourseClass } from "../../../types/api";
+import type { Course } from "../../../types/api";
 import Table from "../../../ui/Table.astro";
 
 const session = await getSession(Astro.request);
-let courses: CourseClass[] = [];
+let courses: Course[] = [];
 if (session) {
   courses = await getCoursesByTeacherId(session.user!.email as string);
 }

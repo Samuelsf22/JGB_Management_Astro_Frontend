@@ -1,22 +1,25 @@
 ---
 import TeacherLayout from "../../../layouts/TeacherLayout.astro";
-
-import { getCourseById } from "../../../components/services/course.ts";
+import {
+  getStudentsByCourseId,
+  getCourseById,
+} from "../../../components/services/course.ts";
 import CourseStudentsTable from "../../../components/pages/instructor/course/CourseStudentsTable.astro";
 
 const { id } = Astro.params;
 
+let students;
 let course;
 if (id) {
   course = await getCourseById(id);
+  students = await getStudentsByCourseId(id);
 }
 ---
 
 {
-  course && (
+  course && students && (
     <TeacherLayout title={course.name}>
-      <CourseStudentsTable course={course}/>
+      <CourseStudentsTable students={students} />
     </TeacherLayout>
   )
 }
-

@@ -1,31 +1,27 @@
 ---
-import type { Course, Student } from "../../../types/api";
+import type { Student } from "../../../types/api";
 
 interface Props {
-  course: Course;
+  students: Student[];
 }
-const { course } = Astro.props;
+const { id } = Astro.params;
+const { students } = Astro.props;
 
 import Table from "../../../ui/Table.astro";
-let students: Student[] = [];
-
-if (course.enrollments.length > 0) {
-  students = course.enrollments.map((enrollment) => enrollment.student_details);
-}
 ---
 
 {
   students.length > 0 ? (
     <Table
-      href={`instructor/course/${course.id_course}`}
+      href={`intro/course/${id}/student`}
       id={students.map((student: Student) => student.id_student)}
       data={students.map((student: Student) => ({
         dni: student.dni,
         first_name: student.first_name,
         last_name: student.last_name,
         address: student.address,
-        parent: student.parent
-          ? `${student.parent.first_name} ${student.parent.last_name}`
+        parent: student.parent_details
+          ? `${student.parent_details.first_name} ${student.parent_details.last_name}`
           : "",
       }))}
     />

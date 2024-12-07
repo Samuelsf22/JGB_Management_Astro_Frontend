@@ -13,7 +13,7 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
-    <script>
+    <script is:inline>
       const html = document.querySelector("html");
       if (html) {
         const isLightOrAuto =
@@ -37,12 +37,8 @@ const { title } = Astro.props;
     </script>
   </head>
 
-  <body>
-    <main
-      class="text-light-foreground dark:text-dark-foreground bg-light-background-200 dark:bg-dark-background"
-    >
-      <slot />
-    </main>
+  <body class="text-light-foreground dark:text-dark-foreground bg-light-background-200 dark:bg-dark-background">
+    <slot />
   </body>
 </html>
 
