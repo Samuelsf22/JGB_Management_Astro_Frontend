@@ -14,6 +14,7 @@
     "@astrojs/tailwind": "^5.1.2",
     "@astrojs/vercel": "^7.8.2",
     "@auth/core": "^0.37.4",
+    "@fontsource/twinkle-star": "^5.1.0",
     "@iconify-json/logos": "^1.2.3",
     "@iconify-json/mdi": "^1.2.1",
     "@midudev/tailwind-animations": "^0.1.0",

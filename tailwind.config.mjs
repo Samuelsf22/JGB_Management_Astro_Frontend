@@ -1,12 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 import animations from '@midudev/tailwind-animations'
+import defaultTheme from 'tailwindcss/defaultTheme'
 
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}', './node_modules/preline/preline.js'],
 	darkMode: "class",
 	theme: {
 		fontFamily: {
-			'sans': ['Montserrat', 'sans-serif'],
+			'sans': ['Montserrat', ...defaultTheme.fontFamily.sans],
 		},
 		extend: {
 			colors: {
