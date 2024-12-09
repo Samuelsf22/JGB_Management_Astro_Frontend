@@ -3,8 +3,11 @@ interface Props {
   href: string;
   id: number[];
   data: any[];
+  btnAdd?: boolean;
+  btnDelete?: boolean;
+  btnEdit?: boolean;
 }
-const { data, id, href } = Astro.props as Props;
+const { data, id, href, btnAdd, btnEdit, btnDelete } = Astro.props as Props;
 
 import Button from "../ui/Button.astro";
 const columns = Object.keys(data[0]);
@@ -53,14 +56,31 @@ const transformColumnName = (columnName: string) => {
               {columns.map((column: string) => (
                 <td class="px-6 py-4 text-sm">{row[column]}</td>
               ))}
-              <td class="px-6 py-4 text-sm">
+              <td class="px-6 py-4 text-sm flex flex-col sm:flex-row">
                 <Button name="link">
-                  <a
-                    href={`${href}/${id[index]}`}
-                  >
-                    View
-                  </a>
+                  <a href={`${href}/${id[index]}`}>View</a>
                 </Button>
+                {
+                  btnAdd && (
+                    <Button name="link">
+                      <a>Add</a>
+                    </Button>
+                  )
+                }
+                {
+                  btnEdit && (
+                    <Button name="link">
+                      <a>Edit</a>
+                    </Button>
+                  )
+                }
+                {
+                  btnDelete && (
+                    <Button name="link">
+                      <a>Delete</a>
+                    </Button>
+                  )
+                }
               </td>
             </tr>
           ))

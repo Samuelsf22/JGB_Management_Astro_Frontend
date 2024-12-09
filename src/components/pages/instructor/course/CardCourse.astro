@@ -8,26 +8,28 @@ interface Props {
 const { course } = Astro.props as Props;
 ---
 
-<div
-  class="shadow-sm rounded-xl border bg-light-background-100 border-light-background-200 dark:bg-dark-background-900 dark:border-dark-background-800 flex flex-col sm:flex-row items-center gap-4 p-4"
->
-  <div class="w-full">
-    <h1 class="text-3xl font-bold">{course.name}</h1>
-    <p class="mt-1 text-light-foreground-400 dark:text-dark-foreground-300">
-      <!-- {course.description} -->
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero mollitia, error
-      recusandae vel commodi quo quia aut. Quidem ab in, rerum ipsum fuga cupiditate
-      enim sunt quam repellat ipsam sit voluptates consequuntur corrupti itaque earum,
-      quibusdam quis! Fugiat, ullam nihil numquam odit quia, quasi culpa earum inventore
-      impedit esse temporibus.
-    </p>
-  </div>
-  <div class="flex flex-row sm:flex-col gap-4">
-    <Button name="outline" icon={{name:"mdi:chevron-right", size:24}} iconEnd={true}>
-      Students
-    </Button>
-    <Button name="outline" icon={{name:"mdi:chevron-right", size:24}} iconEnd={true}>
-      Attendances
-    </Button>
-  </div>
+<h1 class="text-xl sm:text-3xl font-bold">{course.name}</h1>
+
+<div class="flex sm:flex-row flex-col gap-4">
+  <Button
+    name="outline"
+    icon={{ name: "mdi:chevron-right", size: 24 }}
+    iconEnd={true}
+  >
+    Students
+  </Button>
+  <Button
+    name="outline"
+    icon={{ name: "mdi:chevron-right", size: 24 }}
+    iconEnd={true}
+  >
+    Attendances
+  </Button>
+  <Button
+    name="outline"
+    icon={{ name: "mdi:chevron-right", size: 24 }}
+    iconEnd={true}
+  >
+    Evaluations
+  </Button>
 </div>
