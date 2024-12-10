@@ -7,7 +7,7 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
-import { Icon } from '@iconify-icon/react';
+import { Icon } from "@iconify-icon/react";
 
 function Table({ data, columns }) {
   const [loading, setLoading] = useState(true);
@@ -21,6 +21,7 @@ function Table({ data, columns }) {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    columnResizeMode: "onChange",
     state: {
       sorting,
       globalFilter: filtering,
@@ -52,13 +53,16 @@ function Table({ data, columns }) {
             placeholder="Search for items"
           />
           <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
-            <Icon icon="mdi:search" className="text-light-foreground-400 dark:text-dark-foreground-300"/>
+            <Icon
+              icon="mdi:search"
+              className="text-light-foreground-400 dark:text-dark-foreground-300"
+            />
           </div>
         </div>
       </div>
       <table
         className="divide-y divide-light-background-400 dark:divide-dark-background-500"
-        w={table.getTotalSize()}
+        width={table.getTotalSize()}
       >
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -66,48 +70,47 @@ function Table({ data, columns }) {
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  w={header.getSize()}
-                  className="py-3 text-xs font-bold uppercase"
+                  width={header.getSize()}
+                  className="py-3 text-xs font-bold uppercase relative px-2"
                   onClick={header.column.getToggleSortingHandler()}
                 >
-                  <div className="flex items-center justify-between px-2">
+                  <div className="flex items-center justify-between">
                     <span>
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
                     </span>
-
-                    <svg
-                      class="text-light-foreground-400 dark:text-dark-foreground-300"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path
-                        className={
-                          header.column.getIsSorted() === "asc"
-                            ? "text-primary"
-                            : ""
-                        }
-                        d="m7 15 5 5 5-5"
-                      ></path>
-                      <path
-                        className={
+                    <div className="flex flex-col -space-y-2">
+                      <Icon
+                        icon="mdi:chevron-up"
+                        className={`text-light-foreground-400 dark:text-dark-foreground-300 ${
                           header.column.getIsSorted() === "desc"
                             ? "text-primary"
                             : ""
-                        }
-                        d="m7 9 5-5 5 5"
-                      ></path>
-                    </svg>
+                        }`}
+                        height={18}
+                      />
+                      <Icon
+                        icon="mdi:chevron-down"
+                        className={`text-light-foreground-400 dark:text-dark-foreground-300 ${
+                          header.column.getIsSorted() === "asc"
+                            ? "text-primary"
+                            : ""
+                        }`}
+                        height={18}
+                      />
+                    </div>
                   </div>
+                  <div
+                    onMouseDown={header.getResizeHandler()}
+                    onTouchStart={header.getResizeHandler()}
+                    className={`absolute top-0 right-0 h-full w-0.5 rounded-md cursor-col-resize touch-none hover:bg-light-background-400 dark:bg-dark-background-500 ${
+                      header.column.getIsResizing()
+                        ? "bg-primary"
+                        : ""
+                    }`}
+                  />
                 </th>
               ))}
             </tr>
@@ -123,7 +126,7 @@ function Table({ data, columns }) {
                 <td
                   key={cell.id}
                   className="px-6 py-4 text-sm"
-                  w={cell.column.getSize()}
+                  width={cell.column.getSize()}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>

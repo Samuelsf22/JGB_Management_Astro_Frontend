@@ -4,10 +4,11 @@ import Instructor from "../../components/pages/instructor/Instructor.astro";
 import Table from "../../components/ui/Table";
 import { getCourses } from "../../components/services/course";
 import type { Course } from "../../components/types/api";
+
 const courses: Course[] = await getCourses();
 const columns = [
-  { header: "ID", accessorKey: "id_course" },
-  { header: "Name", accessorKey: "name", size: 50 },
+  { header: "ID", accessorKey: "id_course", size: 50 },
+  { header: "Name", accessorKey: "name", size:250 },
   { header: "Weekly Hours", accessorKey: "weekly_hours" },
   { header: "School Year", accessorKey: "school_year" },
 ];
