@@ -44,6 +44,7 @@ export type Course = {
     name:         string;
     weekly_hours: number;
     curriculum:   Curriculum;
+    school_year:  number;
 }
 
 export type Attendance = {
