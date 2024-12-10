@@ -71,7 +71,7 @@ function Table({ data, columns }) {
                 <th
                   key={header.id}
                   width={header.getSize()}
-                  className="py-3 text-xs font-bold uppercase relative px-2"
+                  className="py-3 text-xs font-bold uppercase relative px-2 hover:bg-light-background-100 dark:hover:bg-dark-background-800"
                   onClick={header.column.getToggleSortingHandler()}
                 >
                   <div className="flex items-center justify-between">
@@ -105,7 +105,7 @@ function Table({ data, columns }) {
                   <div
                     onMouseDown={header.getResizeHandler()}
                     onTouchStart={header.getResizeHandler()}
-                    className={`absolute top-0 right-0 h-full w-0.5 rounded-md cursor-col-resize touch-none hover:bg-light-background-400 dark:bg-dark-background-500 ${
+                    className={`absolute top-0 right-0 h-full w-0.5 cursor-col-resize touch-none hover:bg-light-background-400 dark:bg-dark-background-500 ${
                       header.column.getIsResizing()
                         ? "bg-primary"
                         : ""
