@@ -7,7 +7,7 @@ import type { Course } from "../../components/types/api";
 const courses: Course[] = await getCourses();
 const columns = [
   { header: "ID", accessorKey: "id_course" },
-  { header: "Name", accessorKey: "name" },
+  { header: "Name", accessorKey: "name", size: 50 },
   { header: "Weekly Hours", accessorKey: "weekly_hours" },
   { header: "School Year", accessorKey: "school_year" },
 ];

@@ -7,6 +7,7 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
+import { Icon } from '@iconify-icon/react';
 
 function Table({ data, columns }) {
   const [loading, setLoading] = useState(true);
@@ -37,7 +38,7 @@ function Table({ data, columns }) {
   }
 
   return (
-    <div className="p-4 min-w-full inline-block align-middle border bg-light-background border-light-background-200 dark:bg-dark-background-900 dark:border-dark-background-800">
+    <div className="p-4 rounded-xl border bg-light-background border-light-background-400 dark:bg-dark-background-900 dark:border-dark-background-500">
       <div class="flex-0">
         <div class="relative max-w-xs">
           <label for="hs-table-export-search" class="sr-only">
@@ -47,39 +48,29 @@ function Table({ data, columns }) {
             type="text"
             value={filtering}
             onChange={(e) => setFiltering(e.target.value)}
-            class="py-2 px-3 ps-9 bg-transparent block w-full shadow-sm rounded-lg text-sm focus:z-10 border-light-foreground-300 focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none  dark:border-dark-foreground-700 dark:focus:border-dark-foreground-500 dark:focus:ring-dark-foreground-500 placeholder-light-foreground-400 dark:placeholder-dark-foreground-300"
+            class="py-2 px-3 ps-9 bg-transparent block w-full shadow-sm rounded-lg text-sm focus:z-10 border-light-background-400 focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none  dark:border-dark-foreground-700 dark:focus:border-dark-background-500 dark:focus:ring-dark-foreground-500 placeholder-light-foreground-400 dark:placeholder-dark-foreground-300"
             placeholder="Search for items"
           />
-          <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
-            <svg
-              class="size-4 text-gray-400 dark:text-neutral-500"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.3-4.3"></path>
-            </svg>
+          <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
+            <Icon icon="mdi:search" className="text-light-foreground-400 dark:text-dark-foreground-300"/>
           </div>
         </div>
       </div>
-      <table className="min-w-full divide-y divide-light-background-400 dark:divide-dark-background-500">
+      <table
+        className="divide-y divide-light-background-400 dark:divide-dark-background-500"
+        w={table.getTotalSize()}
+      >
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="py-3 text-xs font-bold uppercase text-light-foreground-400 dark:text-dark-foreground-300"
+                  w={header.getSize()}
+                  className="py-3 text-xs font-bold uppercase"
                   onClick={header.column.getToggleSortingHandler()}
                 >
-                  <div className="flex items-center justify-between p-8">
+                  <div className="flex items-center justify-between px-2">
                     <span>
                       {flexRender(
                         header.column.columnDef.header,
@@ -126,10 +117,14 @@ function Table({ data, columns }) {
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              className="group text-light-foreground-400 dark:text-dark-foreground-300 hover:bg-light-background-200 dark:hover:bg-dark-background-800 hover:text-primary dark:hover:text-dark-foreground"
+              className="group text-light-foreground-400 dark:text-dark-foreground-300 hover:bg-light-background-100 dark:hover:bg-dark-background-800 hover:text-primary dark:hover:text-dark-foreground"
             >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="px-6 py-4 text-sm">
+                <td
+                  key={cell.id}
+                  className="px-6 py-4 text-sm"
+                  w={cell.column.getSize()}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
