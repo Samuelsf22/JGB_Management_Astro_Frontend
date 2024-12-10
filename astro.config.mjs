@@ -5,7 +5,7 @@ import tailwind from '@astrojs/tailwind';
 
 import auth from 'auth-astro';
 
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 
 import icon from 'astro-icon';
 
