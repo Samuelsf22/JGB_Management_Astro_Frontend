@@ -5,17 +5,25 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
+  type SortingState,
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify-icon/react";
 
-function Table({ data, columns }) {
+import type { ColumnDef } from "@tanstack/react-table";
+
+interface TableProps<T> {
+  data: T[];
+  columns: ColumnDef<T>[];
+}
+
+function Table<T>({ data, columns }: TableProps<T>) {
   const [loading, setLoading] = useState(true);
-  const [sorting, setSorting] = useState([]);
-  const [filtering, setFiltering] = useState("");
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [filtering, setFiltering] = useState<string>("");
 
   const table = useReactTable({
-    data: data || [],
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -27,7 +35,7 @@ function Table({ data, columns }) {
       globalFilter: filtering,
     },
     onSortingChange: setSorting,
-    onFilteringChange: setFiltering,
+    onGlobalFilterChange: setFiltering,
   });
 
   useEffect(() => {
@@ -40,16 +48,16 @@ function Table({ data, columns }) {
 
   return (
     <div className="p-4 rounded-xl border bg-light-background border-light-background-400 dark:bg-dark-background-900 dark:border-dark-background-500">
-      <div class="flex-0">
-        <div class="relative max-w-xs">
-          <label for="hs-table-export-search" class="sr-only">
+      <div className="flex-0">
+        <div className="relative max-w-xs">
+          <label htmlFor="hs-table-export-search" className="sr-only">
             Search
           </label>
           <input
             type="text"
             value={filtering}
             onChange={(e) => setFiltering(e.target.value)}
-            class="py-2 px-3 ps-9 bg-transparent block w-full shadow-sm rounded-lg text-sm focus:z-10 border-light-background-400 focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none  dark:border-dark-foreground-700 dark:focus:border-dark-background-500 dark:focus:ring-dark-foreground-500 placeholder-light-foreground-400 dark:placeholder-dark-foreground-300"
+            className="py-2 px-3 ps-9 bg-transparent block w-full shadow-sm rounded-lg text-sm focus:z-10 border-light-background-400 focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none  dark:border-dark-foreground-700 dark:focus:border-dark-background-500 dark:focus:ring-dark-foreground-500 placeholder-light-foreground-400 dark:placeholder-dark-foreground-300"
             placeholder="Search for items"
           />
           <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
@@ -70,7 +78,6 @@ function Table({ data, columns }) {
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  width={header.getSize()}
                   className="py-3 text-xs font-bold uppercase relative px-2 hover:bg-light-background-100 dark:hover:bg-dark-background-800"
                   onClick={header.column.getToggleSortingHandler()}
                 >
@@ -106,9 +113,7 @@ function Table({ data, columns }) {
                     onMouseDown={header.getResizeHandler()}
                     onTouchStart={header.getResizeHandler()}
                     className={`absolute top-0 right-0 h-full w-0.5 cursor-col-resize touch-none hover:bg-light-background-400 dark:bg-dark-background-500 ${
-                      header.column.getIsResizing()
-                        ? "bg-primary"
-                        : ""
+                      header.column.getIsResizing() ? "bg-primary" : ""
                     }`}
                   />
                 </th>
@@ -120,15 +125,17 @@ function Table({ data, columns }) {
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              className="group text-light-foreground-400 dark:text-dark-foreground-300 hover:bg-light-background-100 dark:hover:bg-dark-background-800 hover:text-primary dark:hover:text-dark-foreground"
+              className="group text-sm text-light-foreground-400 dark:text-dark-foreground-300 hover:bg-light-background-100 dark:hover:bg-dark-background-800 hover:text-primary dark:hover:text-dark-foreground"
             >
               {row.getVisibleCells().map((cell) => (
                 <td
                   key={cell.id}
-                  className="px-6 py-4 text-sm"
+                  className="px-2 py-4"
                   width={cell.column.getSize()}
                 >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  <span className="line-clamp-1">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </span>
                 </td>
               ))}
             </tr>
