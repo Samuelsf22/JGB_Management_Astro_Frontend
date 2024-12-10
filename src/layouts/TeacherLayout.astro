@@ -11,7 +11,7 @@ const { title } = Astro.props as Props;
 <Layout title={title}>
   <Dashboard>
     <InstructorSidebar slot="sidebar" />
-    <div slot="main-content" class="grid gap-4 p-4">
+    <div slot="main-content" class="p-4">
       <slot />
     </div>
   </Dashboard>
