@@ -3,8 +3,11 @@ interface Props {
   href: string;
   id: number[];
   data: any[];
+  btnAdd?: boolean;
+  btnDelete?: boolean;
+  btnEdit?: boolean;
 }
-const { data, id, href } = Astro.props as Props;
+const { data, id, href, btnAdd, btnEdit, btnDelete } = Astro.props as Props;
 
 import Button from "../ui/Button.astro";
 const columns = Object.keys(data[0]);
@@ -19,7 +22,7 @@ const transformColumnName = (columnName: string) => {
 
 <div class="overflow-x-auto">
   <div
-    class="p-1.5 w-full inline-block align-middle border bg-light-background-100 border-light-background-200 dark:bg-dark-background-900 dark:border-dark-background-800"
+    class="p-1.5 w-full rounded-xl inline-block align-middle border bg-light-background-100 border-light-background-200 dark:bg-dark-background-900 dark:border-dark-background-800"
   >
     <table
       class="w-full divide-y divide-light-background-400 dark:divide-dark-background-500 group text-center"
@@ -53,14 +56,31 @@ const transformColumnName = (columnName: string) => {
               {columns.map((column: string) => (
                 <td class="px-6 py-4 text-sm">{row[column]}</td>
               ))}
-              <td class="px-6 py-4 text-sm">
+              <td class="px-6 py-4 text-sm flex flex-col sm:flex-row">
                 <Button name="link">
-                  <a
-                    href={`${href}/${id[index]}`}
-                  >
-                    View
-                  </a>
+                  <a href={`${href}/${id[index]}`}>View</a>
                 </Button>
+                {
+                  btnAdd && (
+                    <Button name="link">
+                      <a>Add</a>
+                    </Button>
+                  )
+                }
+                {
+                  btnEdit && (
+                    <Button name="link">
+                      <a>Edit</a>
+                    </Button>
+                  )
+                }
+                {
+                  btnDelete && (
+                    <Button name="link">
+                      <a>Delete</a>
+                    </Button>
+                  )
+                }
               </td>
             </tr>
           ))
