@@ -18,6 +18,7 @@ interface TableProps<T> {
 }
 
 function Table<T>({ data, columns }: TableProps<T>) {
+
   const [loading, setLoading] = useState(true);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [filtering, setFiltering] = useState<string>("");
@@ -47,15 +48,15 @@ function Table<T>({ data, columns }: TableProps<T>) {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-4 rounded-xl border bg-light-background border-light-background-400 dark:bg-dark-background-900 dark:border-dark-background-500">
+    <div className="flex flex-col gap-4">
       <div className="flex-0">
         <div className="relative max-w-xs">
           <input
             type="text"
             value={filtering}
             onChange={(e) => setFiltering(e.target.value)}
-            className="py-2 px-3 ps-9 bg-transparent block w-full shadow-sm rounded-lg text-sm focus:z-10 border-light-background-400 focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none  dark:border-dark-foreground-700 dark:focus:border-dark-background-500 dark:focus:ring-dark-foreground-500 placeholder-light-foreground-400 dark:placeholder-dark-foreground-300 transition-all duration-300 ease-in-out"
-            placeholder="Search for items"
+            className="py-2 px-3 ps-9 bg-transparent block w-full shadow-sm rounded-lg text-sm focus:z-10 border-light-background-400 focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none  dark:border-dark-foreground-700 dark:focus:border-dark-background-500 dark:focus:ring-dark-foreground-500 placeholder-light-foreground-400 dark:placeholder-dark-foreground-300 transition-colors duration-300 ease-in-out"
+            placeholder="Search"
           />
           <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
             <Icon
@@ -65,9 +66,9 @@ function Table<T>({ data, columns }: TableProps<T>) {
           </div>
         </div>
       </div>
-      <div className="h-[575px]">
+      <div className="h-[600px] overflow-y-hidden overflow-x-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-light-background-100 [&::-webkit-scrollbar-thumb]:bg-light-background-300 dark:[&::-webkit-scrollbar-track]:bg-dark-background-900 dark:[&::-webkit-scrollbar-thumb]:bg-dark-background-800">
         <table
-          className="min-w-full divide-y divide-light-background-400 dark:divide-dark-background-500"
+          className="w-full divide-y divide-light-background-400 dark:divide-dark-background-500"
           width={table.getTotalSize()}
         >
           <thead>
@@ -91,7 +92,7 @@ function Table<T>({ data, columns }: TableProps<T>) {
                           icon="mdi:chevron-up"
                           className={`text-light-foreground-400 dark:text-dark-foreground-300 ${
                             header.column.getIsSorted() === "desc"
-                              ? "text-primary"
+                              ? "text-primary dark:text-primary"
                               : ""
                           }`}
                           height={18}
@@ -100,7 +101,7 @@ function Table<T>({ data, columns }: TableProps<T>) {
                           icon="mdi:chevron-down"
                           className={`text-light-foreground-400 dark:text-dark-foreground-300 ${
                             header.column.getIsSorted() === "asc"
-                              ? "text-primary"
+                              ? "text-primary dark:text-primary"
                               : ""
                           }`}
                           height={18}
@@ -110,7 +111,7 @@ function Table<T>({ data, columns }: TableProps<T>) {
                     <div
                       onMouseDown={header.getResizeHandler()}
                       onTouchStart={header.getResizeHandler()}
-                      className={`absolute top-0 right-0 h-full w-0.5 cursor-col-resize touch-none hover:bg-light-background-400 hover:dark:bg-dark-background-500 ${
+                      className={`absolute top-0 right-0 h-full w-1 cursor-col-resize touch-none hover:bg-light-background-400 hover:dark:bg-dark-background-500 ${
                         header.column.getIsResizing() ? "bg-primary" : ""
                       }`}
                     />

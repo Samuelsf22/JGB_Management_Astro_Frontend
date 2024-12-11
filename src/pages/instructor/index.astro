@@ -1,9 +1,9 @@
 ---
 import TeacherLayout from "../../layouts/TeacherLayout.astro";
 import Instructor from "../../components/pages/instructor/Instructor.astro";
-import Table from "../../components/ui/Table";
 import { getCourses } from "../../components/services/course";
 import type { Course } from "../../components/types/api";
+import ActionTable from "../../components/ui/ActionTable";
 
 const courses: Course[] = await getCourses();
 const columns = [
@@ -16,5 +16,5 @@ const columns = [
 
 <TeacherLayout title="teacher">
   <!-- <Instructor /> -->
-  <Table client:load data={courses} columns={columns} />
+  <ActionTable title="Courses List" data={courses} client:load/>
 </TeacherLayout>
