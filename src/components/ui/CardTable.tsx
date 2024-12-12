@@ -9,7 +9,11 @@ interface Props<TData, TValue> {
   data: TData[];
 }
 
-function ActionTable<TData, TValue>({ title, data, columns }: Props<TData, TValue>) {
+export function CardTable<TData, TValue>({
+  title,
+  data,
+  columns,
+}: Props<TData, TValue>) {
   return (
     <Card>
       <CardHeader>
@@ -21,4 +25,3 @@ function ActionTable<TData, TValue>({ title, data, columns }: Props<TData, TValu
     </Card>
   );
 }
-export default ActionTable;

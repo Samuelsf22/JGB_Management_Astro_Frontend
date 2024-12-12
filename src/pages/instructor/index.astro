@@ -2,12 +2,12 @@
 import TeacherLayout from "../../layouts/TeacherLayout.astro";
 import Instructor from "../../components/pages/instructor/Instructor.astro";
 import type { Course } from "@/components/types/api";
-import { TestCourse } from "@components/ui/test-course";
+import { TableCourse } from "@/components/services/course/table-course";
 import { getCourses } from "@/components/services/course/course";
 const courses :Course[] = await getCourses();
 ---
 
 <TeacherLayout title="teacher">
   <Instructor/>
-  <TestCourse client:visible data={courses}/>
+  <TableCourse client:visible data={courses}/>
 </TeacherLayout>
