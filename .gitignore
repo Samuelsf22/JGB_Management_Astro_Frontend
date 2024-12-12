@@ -28,3 +28,4 @@ pnpm-lock.yaml
 package-lock.json
 .vercel/
 .vercel
+.vscode/

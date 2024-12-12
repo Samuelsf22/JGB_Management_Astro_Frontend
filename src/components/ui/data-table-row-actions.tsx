@@ -21,7 +21,8 @@ export function DataTableRowActions<TData>({
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+          size="icon"
+          className="flex size-9 rounded-full data-[state=open]:bg-muted ring-inset"
         >
           <MoreVertical />
           <span className="sr-only">Open menu</span>
