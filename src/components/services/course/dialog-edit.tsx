@@ -1,21 +1,28 @@
-import { Button } from "@components/ui/button"
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { Button } from "@components/ui/button";
 import {
-  Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@components/ui/dialog"
-import { Input } from "@components/ui/input"
-import { Label } from "@components/ui/label"
+} from "@components/ui/dialog";
+import { Input } from "@components/ui/input";
+import { Label } from "@components/ui/label";
 
-export function DialogDemo() {
+export function Edit() {
   return (
-    <Dialog>
+    <>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+        <DropdownMenuItem
+          onSelect={(event) => {
+            event.preventDefault();
+          }}
+        >
+          Edit
+        </DropdownMenuItem>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -29,19 +36,24 @@ export function DialogDemo() {
             <Label htmlFor="name" className="text-right">
               Name
             </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
+            <Input id="name" className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
               Username
             </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
+            <Input id="username" className="col-span-3" />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <DialogClose asChild>
+            <Button type="button" variant="ghost" >
+              Close
+            </Button>
+          </DialogClose>
+          <Button type="submit">Edit</Button>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
-  )
+    </>
+  );
 }

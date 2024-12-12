@@ -1,23 +1,37 @@
 import type { Row } from "@tanstack/react-table";
-import { MoreHorizontal, MoreVertical } from "lucide-react";
+import { MoreVertical } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useState, type ReactNode } from "react";
+import { Dialog } from "@/components/ui/dialog";
 
 interface DataTableRowActionsProps<TData> {
-  row: Row<TData>;
+  // row: Row<TData>;
+  dialog_edit: ReactNode;
+  dialog_delete: ReactNode;
 }
 
 export function DataTableRowActions<TData>({
-  row,
+  // row,
+  dialog_edit,
+  dialog_delete,
 }: DataTableRowActionsProps<TData>) {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [hasOpenDialog, setHasOpenDialog] = useState(false);
+
+  function handleDialogItemOpenChange(open: boolean) {
+    setHasOpenDialog(open);
+    if (open === false) {
+      setDropdownOpen(false);
+    }
+  }
   return (
-    <DropdownMenu>
+    <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
@@ -28,9 +42,9 @@ export function DataTableRowActions<TData>({
           <span className="sr-only">Open menu</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Delete</DropdownMenuItem>
+      <DropdownMenuContent align="end" hidden={hasOpenDialog}>
+        <Dialog onOpenChange={handleDialogItemOpenChange}>{dialog_edit}</Dialog>
+        <Dialog onOpenChange={handleDialogItemOpenChange}>{dialog_delete}</Dialog>
       </DropdownMenuContent>
     </DropdownMenu>
   );

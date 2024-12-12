@@ -2,6 +2,8 @@ import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { Course } from "@components/types/api";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTableRowActions } from "@/components/ui/data-table-row-actions";
+import { Edit } from "@/components/services/course/dialog-edit";
+import { Delete } from "@/components/services/dialog-delete";
 
 export const columns: ColumnDef<Course>[] = [
   {
@@ -30,6 +32,12 @@ export const columns: ColumnDef<Course>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => (
+      <DataTableRowActions
+        // row={row}
+        dialog_edit={<Edit />}
+        dialog_delete={<Delete title="course"/>}
+      />
+    ),
   },
 ];
