@@ -11,8 +11,6 @@ export type User = {
     is_active:        boolean;
     date_joined:      Date;
     groups:           number[];
-    user_permissions: number[];
-    email:            string;
     user_permissions: any[];
 }
 

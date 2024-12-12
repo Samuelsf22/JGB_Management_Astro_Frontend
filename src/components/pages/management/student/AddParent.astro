@@ -1,0 +1,178 @@
+---
+import Button from "../../../ui/Button.astro";
+import Input from "../../../ui/Input.astro";
+import Toast from "../../../ui/Toast.astro";
+import { registerParent } from "../../../services/student";
+
+const params = new URL(Astro.request.url).searchParams;
+let showToast = params.has('toast');
+let toastMessage = params.get('message') || "";
+let toastType: "success" | "error" = (params.get('type') as "success" | "error") || "success";
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const dni = data.get("dni")?.toString().trim();
+    const first_name = data.get("first_name")?.toString().trim();
+    const last_name = data.get("last_name")?.toString().trim();
+    const phone_number = data.get("phone_number")?.toString().trim();
+    const address = data.get("address")?.toString().trim();
+
+    // Validation
+    if (!dni) {
+      showToast = true;
+      toastMessage = "El DNI es requerido";
+      toastType = "error";
+      throw new Error("El DNI es requerido");
+    }
+
+    if (!first_name) {
+      showToast = true;
+      toastMessage = "El nombre es requerido";
+      toastType = "error";
+      throw new Error("El nombre es requerido");
+    }
+
+    if (!last_name) {
+      showToast = true;
+      toastMessage = "El apellido es requerido";
+      toastType = "error";
+      throw new Error("El apellido es requerido");
+    }
+
+    if (!phone_number) {
+      showToast = true;
+      toastMessage = "El número de teléfono es requerido";
+      toastType = "error";
+      throw new Error("El número de teléfono es requerido");
+    }
+
+    const request = await registerParent({
+      id_parent: 0, // Initialize with 0 as it will be assigned by the backend
+      dni, 
+      first_name, 
+      last_name, 
+      phone_number, 
+      address: address || ""
+    });
+    
+    showToast = true;
+    toastMessage = "¡Padre registrado exitosamente!";
+    toastType = "success";
+
+  } catch (error) {
+    showToast = true;
+    toastType = "error";
+    if (error instanceof Response) {
+      const errorData = await error.json();
+      toastMessage = Object.values(errorData).flat().join(", ");
+    } else {
+      toastMessage = error instanceof Error ? error.message : "Error al registrar al padre";
+    }
+  }
+}
+---
+
+<div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+  <form method="POST" class="space-y-4">
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="text"
+        name="dni"
+        id="dni"
+        placeholder="Ingrese el DNI"
+        label="DNI"
+        required
+      />
+    </div>
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="text"
+        name="first_name"
+        id="first_name"
+        placeholder="Ingrese el nombre"
+        label="Nombre"
+        required
+      />
+    </div>
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="text"
+        name="last_name"
+        id="last_name"
+        placeholder="Ingrese el apellido"
+        label="Apellido"
+        required
+      />
+    </div>
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="tel"
+        name="phone_number"
+        id="phone_number"
+        placeholder="Ingrese el número de teléfono"
+        label="Número de Teléfono"
+        required
+      />
+    </div>
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="text"
+        name="address"
+        id="address"
+        placeholder="Ingrese la dirección"
+        label="Dirección"
+      />
+    </div>
+    <div class="form-footer flex justify-end mt-6">
+      <Button
+        id="Save-Parent"
+        type="submit"
+        name="white"
+        icon={{ name: "mdi:account-plus", size: 20 }}
+        iconStart={true}
+        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-colors"
+      >
+        Guardar Padre
+      </Button>
+    </div>
+  </form>
+</div>
+
+{showToast && (
+  <Toast
+    message={toastMessage}
+    type={toastType}
+    show={showToast}
+    client:load
+  />
+)}
+
+<script>
+  // Improved toast handling
+  document.addEventListener('DOMContentLoaded', () => {
+    const toast = document.querySelector('[data-toast]');
+    if (toast) {
+      // Remove toast params from URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete('toast');
+      url.searchParams.delete('message');
+      url.searchParams.delete('type');
+      window.history.replaceState({}, '', url);
+
+      // Auto-hide toast
+      setTimeout(() => {
+        toast.classList.add('opacity-0');
+        setTimeout(() => {
+          toast.remove();
+        }, 300); // Match transition duration
+      }, 3000);
+    }
+  });
+</script>
+
+<style>
+  [data-toast] {
+    transition: opacity 0.3s ease-in-out;
+  }
+</style>

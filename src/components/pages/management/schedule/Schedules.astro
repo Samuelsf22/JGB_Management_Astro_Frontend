@@ -1,0 +1,138 @@
+---
+// Schedules.astro
+import Schedule from '../../../ui/Schedule.astro';
+import Select from '../../../ui/Select.astro';
+import { getSchedules } from "../../../services/schedule";
+import { getCurriculumList } from "../../../services/curriculum";
+import Button from '../../../ui/Button.astro';  // Add Button import
+
+// Get and transform data
+const schedules = await getSchedules();
+console.log('Raw schedules:', schedules); // Debug log
+
+// Format schedules for display
+const formattedSchedules = schedules.map(schedule => ({
+  id: schedule.id_schedule,
+  course: schedule.course_details?.name || 'Sin asignar',
+  teacher: schedule.teacher?.name || '-',
+  classroom: schedule.classroom_details?.name || '-',
+  day: normalizeDay(schedule.day), // Normalize day names
+  startTime: formatTime(schedule.start_time),
+  endTime: formatTime(schedule.end_time),
+  curriculum: schedule.course_details?.curriculum || 0,
+  schoolYear: schedule.course_details?.school_year || 0
+}));
+
+// Helper functions
+function formatTime(time: string | null): string {
+  if (!time) return '';
+  return time.substring(0, 5);
+}
+
+function normalizeDay(day: string): string {
+  const dayMap: Record<string, string> = {
+    'Monday': 'Lunes',
+    'Tuesday': 'Martes',
+    'Wednesday': 'Miércoles',
+    'Thursday': 'Jueves',
+    'Friday': 'Viernes',
+    'Lunes': 'Lunes',
+    'Martes': 'Martes',
+    'Miércoles': 'Miércoles',
+    'Jueves': 'Jueves',
+    'Viernes': 'Viernes'
+  };
+  return dayMap[day] || day;
+}
+
+console.log('Formatted schedules:', formattedSchedules); // Debug log
+
+// Convert to select options (same as AddSchedule)
+const curriculumList = await getCurriculumList();
+const curriculumOptions = curriculumList.map(curriculum => ({
+  value: curriculum.id_curriculum.toString(),
+  label: curriculum.name
+}));
+
+const schoolYearOptions = [
+  { value: '1', label: 'Primer Año' },
+  { value: '2', label: 'Segundo Año' },
+  { value: '3', label: 'Tercer Año' },
+  { value: '4', label: 'Cuarto Año' },
+  { value: '5', label: 'Quinto Año' },
+  { value: '6', label: 'Sexto Año' }
+];
+
+// Get filter values from URL
+const params = new URL(Astro.request.url).searchParams;
+const selectedCurriculum = params.get('curriculum');
+const selectedYear = params.get('school_year');
+
+// Filter schedules
+const filteredSchedules = formattedSchedules.filter(schedule => {
+  const matchCurriculum = !selectedCurriculum || 
+    schedule.curriculum.toString() === selectedCurriculum;
+  const matchYear = !selectedYear || 
+    schedule.schoolYear.toString() === selectedYear;
+  return matchCurriculum && matchYear;
+});
+
+console.log(filteredSchedules);
+---
+
+<div class="container mx-auto p-4">
+  <div class="mb-6 flex justify-end items-end gap-4">
+    <Select
+      label="Plan de Estudios"
+      name="curriculum"
+      id="filter-curriculum"
+      options={curriculumOptions}
+      defaultText="Todos los planes"      
+    />
+    
+    <Select
+      label="Año Escolar"
+      name="school_year"
+      id="filter-year"
+      options={schoolYearOptions}
+      defaultText="Todos los años"      
+    />
+
+    <Button
+      name="white"
+      type="button"
+      id="filter-button"
+      class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+      icon={{ name: "mdi:filter", size: 20 }}
+    >
+      Filtrar
+    </Button>
+  </div>
+  <Schedule schedules={filteredSchedules} />
+</div>
+
+<script>
+// Handle filter changes
+function handleFilterChange() {
+  const curriculumSelect = document.getElementById('filter-curriculum') as HTMLSelectElement;
+  const yearSelect = document.getElementById('filter-year') as HTMLSelectElement;
+  
+  const url = new URL(window.location.href);
+  
+  if (curriculumSelect?.value) {
+    url.searchParams.set('curriculum', curriculumSelect.value);
+  } else {
+    url.searchParams.delete('curriculum');
+  }
+  
+  if (yearSelect?.value) {
+    url.searchParams.set('school_year', yearSelect.value);
+  } else {
+    url.searchParams.delete('school_year');
+  }
+  
+  window.location.href = url.toString();
+}
+
+document.getElementById('filter-button')?.addEventListener('click', handleFilterChange);
+</script>

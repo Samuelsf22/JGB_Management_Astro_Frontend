@@ -1,0 +1,74 @@
+---
+// Schedule.astro
+interface Props {
+  schedules: {
+    id: number;
+    course: string;
+    teacher: string;
+    classroom: string;
+    day: string;
+    startTime: string;
+    endTime: string;
+    curriculum: number;
+    schoolYear: number;
+  }[];
+}
+
+const { schedules } = Astro.props;
+
+const timeSlots = [
+  '08:01-09:00',
+  '09:01-10:00',
+  '10:01-11:00',
+  '11:01-12:00',
+  '12:01-13:00',
+  '13:01-14:00'
+];
+
+const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+
+// Helper to find schedule for a specific day and time
+function findSchedule(day: string, timeSlot: string) {
+  const [slotStart] = timeSlot.split('-');
+  return schedules.find(schedule => 
+    schedule.day === day && 
+    schedule.startTime.startsWith(slotStart)
+  );
+}
+---
+
+<div class="w-full overflow-x-auto">
+  <table class="min-w-full bg-white border border-gray-200">
+    <thead>
+      <tr class="bg-gray-50">
+        <th class="px-4 py-2 border">Hora</th>
+        {days.map(day => (
+          <th class="px-4 py-2 border">{day}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {timeSlots.map(timeSlot => (
+        <tr>
+          <td class="px-4 py-2 border font-medium">{timeSlot}</td>
+          {days.map(day => {
+            const schedule = findSchedule(day, timeSlot);
+            return (
+              <td class="px-4 py-2 border">
+                {schedule ? (
+                  <div class="space-y-1">
+                    <div class="font-medium text-sm">{schedule.course}</div>
+                    <div class="text-xs text-gray-600">{schedule.teacher}</div>
+                    <div class="text-xs text-gray-500">{schedule.classroom}</div>
+                  </div>
+                ) : (
+                  <div class="text-gray-400 text-sm">Libre</div>
+                )}
+              </td>
+            );
+          })}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
