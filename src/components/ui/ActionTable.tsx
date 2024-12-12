@@ -1,42 +1,60 @@
-import { createColumnHelper } from "@tanstack/react-table";
-import Table from "./Table";
+import { type ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/ui/data-table";
 
-interface Props {
+import { Card, CardContent, CardHeader, CardTitle } from "./card";
+
+interface Props<TData, TValue> {
   title: string;
-  data: any[];
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
-function ActionTable({ title, data }: Props) {
-  const columnHelper = createColumnHelper<any>();
-
-  const generatedColumns = data[0]
-    ? Object.keys(data[0]).map((key) => {
-        const formattedKey = key.replace(/_/g, " ");
-        // This is a temporary fix for the id column
-        const header = key.startsWith("id_") ? "id" : formattedKey;
-        return columnHelper.accessor(key, {
-          header: header,
-        });
-      })
-    : [];
-
-  const helper = [
-    columnHelper.accessor("action", {
-      header: "Action",
-      cell: ({ row }) => (
-        <div>
-          Action
-        </div>
-      ),
-    }),
-  ];
-  generatedColumns.push(...helper);
+function ActionTable<TData, TValue>({
+  title,
+  data,
+  columns,
+}: Props<TData, TValue>) {
+  // generatedColumns.push(
+  //   columnHelper.accessor("name", {
+  //     header: ({ column }) => {
+  //       return (
+  //         <Button
+  //           variant="ghost"
+  //           className="w-full justify-between uppercase text-xs font-bold"
+  //           onClick={() => column.toggleSorting()}
+  //         >
+  //           Name
+  //           <div className="flex flex-col -space-y-2">
+  //             <Icon
+  //               icon="mdi:chevron-up"
+  //               className={`${
+  //                 column.getIsSorted() === "desc" ? "text-primary" : ""
+  //               }`}
+  //               height={18}
+  //             />
+  //             <Icon
+  //               icon="mdi:chevron-down"
+  //               className={`${
+  //                 column.getIsSorted() === "asc" ? "text-primary" : ""
+  //               }`}
+  //               height={18}
+  //             />
+  //           </div>
+  //         </Button>
+  //       );
+  //     },
+  //   })
+  // );
 
   return (
-    <div className="rounded-xl border bg-light-background border-light-background-400 dark:bg-dark-background-900 dark:border-dark-background-500 p-2 md:p-4">
-      <h1 className="font-semibold text-xl py-4">{title}</h1>
-      <Table data={data} columns={generatedColumns} />
-    </div>
+    <Card className="">
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <DataTable data={data} columns={columns} />
+      </CardContent>
+    </Card>
   );
 }
 export default ActionTable;

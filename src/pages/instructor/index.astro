@@ -16,5 +16,5 @@ const columns = [
 
 <TeacherLayout title="teacher">
   <!-- <Instructor /> -->
-  <ActionTable title="Courses List" data={courses} client:load/>
+  <ActionTable title="Courses List" data={courses} columns={columns} client:load/>
 </TeacherLayout>
