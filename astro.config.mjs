@@ -16,11 +16,4 @@ export default defineConfig({
   integrations: [tailwind(), auth(), icon(), react()],
   output: 'server',
   adapter: vercel(),
-  vite: {
-    resolve: {
-      alias: {
-        '@': '/src'
-      }
-    }
-  }
 });

@@ -1,5 +1,5 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "@/components/ui/data-table";
+import { DataTable } from "@components/ui/data-table";
 
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
 
@@ -47,7 +47,7 @@ function ActionTable<TData, TValue>({
   // );
 
   return (
-    <Card className="">
+    <Card>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
