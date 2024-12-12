@@ -1,24 +1,39 @@
 ---
 import Button from "../ui/Button.astro";
+function getCookie(name: string) {
+  const cookie = Astro.cookies.has(name) ? Astro.cookies.get(name)?.value : false;
+  return cookie;
+}
+
+const auth_error = getCookie("auth");
 ---
 
-<div class="w-full">
+<div class="w-full space-y-4">
   <Button
     id="google-signin"
     name="white"
-    icon={{ name: "logos:google-icon", size: 20}}
-    iconStart={true}
-    >Sign in with Google</Button>
+    icon={{ name: "logos:google-icon", size: 20 }}
+    iconStart={true}>Sign in with Google</Button
+  >
+  {
+    auth_error && (
+      <div
+        id="message-box"
+        class="text-center text-balance font-medium bg-danger-100 dark:bg-danger-950 text-danger-700 dark:text-danger-400 px-4 py-2 rounded-lg border border-light-background-200 dark:border-dark-background-800"
+      >
+        No account associated with this email was found
+      </div>
+    )
+  }
 </div>
 
 <script>
   import { signIn } from "auth-astro/client";
 
-  function handleGoogleSignIn() {
-    signIn("google");
+  const button = document.getElementById("google-signin");
+  if (button) {
+    button.addEventListener("click", () => {
+      signIn("google");
+    });
   }
-
-  document
-    .getElementById("google-signin")
-    ?.addEventListener("click", handleGoogleSignIn);
 </script>
