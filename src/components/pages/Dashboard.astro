@@ -36,7 +36,7 @@ import NavBar from "../ui/NavBar.astro";
   <div class="flex-1 h-screen flex flex-col">
     <NavBar />
     <main
-      class="overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-light-background-100 [&::-webkit-scrollbar-thumb]:bg-light-background-300 dark:[&::-webkit-scrollbar-track]:bg-dark-background-900 dark:[&::-webkit-scrollbar-thumb]:bg-dark-background-800"
+      class="overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-light-background-100 [&::-webkit-scrollbar-thumb]:bg-light-background-300 dark:[&::-webkit-scrollbar-track]:bg-dark-background-900 dark:[&::-webkit-scrollbar-thumb]:bg-dark-background-800"
     >
       <slot name="main-content" />
     </main>
