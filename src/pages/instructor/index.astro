@@ -1,20 +1,13 @@
 ---
 import TeacherLayout from "../../layouts/TeacherLayout.astro";
 import Instructor from "../../components/pages/instructor/Instructor.astro";
-import { getCourses } from "../../components/services/course";
-import type { Course } from "../../components/types/api";
-import ActionTable from "../../components/ui/ActionTable";
-
-const courses: Course[] = await getCourses();
-const columns = [
-  { header: "ID", accessorKey: "id_course", size: 50 },
-  { header: "Name", accessorKey: "name" },
-  { header: "Weekly Hours", accessorKey: "weekly_hours" },
-  { header: "School Year", accessorKey: "school_year" },
-];
+import type { Course } from "@/components/types/api";
+import { TestCourse } from "@components/ui/test-course";
+import { getCourses } from "@/components/services/course/course";
+const courses :Course[] = await getCourses();
 ---
 
 <TeacherLayout title="teacher">
-  <Instructor />
-  <ActionTable title="Courses List" data={courses} columns={columns} client:load/>
+  <Instructor/>
+  <TestCourse client:visible data={courses}/>
 </TeacherLayout>
