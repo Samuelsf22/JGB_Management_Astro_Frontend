@@ -43,7 +43,7 @@ export type Course = {
     id_course:    number;
     name:         string;
     weekly_hours: number;
-    curriculum:   Curriculum;
+    curriculum:   number;
     school_year:  number;
 }
 
@@ -79,14 +79,6 @@ export type PostCourse = {
     school_year:   number;
 }
 
-
-export type CourseClass = {
-    id_course:    number;
-    name:         string;
-    weekly_hours: number;
-    curriculum:   number;
-    school_year:  number;
-}
 
 export type Curriculum = {
     id_curriculum: number;

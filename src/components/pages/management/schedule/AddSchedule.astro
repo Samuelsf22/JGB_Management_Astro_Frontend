@@ -10,7 +10,7 @@ import { getCourses } from "../../../services/course";
 import { registerSchule } from "../../../services/schedule";
 
 // Tipos
-import type { CourseClass } from "../../../types/api"; 
+import type { Course } from "../../../types/api"; 
 
 // Recuperar parámetros de la URL
 const params = new URL(Astro.request.url).searchParams;
@@ -55,7 +55,7 @@ const schoolYearOptions = [
 ];
 
 // Función para filtrar cursos
-function filterCourses(courses: CourseClass[], curriculumId?: number, schoolYear?: number): CourseClass[] {
+function filterCourses(courses: Course[], curriculumId?: number, schoolYear?: number): Course[] {
   return courses.filter(course => 
     (!curriculumId || course.curriculum === curriculumId) &&
     (!schoolYear || course.school_year === schoolYear)

@@ -1,6 +1,6 @@
-import type { Classroom } from "../types/api";
+import type { ClassroomDetails } from "../types/api";
 
-export async function getClassroomList(): Promise<Classroom[]> {
+export async function getClassroomList(): Promise<ClassroomDetails[]> {
   try {
     const response = await fetch(`${import.meta.env.SERVER_URL}/classrooms/`);
     
