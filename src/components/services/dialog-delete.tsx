@@ -16,7 +16,17 @@ interface Props {
 }
 
 export function Delete({ id, title }: Props) {
-  console.log(id);
+  const deleteCourseClient = async () => {
+    const response = await fetch("/api/course/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+
+    const { success } = await response.json();
+    return success;
+  };
+
   return (
     <>
       <DialogTrigger asChild>
@@ -42,7 +52,13 @@ export function Delete({ id, title }: Props) {
               Close
             </Button>
           </DialogClose>
-          <Button type="submit" variant="destructive">
+          <Button
+            type="submit"
+            variant="destructive"
+            onClick={async () => {
+              await deleteCourseClient();
+            }}
+          >
             Delete
           </Button>
         </DialogFooter>
