@@ -2,18 +2,27 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@components/ui/data-table";
 
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
+import { useEffect, useState } from "react";
 
 interface Props<TData, TValue> {
   title: string;
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  url: string;
 }
 
 export function CardTable<TData, TValue>({
   title,
-  data,
   columns,
+  url,
 }: Props<TData, TValue>) {
+  const [data, setData] = useState<TData[]>([]);
+
+  useEffect(() => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, []);
+
   return (
     <Card>
       <CardHeader>

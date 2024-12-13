@@ -18,8 +18,8 @@ interface Props {
 
 export function Delete({ id, title }: Props) {
   const { toast } = useToast();
-  const deleteCourseClient = async () => {
-    const response = await fetch("/api/course/delete", {
+  const deleteCourse = async () => {
+    const response = await fetch("/api/course", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
@@ -58,7 +58,7 @@ export function Delete({ id, title }: Props) {
             type="submit"
             variant="destructive"
             onClick={async () => {
-              const success = await deleteCourseClient();
+              const success = await deleteCourse();
               if (success) {
                 toast({
                   description: `Course deleted`,
