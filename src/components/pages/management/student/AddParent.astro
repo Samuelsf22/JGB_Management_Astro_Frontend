@@ -1,7 +1,6 @@
 ---
 import Button from "../../../ui/Button.astro";
 import Input from "../../../ui/Input.astro";
-import Toast from "@/components/ui/Toast.astro";
 import { registerParent } from "../../../services/student";
 
 const params = new URL(Astro.request.url).searchParams;
@@ -139,14 +138,6 @@ if (Astro.request.method === "POST") {
   </form>
 </div>
 
-{showToast && (
-  <Toast
-    message={toastMessage}
-    category={toastType}
-    show={showToast}
-    client:load
-  />
-)}
 
 <script>
   // Improved toast handling

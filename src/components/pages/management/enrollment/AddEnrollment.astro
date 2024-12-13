@@ -2,7 +2,6 @@
 import Button from "../../../ui/Button.astro";
 import Input from "../../../ui/Input.astro";
 import Select from "../../../ui/Select.astro";
-import Toast from "@components/ui/Toast.astro";
 
 import { getCurriculumList } from "../../../services/curriculum";
 import { getStudents } from "../../../services/student";
@@ -155,14 +154,6 @@ if (Astro.request.method === "POST") {
   </div>
 </div>
 
-{showToast && (
-  <Toast
-    message={toastMessage}
-    category={toastType}
-    show={showToast}
-    client:load
-  />
-)}
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
