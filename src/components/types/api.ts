@@ -99,7 +99,7 @@ export type PostEnrollment = {
 
 export type Student = {
     id_student:      number;
-    parent:          Parent;
+    parent_details:          Parent;
     first_name:      string;
     last_name:       string;
     dni:             string;
@@ -107,6 +107,8 @@ export type Student = {
     enrollment_date: Date;
     address:         string;
 }
+
+
 
 export type Parent = {
     id_parent:    number;
