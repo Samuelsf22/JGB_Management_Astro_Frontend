@@ -1,5 +1,6 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import {
   DialogContent,
   DialogDescription,
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export function Delete({ id, title }: Props) {
+  const { toast } = useToast();
   const deleteCourseClient = async () => {
     const response = await fetch("/api/course/delete", {
       method: "DELETE",
@@ -56,7 +58,17 @@ export function Delete({ id, title }: Props) {
             type="submit"
             variant="destructive"
             onClick={async () => {
-              await deleteCourseClient();
+              const success = await deleteCourseClient();
+              if (success) {
+                toast({
+                  description: `Course deleted`,
+                });
+              } else {
+                toast({
+                  description: `Failed to delete course`,
+                  variant: "destructive",
+                });
+              }
             }}
           >
             Delete
