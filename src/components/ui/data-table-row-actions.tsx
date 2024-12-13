@@ -11,13 +11,13 @@ import { useState, type ReactNode } from "react";
 import { Dialog } from "@/components/ui/dialog";
 
 interface DataTableRowActionsProps<TData> {
-  // row: Row<TData>;
+  row: Row<TData>;
   dialog_edit: ReactNode;
   dialog_delete: ReactNode;
 }
 
 export function DataTableRowActions<TData>({
-  // row,
+  row,
   dialog_edit,
   dialog_delete,
 }: DataTableRowActionsProps<TData>) {

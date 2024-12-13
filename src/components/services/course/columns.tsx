@@ -34,9 +34,9 @@ export const columns: ColumnDef<Course>[] = [
     id: "actions",
     cell: ({ row }) => (
       <DataTableRowActions
-        // row={row}
+        row={row}
         dialog_edit={<Edit />}
-        dialog_delete={<Delete title="course"/>}
+        dialog_delete={<Delete id={row.getValue("id_course")} title="course"/>}
       />
     ),
   },

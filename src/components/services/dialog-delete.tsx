@@ -11,10 +11,12 @@ import {
 } from "@components/ui/dialog";
 
 interface Props {
+  id: number;
   title: string;
 }
 
-export function Delete({ title }: Props) {
+export function Delete({ id, title }: Props) {
+  console.log(id);
   return (
     <>
       <DialogTrigger asChild>
