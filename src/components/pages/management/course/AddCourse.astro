@@ -128,7 +128,7 @@ if (Astro.request.method === "POST") {
 {showToast && (
   <Toast
     message={toastMessage}
-    type={toastType}
+    category={toastType}
     show={showToast}
     client:load
   />

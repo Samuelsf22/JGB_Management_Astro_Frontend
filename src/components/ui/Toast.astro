@@ -1,12 +1,12 @@
 ---
 export interface Props {
-  type?: 'normal' | 'success' | 'error' | 'warning';
+  category?: 'normal' | 'success' | 'error' | 'warning';
   message: string;
   show: boolean;
 }
 
 const { 
-  type = 'normal', 
+  category = 'normal', 
   message = 'Mensaje por defecto',
   show = false
 } = Astro.props;
@@ -38,7 +38,7 @@ const typesToasts = {
   }
 };
 
-const { icon, color } = typesToasts[type];
+const { icon, color } = typesToasts[category];
 ---
 
 {show && (
