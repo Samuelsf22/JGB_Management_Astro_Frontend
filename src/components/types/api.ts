@@ -108,7 +108,15 @@ export type Student = {
     address:         string;
 }
 
-
+export type PostStudent = {
+    parent:          number;
+    first_name:      string;
+    last_name:       string;
+    dni:             string;
+    birth_date:      string;
+    enrollment_date: string;
+    address:         string;
+}
 
 export type Parent = {
     id_parent:    number;
