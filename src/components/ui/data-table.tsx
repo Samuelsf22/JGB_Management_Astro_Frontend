@@ -57,7 +57,9 @@ export function DataTable<TData, TValue>({
   });
 
   useEffect(() => {
-    setLoading(false);
+    if (data) {
+      setLoading(false);
+    }
   }, []);
 
   if (loading) {
