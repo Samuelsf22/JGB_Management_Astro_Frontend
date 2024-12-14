@@ -14,9 +14,6 @@ import type { Course } from "../../../types/api";
 
 // Recuperar parámetros de la URL
 const params = new URL(Astro.request.url).searchParams;
-let showToast = params.has('toast');
-let toastMessage = params.get('message') || "";
-let toastType: "success" | "error" = (params.get('type') as "success" | "error") || "success";
 
 // Configuraciones base
 const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
@@ -75,34 +72,23 @@ if (Astro.request.method === "POST") {
     const scheduleValue = data.get("schedule")?.toString() || "";
     const [start_time, end_time] = scheduleValue ? scheduleValue.split("-") : ["", ""];    
 
-    const newSchedule = await registerSchule({    
+    const newSchedule = await registerSchule({  
+      id_schedule: 0,  
       course: parseInt(course),
       day: day,
       classroom: parseInt(classroom),
       start_time: start_time,
       end_time: end_time
     });
-
-    showToast = true;
-    toastMessage = "¡Curso registrado exitosamente!";
-    toastType = "success";
-
   } catch (error) {
-    showToast = true;
-    toastType = "error";
     if (error instanceof Response) {
-      const errorData = await error.json();
-      toastMessage = Object.values(errorData).flat().join(", ");
+      const errorData = await error.json();   
     } else {
-      toastMessage = error instanceof Error ? error.message : "Error al registrar el curso";
+
     }
   }
 }
 
-
-showToast = params.has('toast');
-toastMessage = params.get('message') || toastMessage;
-toastType = (params.get('type') as "success" | "error") || toastType;
 ---
 
 <div class="container mx-auto p-4">

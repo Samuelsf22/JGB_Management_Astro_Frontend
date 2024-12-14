@@ -128,6 +128,7 @@ export type Parent = {
 }
 
 export type Schedule = {
+    id_schedule: number,
     course: number,
     day: String,
     classroom: number,
