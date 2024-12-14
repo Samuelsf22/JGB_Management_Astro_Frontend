@@ -3,7 +3,7 @@ import { getSession } from "auth-astro/server";
 
 const AUTH_PATHS = "/api";
 const LOGIN_PATHS = ["/login"];
-const ROLE_TEACHER_PATHS = ["/instructor"];
+const ROLE_TEACHER_PATHS = ["/instructor", "/api/courses"];
 const ROLE_MANAGEMENT_PATHS = ["/management", "/"];
 
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -103,6 +103,7 @@ const logIn = async (email: string) => {
     const data = await response.json();
     if (data.message === "Successful login") {
       console.log("Successful login");
+      console.log(data.user.groups);
       return { success: true, role: data.user.groups };
     }
     console.log("Failed login");
