@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -20,6 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+// import { z } from "zod";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -28,6 +28,13 @@ interface DataTableRowActionsProps<TData> {
   title: string;
   apiUrl: string;
 }
+// This is the schema for the form data, it's not implemented yet
+// const formSchema = z.object({
+//   name: z.string().length(100),
+//   school_year: z.number().int().positive(),
+//   weekly_hours: z.number().int().positive(),
+//   curriculum: z.number().int().positive(),
+// });
 
 export function DataTableRowActions<TData>({
   row,
@@ -52,10 +59,12 @@ export function DataTableRowActions<TData>({
   const isSuccessful = (success: boolean) => {
     if (success) {
       toast({
+        title: "Success",
         description: `${title} deleted`,
       });
     } else {
       toast({
+        title: "Error",
         description: `Failed to delete ${title}`,
         variant: "destructive",
       });
@@ -88,6 +97,39 @@ export function DataTableRowActions<TData>({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      {/* Edit dialog - it's not implemented yet */}
+      {/* <Dialog open={openEdit} onOpenChange={setOpenEdit}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-right">
+                Name
+              </Label>
+              <Input id="name" className="col-span-3" />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="username" className="text-right">
+                Username
+              </Label>
+              <Input id="username" className="col-span-3" />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="ghost">
+                Close
+              </Button>
+            </DialogClose>
+            <Button type="submit">Edit</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog> */}
       <Dialog open={openDelete} onOpenChange={setOpenDelete}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
