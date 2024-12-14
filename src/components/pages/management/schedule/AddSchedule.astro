@@ -1,0 +1,248 @@
+---
+import Button from "../../../ui/Button.astro";
+import Select from "../../../ui/Select.astro";
+import Schedule from "../../../ui/Schedule.astro";
+
+// Servicios
+import { getCurriculumList } from "../../../services/curriculum";
+import { getClassroomList } from "../../../services/classroom";
+import { getCourses } from "../../../services/course";
+import { registerSchule } from "../../../services/schedule";
+
+// Tipos
+import type { Course } from "../../../types/api"; 
+
+// Recuperar parámetros de la URL
+const params = new URL(Astro.request.url).searchParams;
+
+// Configuraciones base
+const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+const horariosDefinidos = [
+  {value:'8:01:00-9:00:00', label:'8:01 - 9:00'},
+  {value:'9:01:00-10:00:00', label:'9:01 - 10:00'},
+  {value:'10:01:00-11:00:00', label:'10:01 - 11:00'},
+  {value:'11:01:00-12:00:00', label:'11:01 - 12:00'},
+  {value:'12:01:00-13:00:00', label:'12:01 - 13:00'},
+  {value:'13:01:00-14:00:00', label:'13:01 - 14:00'}
+];
+
+// Obtener datos
+const curriculumList = await getCurriculumList();
+const classrooms = await getClassroomList();
+const allCourses = await getCourses();
+
+// Convertir a opciones para select
+const curriculumOptions = curriculumList.map(curriculum => ({
+  value: curriculum.id_curriculum.toString(),
+  label: curriculum.name
+}));
+
+const classroomOptions = classrooms.map(classroom => ({
+  value: classroom.id_classroom.toString(),
+  label: classroom.name
+}));
+
+const schoolYearOptions = [
+  { value: '1', label: 'Primer Año' },
+  { value: '2', label: 'Segundo Año' },
+  { value: '3', label: 'Tercer Año' },
+  { value: '4', label: 'Cuarto Año' },
+  { value: '5', label: 'Quinto Año' },
+  { value: '6', label: 'Sexto Año' }
+];
+
+// Función para filtrar cursos
+function filterCourses(courses: Course[], curriculumId?: number, schoolYear?: number): Course[] {
+  return courses.filter(course => 
+    (!curriculumId || course.curriculum === curriculumId) &&
+    (!schoolYear || course.school_year === schoolYear)
+  );
+}
+
+// Estado inicial de cursos
+const initialCourseOptions = filterCourses(allCourses);
+
+// Manejar el POST
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();    
+    const course = data.get("course")?.toString() ?? '';
+    const day = data.get("day")?.toString() ?? '';
+    const classroom = data.get("classroom")?.toString() ?? '';
+    const scheduleValue = data.get("schedule")?.toString() || "";
+    const [start_time, end_time] = scheduleValue ? scheduleValue.split("-") : ["", ""];    
+
+    const newSchedule = await registerSchule({  
+      id_schedule: 0,  
+      course: parseInt(course),
+      day: day,
+      classroom: parseInt(classroom),
+      start_time: start_time,
+      end_time: end_time
+    });
+  } catch (error) {
+    if (error instanceof Response) {
+      const errorData = await error.json();   
+    } else {
+
+    }
+  }
+}
+
+---
+
+<div class="container mx-auto p-4">
+  <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+    <!-- Formulario de Selección -->
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-4">Configurar Horario</h2>
+      <form id="horarioForm" class="space-y-4" method="POST">
+        <div class="grid grid-cols-2 gap-4">
+          <Select
+            label="Plan de Estudios"
+            name="curriculum"
+            id="curriculum"
+            options={curriculumOptions}
+            defaultText="Seleccione Plan"
+            required={true}            
+          />
+          
+          <Select
+            label="Año Escolar"
+            name="school_year"
+            id="school_year"
+            options={schoolYearOptions}
+            defaultText="Seleccione Año"
+            required={true}            
+          />
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <Select
+            label="Curso"
+            name="course"
+            id="course"
+            options={initialCourseOptions.map(course => ({
+              value: course.id_course.toString(),
+              label: course.name
+            }))}
+            defaultText="Seleccione Curso"
+            required={true}
+            disabled={initialCourseOptions.length === 0}
+          />
+
+          <Select
+            label="Día"
+            name="day"
+            id="day"
+            options={dias.map(dia => ({ value: dia, label: dia }))}
+            defaultText="Seleccione Día"
+            required={true}
+          />
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <Select
+            label="Aula"
+            name="classroom"
+            id="classroom"
+            options={classroomOptions}
+            defaultText="Seleccione Aula"
+            required={true}
+          />
+
+          <Select
+            label="Horario"
+            name="schedule"
+            id="schedule"
+            options={horariosDefinidos}
+            defaultText="Seleccione Horario"
+            required={true}
+          />
+        </div>
+
+        <div class="flex justify-end">
+          <Button
+            type="submit"
+            id="agregar-horario"
+            name="white"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+          >            
+            Agregar al Horario
+          </Button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<script define:vars={{allCourses}}>
+document.addEventListener('DOMContentLoaded', () => {
+  const curriculumSelect = document.getElementById('curriculum');
+  const schoolYearSelect = document.getElementById('school_year');
+  const courseSelect = document.getElementById('course');
+  const daySelect = document.getElementById('day');
+  const classroomSelect = document.getElementById('classroom');
+  const scheduleSelect = document.getElementById('schedule');
+  const agregarHorarioButton = document.getElementById('agregar-horario');
+  const horarioSemanal = document.getElementById('horario-semanal');
+
+  function filterCourses() {
+    const curriculumId = curriculumSelect.value 
+      ? parseInt(curriculumSelect.value) 
+      : null;
+    const schoolYear = schoolYearSelect.value 
+      ? parseInt(schoolYearSelect.value) 
+      : null;
+
+    // Filtrar cursos
+    const filteredCourses = allCourses.filter(course => 
+      (!curriculumId || course.curriculum === curriculumId) &&
+      (!schoolYear || course.school_year === schoolYear)
+    );
+
+    // Limpiar select de cursos
+    courseSelect.innerHTML = '<option value="">Seleccione Curso</option>';
+
+    // Poblar select de cursos filtrados
+    filteredCourses.forEach(course => {
+      const option = document.createElement('option');
+      option.value = course.id_course.toString();
+      option.textContent = course.name;
+      courseSelect.appendChild(option);
+    });
+
+    // Habilitar/deshabilitar select según hay cursos
+    courseSelect.disabled = filteredCourses.length === 0;
+  }
+
+  function agregarHorario() {
+    // Capturar valores seleccionados
+    const curriculum = curriculumSelect.options[curriculumSelect.selectedIndex]?.text || "";
+    const schoolYear = schoolYearSelect.options[schoolYearSelect.selectedIndex]?.text || "";
+    const course = courseSelect.options[courseSelect.selectedIndex]?.text || "";
+    const day = daySelect.options[daySelect.selectedIndex]?.text || "";
+    const classroom = classroomSelect.options[classroomSelect.selectedIndex]?.text || "";
+    const schedule = scheduleSelect.options[scheduleSelect.selectedIndex]?.text || "";
+
+    if (!course || !day || !classroom || !schedule) {
+      alert("Por favor, completa todos los campos antes de agregar al horario.");
+      return;
+    }
+    // Crear un nuevo elemento para mostrar el horario (puedes personalizar esto según `Schedule`)
+    const nuevoHorario = document.createElement('div');
+    nuevoHorario.className = 'p-2 border-b border-gray-200';
+    nuevoHorario.textContent = `${day}: ${course} en ${classroom} (${schedule})`;
+
+    // Agregar al horario
+    horarioSemanal.appendChild(nuevoHorario);
+  }
+  // Agregar eventos para filtrar cursos
+  curriculumSelect.addEventListener('change', filterCourses);
+  schoolYearSelect.addEventListener('change', filterCourses);
+
+  // Agregar evento al botón
+  agregarHorarioButton.addEventListener('click', agregarHorario);
+});
+</script>

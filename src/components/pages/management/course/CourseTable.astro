@@ -1,0 +1,18 @@
+---
+import { getCourses } from "../../../services/course";
+import Table from "../../../ui/Table.astro";
+
+const allCourses = await getCourses();
+
+const courses = allCourses.map((course) => {
+  return {
+    id_course: course.id_course,
+    name: course.name, 
+    weekly_hours: course.weekly_hours,
+    curriculum: course.curriculum,
+    school_year: course.school_year
+  };
+});
+---
+
+<Table data={courses} href="/management/course" id={[1]} />
