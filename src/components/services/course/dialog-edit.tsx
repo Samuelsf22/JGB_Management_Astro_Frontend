@@ -15,15 +15,6 @@ import { Label } from "@components/ui/label";
 export function Edit() {
   return (
     <>
-      <DialogTrigger asChild>
-        <DropdownMenuItem
-          onSelect={(event) => {
-            event.preventDefault();
-          }}
-        >
-          Edit
-        </DropdownMenuItem>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
@@ -47,7 +38,7 @@ export function Edit() {
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button type="button" variant="ghost" >
+            <Button type="button" variant="ghost">
               Close
             </Button>
           </DialogClose>

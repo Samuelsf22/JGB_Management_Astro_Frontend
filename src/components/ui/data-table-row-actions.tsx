@@ -18,7 +18,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import React, { useState } from "react";
 // import { z } from "zod";
 
 interface DataTableRowActionsProps<TData> {
@@ -27,6 +27,7 @@ interface DataTableRowActionsProps<TData> {
   name: string;
   title: string;
   apiUrl: string;
+  dialog_edit: React.ReactNode;
 }
 // This is the schema for the form data, it's not implemented yet
 // const formSchema = z.object({
@@ -42,6 +43,7 @@ export function DataTableRowActions<TData>({
   name,
   title,
   apiUrl,
+  dialog_edit,
 }: DataTableRowActionsProps<TData>) {
   const { toast } = useToast();
   const deleteCourse = async () => {
@@ -97,6 +99,9 @@ export function DataTableRowActions<TData>({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <Dialog open={openEdit} onOpenChange={setOpenEdit}>
+        {dialog_edit}
+      </Dialog>
       {/* Edit dialog - it's not implemented yet */}
       {/* <Dialog open={openEdit} onOpenChange={setOpenEdit}>
         <DialogContent className="sm:max-w-[425px]">

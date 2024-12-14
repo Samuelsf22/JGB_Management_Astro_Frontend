@@ -2,6 +2,7 @@ import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { Course } from "@components/types/api";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTableRowActions } from "@/components/ui/data-table-row-actions";
+import { Edit } from "./dialog-edit";
 
 
 export const columns: ColumnDef<Course>[] = [
@@ -38,6 +39,7 @@ export const columns: ColumnDef<Course>[] = [
         name="name"
         title="course"
         apiUrl="/api/course"
+        dialog_edit={<Edit/>}
       />
     ),
   },
