@@ -16,7 +16,6 @@
     "@astrojs/vercel": "^8.0.0",
     "@auth/core": "^0.37.4",
     "@fontsource-variable/montserrat": "^5.1.0",
-    "@hookform/resolvers": "^3.9.1",
     "@iconify-icon/react": "^2.2.0",
     "@iconify-json/logos": "^1.2.3",
     "@iconify-json/mdi": "^1.2.1",
@@ -24,7 +23,7 @@
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
     "@radix-ui/react-label": "^2.1.0",
-    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.3",
     "@tailwindcss/forms": "^0.5.9",
     "@tanstack/react-table": "^8.20.5",
@@ -40,11 +39,9 @@
     "preline": "^2.6.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.54.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss": "^3.4.16",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.7.2",
-    "zod": "^3.24.1"
+    "typescript": "^5.7.2"
   }
 }
