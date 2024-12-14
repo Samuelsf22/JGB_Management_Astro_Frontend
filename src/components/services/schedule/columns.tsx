@@ -47,25 +47,13 @@ export const columns: ColumnDef<ScheduleS>[] = [
     id: "actions",
     cell: ({ row }) => (
       <DataTableRowActions
-        // row={row}
-        dialog_edit={<Edit schedule={{
-          id_schedule: row.original.id_schedule,
-          classroom: row.original.classroom,
-          classroom_details: {
-            id_classroom: 0,
-            name: row.original.classroom_details.name,
-            capacity: 0
-          },
-          course: row.original.course,
-          course_details: null,
-          teacher: null,
-          day: row.original.day,
-          start_time: row.original.start_time,
-          end_time: row.original.end_time
-        }} onUpdate={function (): void {
-          console.log("Schedule updated successfully!");
-        } } />}
-        dialog_delete={<Delete title="schedule" id={row.original.id_schedule} onDelete={() => console.log("Schedule deleted successfully!")} />}
+        row={row}
+        idRow="id_schedule"
+        name="name"
+        title="schedule"
+        apiUrl="/api/schedule"
+        dialog_edit={<Edit/>}
+        
       />
     ),
   },
