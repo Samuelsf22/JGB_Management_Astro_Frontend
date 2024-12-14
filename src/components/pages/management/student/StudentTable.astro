@@ -1,0 +1,23 @@
+---
+import { getStudents } from "../../../services/student";
+import Table from "../../../ui/Table.astro";
+
+const allStudents = await getStudents();
+
+const students = allStudents.map((student) => {
+    return {
+        id: student.id_student,
+        parent: student.parent_details.first_name + " " + student.parent_details.last_name,
+        first_name: student.first_name,
+        last_name: student.last_name,
+        dni: student.dni,
+        birth_date: student.birth_date,
+        enrollment_date: student.enrollment_date,
+        address: student.address,
+    };
+});
+
+
+---
+
+<Table data={students} href="/management/course" id={[1]} />

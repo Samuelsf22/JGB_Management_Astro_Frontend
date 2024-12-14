@@ -1,20 +1,23 @@
 ---
-interface Props{
-    id: string;
-    type: 'text' | 'password' | 'email' | 'number' | 'tel';
-    name?: string;
-    label: string;
-    placeholder: string;
-    showToggle?: boolean;
+interface Props {
+  id: string;
+  type: 'text' | 'password' | 'email' | 'number' | 'tel' | 'date';
+  name: string; // Cambié a obligatorio para evitar problemas.
+  label: string;
+  placeholder: string;
+  showToggle?: boolean;
+  required?: boolean;
 }
 import { Icon } from "astro-icon/components";
-const { id, type, label, placeholder, showToggle = false } = Astro.props;
+const { id, type, name, label, placeholder, showToggle = false, required = false } = Astro.props;
 ---
 
 <div class="relative">
   <input
     type={type}
     id={id}
+    name={name}
+    required={required} 
     class="peer p-4 block w-full bg-transparent rounded-lg text-sm placeholder:text-transparent border-light-foreground-300 focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none dark:border-dark-foreground-700 dark:focus:border-dark-foreground-500 dark:focus:ring-dark-foreground-500
     focus:pt-6
     focus:pb-2
