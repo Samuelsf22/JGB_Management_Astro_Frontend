@@ -1,8 +1,8 @@
 ---
-import { StudentTable } from "@/components/services/student/student-table";
+import { StudentTableFilter } from "@/components/services/student/student-table-filter";
 import TeacherLayout from "@/layouts/TeacherLayout.astro";
 ---
 
 <TeacherLayout title="Courses">
-  <StudentTable client:visible />
+  <StudentTableFilter client:visible/>
 </TeacherLayout>
