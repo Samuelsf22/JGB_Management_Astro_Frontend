@@ -1,0 +1,12 @@
+---
+import { StudentTable } from "@/components/services/student/student-table";
+import TeacherLayout from "@/layouts/TeacherLayout.astro";
+---
+
+<TeacherLayout title="Courses">
+  <!-- The course_id=1 is hardcoded for now, but we will change it later -->
+  <StudentTable
+    client:visible
+    url="/api/instructor/data?type=students&&course_id=1"
+  />
+</TeacherLayout>

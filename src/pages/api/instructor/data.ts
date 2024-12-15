@@ -1,5 +1,10 @@
 import { getUserByEmail } from "@/components/services/user";
-import type { Course, Teacher } from "@/components/types/api";
+import type {
+  Course,
+  Enrollment,
+  Student,
+  Teacher,
+} from "@/components/types/api";
 import type { APIRoute } from "astro";
 import { getSession } from "auth-astro/server";
 
@@ -9,27 +14,10 @@ export const GET: APIRoute = async ({ request }) => {
   const type = url.searchParams.get("type");
 
   switch (type) {
-    case "courses": {
-      const user = await getUserByEmail(session?.user?.email as string);
-      const response = await fetch(
-        `${import.meta.env.SERVER_URL}/teachers/${user.teacher}`
-      );
-      const teacher: Teacher = await response.json();
-      const courses: Course[] = teacher.subjects.map(
-        (subject) => subject.course_details
-      );
-      return new Response(JSON.stringify(courses), { status: 200 });
-    }
-    case "students": {
-      const response = await fetch(`${import.meta.env.SERVER_URL}/students`);
-      const students = await response.json();
-      return new Response(JSON.stringify(students), { status: 200 });
-    }
-    case "teachers": {
-      const response = await fetch(`${import.meta.env.SERVER_URL}/teachers`);
-      const teachers = await response.json();
-      return new Response(JSON.stringify(teachers), { status: 200 });
-    }
+    case "courses":
+      return getCourse(session?.user?.email as string);
+    case "students":
+      return getStudentsByCourseId(url);
     default: {
       return new Response(
         JSON.stringify({ error: `Invalid type parameter: ${type}` }),
@@ -37,4 +25,30 @@ export const GET: APIRoute = async ({ request }) => {
       );
     }
   }
+};
+
+const getCourse = async (email: string) => {
+  const user = await getUserByEmail(email);
+  const response = await fetch(
+    `${import.meta.env.SERVER_URL}/teachers/${user.teacher}`
+  );
+  const teacher: Teacher = await response.json();
+  const courses: Course[] = teacher.subjects.map(
+    (subject) => subject.course_details
+  );
+  return new Response(JSON.stringify(courses), { status: 200 });
+};
+
+export const getStudentsByCourseId = async (url: URL) => {
+  const course_id = url.searchParams.get("course_id");
+  if (!course_id) {
+    return new Response(
+      JSON.stringify({ error: "Missing course_id parameter" }),
+      { status: 400 }
+    );
+  }
+  const response = await fetch(`${import.meta.env.SERVER_URL}/courses/${course_id}/enrollments`);
+  const enrollments: Enrollment[] = await response.json();
+  const students: Student[] = enrollments.map((enrollment) => enrollment.student_details);
+  return new Response(JSON.stringify(students), { status: 200 });
 };
