@@ -1,9 +1,9 @@
 import { defineMiddleware } from "astro:middleware";
 import { getSession } from "auth-astro/server";
 
-const AUTH_PATHS = "/api";
+const AUTH_PATHS = "/api/auth";
 const LOGIN_PATHS = ["/login"];
-const ROLE_TEACHER_PATHS = ["/instructor", "/api/courses"];
+const ROLE_TEACHER_PATHS = ["/instructor", "/api/instructor"];
 const ROLE_MANAGEMENT_PATHS = ["/management", "/"];
 
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -44,12 +44,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
       context.cookies.set("auth", "true", {
         domain: import.meta.env.DOMAIN,
         httpOnly: true,
-        maxAge: 100,
+        maxAge: 10,
         path: "/login",
         sameSite: "lax",
         secure: true,
         encode: (value: string) => value,
-        expires: new Date(Date.now() + 100 * 1000),
+        expires: new Date(Date.now() + 10 * 1000),
       });
       return context.redirect("/login", 302);
     }
