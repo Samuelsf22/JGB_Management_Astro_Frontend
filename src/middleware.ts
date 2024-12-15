@@ -1,9 +1,9 @@
 import { defineMiddleware } from "astro:middleware";
 import { getSession } from "auth-astro/server";
 
-const AUTH_PATHS = "/api";
+const AUTH_PATHS = "/api/auth";
 const LOGIN_PATHS = ["/login"];
-const ROLE_TEACHER_PATHS = ["/instructor", "/api/courses"];
+const ROLE_TEACHER_PATHS = ["/instructor", "/api/instructor"];
 const ROLE_MANAGEMENT_PATHS = ["/management", "/"];
 
 export const onRequest = defineMiddleware(async (context, next) => {

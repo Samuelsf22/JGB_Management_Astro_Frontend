@@ -1,0 +1,8 @@
+---
+import { CourseTable } from "@/components/services/course/course-table";
+import TeacherLayout from "@/layouts/TeacherLayout.astro";
+---
+
+<TeacherLayout title="Courses">
+  <CourseTable client:visible url="/api/instructor/data?type=courses"/>
+</TeacherLayout>

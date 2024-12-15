@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Logo from "../../assets/logo.svg";
-import Toggle from "../Toggle.astro";
+import { Toggle } from "@components/Toggle";
 import Avatar from "./Avatar.astro";
 ---
 
@@ -15,7 +15,7 @@ import Avatar from "./Avatar.astro";
       </a>
     </div>
     <div class="ml-auto flex items-center space-x-3">
-      <Toggle />
+      <Toggle client:visible />
       <Avatar />
     </div>
   </nav>

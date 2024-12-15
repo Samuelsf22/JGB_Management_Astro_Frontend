@@ -1,7 +1,12 @@
 ---
-import Button from "../ui/Button.astro";
+import { Button } from "@components/ui/button";
+import { Icon } from "astro-icon/components";
+import { Card, CardDescription, CardHeader } from "../ui/card";
+
 function getCookie(name: string) {
-  const cookie = Astro.cookies.has(name) ? Astro.cookies.get(name)?.value : false;
+  const cookie = Astro.cookies.has(name)
+    ? Astro.cookies.get(name)?.value
+    : false;
   return cookie;
 }
 
@@ -9,20 +14,19 @@ const auth_error = getCookie("auth");
 ---
 
 <div class="w-full space-y-4">
-  <Button
-    id="google-signin"
-    name="white"
-    icon={{ name: "logos:google-icon", size: 20 }}
-    iconStart={true}>Sign in with Google</Button
+  <Button id="google-signin" variant="outline" className="w-full">
+    <Icon name="logos:google-icon" />
+    Sign in with Google</Button
   >
   {
     auth_error && (
-      <div
-        id="message-box"
-        class="text-center text-balance font-medium bg-danger-100 dark:bg-danger-950 text-danger-700 dark:text-danger-400 px-4 py-2 rounded-lg border border-light-background-200 dark:border-dark-background-800"
-      >
-        No account associated with this email was found
-      </div>
+      <Card className="group bg-destructive">
+        <CardHeader>
+          <CardDescription className="text-destructive-foreground text-center text-balance">
+            No account associated with this email was found.
+          </CardDescription>
+        </CardHeader>
+      </Card>
     )
   }
 </div>

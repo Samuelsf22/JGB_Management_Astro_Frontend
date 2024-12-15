@@ -1,10 +1,11 @@
 ---
 import { Picture } from "astro:assets";
 import { Image } from "astro:assets";
-import Logo from "../../assets/logo.svg";
-import BackgroundImage from "../../assets/login_background.webp";
+import Logo from "@/assets/logo.svg";
+import BackgroundImage from "@/assets/login_background.webp";
 import SignInGoogle from "../form/SignInGoogle.astro";
-import Toggle from "../../components/Toggle.astro";
+import { Toggle } from "@components/Toggle";
+import { Separator } from "@components/ui/separator";
 ---
 
 <div class="flex h-screen overflow-hidden">
@@ -24,19 +25,17 @@ import Toggle from "../../components/Toggle.astro";
     <!-- Login Form and Logo Section -->
     <div class="w-80 flex flex-col items-center justify-center flex-grow">
       <Image src={Logo} alt="logo" class="w-40 mx-auto mb-14" />
-      <SignInGoogle />   
+      <SignInGoogle />
     </div>
 
     <!-- Footer Section -->
     <footer
-      class="w-80 text-sm text-center text-light-foreground-400 dark:text-dark-foreground-300"
+      class="w-80 text-sm text-center space-y-4"
     >
-      <hr
-        class="mb-4 border-light-foreground-300 dark:border-dark-foreground-500"
-      />
-      <div class="flex items-center justify-center space-x-3">
+      <Separator/>
+      <div class="flex items-center justify-center gap-4">
         <span>José Gálvez Barrenechea - {new Date().getFullYear()}</span>
-        <Toggle />
+        <Toggle client:visible />
       </div>
     </footer>
   </div>
