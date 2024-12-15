@@ -8,6 +8,6 @@ interface Props {
 
 export function StudentTable({ url, showActions = false }: Props) {
   return (
-    <CardTable title="Student List" url={url} columns={columns({ showActions })} />
+    <CardTable title="Students List" url={url} columns={columns({ showActions })} />
   );
 }
