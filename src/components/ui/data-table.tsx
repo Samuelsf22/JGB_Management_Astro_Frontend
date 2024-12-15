@@ -90,7 +90,8 @@ export function DataTable<TData, TValue>({
               <Icon icon="mdi:search" />
             </div>
           </div>
-          <DropdownMenu>
+          {/* This one too */}
+          {/* <DropdownMenu>
             <DropdownMenuTrigger>Columns</DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {table
@@ -111,7 +112,7 @@ export function DataTable<TData, TValue>({
                   );
                 })}
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </div>
         <div>
           <Table>
@@ -167,8 +168,9 @@ export function DataTable<TData, TValue>({
         </div>
         <div className="flex items-center justify-end space-x-2 py-4">
           <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            {/* {table.getFilteredSelectedRowModel().rows.length} of{" "}
+            {table.getFilteredRowModel().rows.length} row(s) selected. */}
           </div>
           <div className="space-x-2">
             <button
