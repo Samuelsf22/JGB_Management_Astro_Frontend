@@ -1,4 +1,4 @@
-import type { Student, Parent, PostStudent } from "../types/api";
+import type { Student, Parent, PostStudent } from "@components/types/api";
 
 export const getStudents = async (): Promise<Student[]> => {
   const response = await fetch(`${import.meta.env.SERVER_URL}/students`);
