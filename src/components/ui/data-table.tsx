@@ -26,6 +26,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "./input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -71,16 +72,19 @@ export function DataTable<TData, TValue>({
       <div className="w-full">
         <div className="flex justify-between items-center py-4">
           <div className="relative max-w-xs group hover:text-primary focus:text-primary">
-            <input
+            <Input
               type="text"
-              value={
-                (table.getColumn("name")?.getFilterValue() as string) ?? ""
-              }
-              onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
-              }
-              className="py-2 px-3 ps-9 bg-transparent block w-full border border-border rounded-lg text-sm focus:z-10 hover:border-primary hover:ring:primary focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none transition-colors duration-300 ease-in-out"
+              value={filtering}
+              onChange={(event) => setFiltering(event.target.value)}
+              // This will be implemented in the future
+              // value={
+              //   (table.getColumn("name")?.getFilterValue() as string) ?? ""
+              // }
+              // onChange={(event) =>
+              //   table.getColumn("name")?.setFilterValue(event.target.value)
+              // }
               placeholder="Filtering by name..."
+              className="ps-9"
             />
             <div className="absolute inset-y-0 start-0 flex items-center ps-3">
               <Icon icon="mdi:search" />
