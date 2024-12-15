@@ -1,9 +1,8 @@
 ---
-import CourseTable from "../../../components/pages/management/course/CourseTable.astro";
+import { CourseTable } from "@/components/services/course/course-table";
 import ManagementLayout from "../../../layouts/ManagementLayout.astro";
 ---
 
 <ManagementLayout title="courses">
-  <CourseTable />
-  
+  <CourseTable client:visible />
 </ManagementLayout>

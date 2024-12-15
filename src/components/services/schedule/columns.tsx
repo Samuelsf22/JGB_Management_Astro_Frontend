@@ -2,9 +2,7 @@ import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { ScheduleS } from "@components/types/api";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTableRowActions } from "@/components/ui/data-table-row-actions";
-import { Edit } from "@/components/services/schedule/dialog-edit";
-import { Delete } from "@/components/services/schedule/dialog-delete";
-import Schedule from "@/components/ui/Schedule.astro";
+import { Edit } from "@services/schedule/dialog-edit";
 
 export const columns: ColumnDef<ScheduleS>[] = [
   {
@@ -52,8 +50,25 @@ export const columns: ColumnDef<ScheduleS>[] = [
         name="name"
         title="schedule"
         apiUrl="/api/schedule"
-        dialog_edit={<Edit/>}
-        
+        dialog_edit={
+          <Edit
+            schedule={{
+              id_schedule: row.original.id_schedule,
+              classroom: row.original.classroom,
+              classroom_details: {
+                id_classroom: 0,
+                name: row.original.classroom_details.name,
+                capacity: 0,
+              },
+              course: row.original.course,
+              course_details: null,
+              teacher: null,
+              day: row.original.day,
+              start_time: row.original.start_time,
+              end_time: row.original.end_time,
+            }}
+          />
+        }
       />
     ),
   },

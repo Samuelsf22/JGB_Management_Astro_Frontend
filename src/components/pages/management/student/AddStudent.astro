@@ -2,8 +2,7 @@
 import Button from "../../../ui/Button.astro";
 import Input from "../../../ui/Input.astro";
 import Select from "../../../ui/Select.astro";
-import { getParents } from "../../../services/student";
-import { registerStudent } from "../../../services/student";
+import { registerStudent, getParents } from "@services/student/student";
 
 const params = new URL(Astro.request.url).searchParams;
 let showToast = params.has('toast');

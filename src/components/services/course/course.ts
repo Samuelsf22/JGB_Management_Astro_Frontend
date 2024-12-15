@@ -47,24 +47,17 @@ export const registerCourse = async (courseData: PostCourse) => {
       body: JSON.stringify(courseData)
     });
 
-    // Obtener el texto de error para más detalles
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Detalles del error:', errorText);
       throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
     }
-
-    // Intentar parsear la respuesta como JSON
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.error('Error completo al registrar el curso:', error);
-    
-    // Si es un error de red u otro tipo
+    console.error('Complete error when registering course:', error);
     if (error instanceof TypeError) {
-      console.error('Error de red o conexión:', error.message);
+      console.error('Network or connection error:', error.message);
     }
-
     throw error;
   }
 };

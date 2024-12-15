@@ -1,11 +1,9 @@
 ---
 import ManagementLayout from "@/layouts/ManagementLayout.astro";
-import type { ScheduleS } from "@/components/types/api";
-import { TableSchedule } from "@/components/services/schedule/table-schedule";
-import { getSchedules } from "@/components/services/schedule";
-const scheduls :ScheduleS[] = await getSchedules();
+import { ScheduleTable } from "@/components/services/schedule/schedule-table";
+
 ---
 
 <ManagementLayout title="management">  
-  <TableSchedule client:visible data={scheduls}/>
+  <ScheduleTable client:visible/>
 </ManagementLayout>

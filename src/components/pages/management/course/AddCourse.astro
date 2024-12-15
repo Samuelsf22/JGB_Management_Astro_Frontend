@@ -10,10 +10,8 @@ let showToast = params.has('toast');
 let toastMessage = params.get('message') || "";
 let toastType: "success" | "error" = (params.get('type') as "success" | "error") || "success";
 
-// Fetch curriculum list
 const curriculumList = await getCurriculumList();
 
-// Transform curriculum list for Select component
 const curriculumOptions = curriculumList
   .filter(curriculum => curriculum.status === 'active')
   .map(curriculum => ({
@@ -69,7 +67,7 @@ if (Astro.request.method === "POST") {
 }
 ---
 
-<div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+<div class="max-w-md mx-auto rounded-lg shadow-md p-6">
   <form method="POST" class="space-y-4">
     <div class="flex flex-col space-y-2">
       <Input
@@ -116,7 +114,6 @@ if (Astro.request.method === "POST") {
         name="white"
         icon={{ name: "mdi:content-save", size: 20 }}
         iconStart={true}
-        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
       >
         Guardar Curso
       </Button>
@@ -126,23 +123,19 @@ if (Astro.request.method === "POST") {
 
 
 <script>
-  // Improved toast handling
   document.addEventListener('DOMContentLoaded', () => {
     const toast = document.querySelector('[data-toast]');
     if (toast) {
-      // Remove toast params from URL
       const url = new URL(window.location.href);
       url.searchParams.delete('toast');
       url.searchParams.delete('message');
       url.searchParams.delete('type');
       window.history.replaceState({}, '', url);
-
-      // Auto-hide toast
       setTimeout(() => {
         toast.classList.add('opacity-0');
         setTimeout(() => {
           toast.remove();
-        }, 300); // Match transition duration
+        }, 300);
       }, 3000);
     }
   });
