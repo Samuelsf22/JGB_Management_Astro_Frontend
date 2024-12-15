@@ -44,12 +44,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
       context.cookies.set("auth", "true", {
         domain: import.meta.env.DOMAIN,
         httpOnly: true,
-        maxAge: 10,
+        maxAge: 100,
         path: "/login",
         sameSite: "lax",
         secure: true,
         encode: (value: string) => value,
-        expires: new Date(Date.now() + 10 * 1000),
+        expires: new Date(Date.now() + 100 * 1000),
       });
       return context.redirect("/login", 302);
     }
