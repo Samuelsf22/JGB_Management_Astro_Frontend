@@ -1,8 +1,32 @@
 ---
+import {
+  Card,
+  CardHeader,
+  CardDescription,
+  CardTitle,
+  CardContent,
+} from "@/components/ui/card";
+import { getSession } from "auth-astro/server";
 
+const session = await getSession(Astro.request);
 ---
 
-<div>
-    <h1>Management</h1>
-    <p>Welcome to the management dashboard</p>
-</div>
+<Card className="max-w-3xl mx-auto">
+  <CardHeader>
+    <CardTitle className="flex justify-between">
+      Management Dashboard
+      <span class="bg-destructive text-sm p-2 font-semibold rounded-lg">BETA</span>
+    </CardTitle>
+    <CardDescription
+      className="bg-primary/10 border-l-4 border-primary p-4 mb-6"
+    >
+      <p>Welcome, <span class="font-semibold">{session?.user?.name}</span></p>
+    </CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>
+      This is only a preview of the web application. The final version will have
+      more features and improvements.
+    </p>
+  </CardContent>
+</Card>
