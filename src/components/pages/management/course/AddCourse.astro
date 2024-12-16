@@ -1,0 +1,148 @@
+---
+import Button from "../../../ui/Button.astro";
+import Input from "../../../ui/Input.astro";
+import Select from "../../../ui/Select.astro";
+import { getCurriculumList } from "../../../services/curriculum";
+import { registerCourse } from "../../../services/course";
+
+const params = new URL(Astro.request.url).searchParams;
+let showToast = params.has('toast');
+let toastMessage = params.get('message') || "";
+let toastType: "success" | "error" = (params.get('type') as "success" | "error") || "success";
+
+const curriculumList = await getCurriculumList();
+
+const curriculumOptions = curriculumList
+  .filter(curriculum => curriculum.status === 'active')
+  .map(curriculum => ({
+    value: String(curriculum.id_curriculum), 
+    label: `${curriculum.name} (${curriculum.year})`
+  }));
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const name = data.get("name")?.toString().trim();
+    const weekly_hours = Number(data.get("weekly_hours"));
+    const curriculum = Number(data.get("curriculum"));
+    const school_year = Number(data.get("school_year"));
+    // Validation
+    if (!name) {
+      showToast = true;
+      toastMessage = "El nombre del curso es requerido";
+      toastType = "error";
+      throw new Error("El nombre del curso es requerido");
+    }
+
+    if (!weekly_hours || weekly_hours <= 0) {
+      showToast = true;
+      toastMessage = "Las horas semanales deben ser mayores a 0";
+      toastType = "error";
+      throw new Error("Las horas semanales deben ser mayores a 0");
+    }
+
+    if (!curriculum) {
+      showToast = true;
+      toastMessage = "Debe seleccionar un plan de estudio";
+      toastType = "error";
+      throw new Error("Debe seleccionar un plan de estudio");
+    }
+
+    const request = await registerCourse({name, weekly_hours, curriculum, school_year});
+    
+    showToast = true;
+    toastMessage = "¡Curso registrado exitosamente!";
+    toastType = "success";
+
+  } catch (error) {
+    showToast = true;
+    toastType = "error";
+    if (error instanceof Response) {
+      const errorData = await error.json();
+      toastMessage = Object.values(errorData).flat().join(", ");
+    } else {
+      toastMessage = error instanceof Error ? error.message : "Error al registrar el curso";
+    }
+  }
+}
+---
+
+<div class="max-w-md mx-auto rounded-lg shadow-md p-6">
+  <form method="POST" class="space-y-4">
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="text"
+        name="name"
+        id="name"
+        placeholder="Ingrese el nombre del curso"
+        label="Nombre del Curso"
+        required
+      />
+      <Input
+        type="number"
+        name="school_year"
+        id="school_year"
+        placeholder="Ingrese el año escolar"
+        label="Año escolar"
+        required
+      />
+    </div>
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="number"
+        name="weekly_hours"
+        id="weekly_hours"
+        placeholder="Ingrese las horas semanales"
+        label="Horas Semanales"
+        required
+      />
+    </div>
+    <div class="flex flex-col space-y-2">
+      <Select
+        label="Plan de Estudio"
+        name="curriculum"
+        id="curriculum"
+        options={curriculumOptions}
+        defaultText="Seleccione un plan de estudio"
+        required={true}
+      />
+    </div>
+    <div class="form-footer flex justify-end mt-6">
+      <Button
+        id="Save-Course"
+        type="submit"
+        name="white"
+        icon={{ name: "mdi:content-save", size: 20 }}
+        iconStart={true}
+      >
+        Guardar Curso
+      </Button>
+    </div>
+  </form>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toast = document.querySelector('[data-toast]');
+    if (toast) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('toast');
+      url.searchParams.delete('message');
+      url.searchParams.delete('type');
+      window.history.replaceState({}, '', url);
+      setTimeout(() => {
+        toast.classList.add('opacity-0');
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+      }, 3000);
+    }
+  });
+</script>
+
+<style>
+  [data-toast] {
+    transition: opacity 0.3s ease-in-out;
+  }
+</style>

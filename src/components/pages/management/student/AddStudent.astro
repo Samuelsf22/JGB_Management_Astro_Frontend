@@ -1,0 +1,214 @@
+---
+import Button from "../../../ui/Button.astro";
+import Input from "../../../ui/Input.astro";
+import Select from "../../../ui/Select.astro";
+import { registerStudent, getParents } from "@services/student/student";
+
+const params = new URL(Astro.request.url).searchParams;
+let showToast = params.has('toast');
+let toastMessage = params.get('message') || "";
+let toastType: "success" | "error" = (params.get('type') as "success" | "error") || "success";
+
+// Fetch parent list for select
+const parentList = await getParents();
+
+// Transform parent list for Select component
+const parentOptions = parentList
+  .filter(parent => parent.id_parent)
+  .map(parent => ({
+    value: String(parent.id_parent), 
+    label: `${parent.first_name} ${parent.last_name} (DNI: ${parent.dni})`
+  }));
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const first_name = data.get("first_name")?.toString().trim();
+    const last_name = data.get("last_name")?.toString().trim();
+    const dni = data.get("dni")?.toString().trim();
+    const birth_date = data.get("birth_date")?.toString().trim() || "";
+    const parent = Number(data.get("parent"));
+    const address = data.get("address")?.toString().trim();
+    
+    // Format dates as YYYY-MM-DD
+    const formattedBirthDate = birth_date;
+    const formattedEnrollmentDate = new Date().toISOString().split('T')[0];
+
+    
+    // Validation
+    if (!first_name) {
+      showToast = true;
+      toastMessage = "El nombre es requerido";
+      toastType = "error";
+      throw new Error("El nombre es requerido");
+    }
+
+    if (!last_name) {
+      showToast = true;
+      toastMessage = "El apellido es requerido";
+      toastType = "error";
+      throw new Error("El apellido es requerido");
+    }
+
+    if (!dni) {
+      showToast = true;
+      toastMessage = "El DNI es requerido";
+      toastType = "error";
+      throw new Error("El DNI es requerido");
+    }
+
+    if (!birth_date) {
+      showToast = true;
+      toastMessage = "La fecha de nacimiento es requerida";
+      toastType = "error";
+      throw new Error("La fecha de nacimiento es requerida");
+    }
+
+    if (!parent) {
+      showToast = true;
+      toastMessage = "Debe seleccionar un padre/tutor";
+      toastType = "error";
+      throw new Error("Debe seleccionar un padre/tutor");
+    }
+
+    const request = await registerStudent({
+      first_name, 
+      last_name, 
+      dni, 
+      birth_date: formattedBirthDate, // Send as string, not Date object
+      enrollment_date: formattedEnrollmentDate, // Send as string, not Date object
+      parent,
+      address: address || ""
+    });
+    
+    showToast = true;
+    toastMessage = "¡Estudiante registrado exitosamente!";
+    toastType = "success";
+
+  } catch (error) {
+    showToast = true;
+    toastType = "error";
+    if (error instanceof Response) {
+      const errorData = await error.json();
+      toastMessage = Object.values(errorData).flat().join(", ");
+    } else {
+      toastMessage = error instanceof Error ? error.message : "Error al registrar al estudiante";
+    }
+  }
+}
+---
+
+<div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+  <form method="POST" class="space-y-4">
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="text"
+        name="first_name"
+        id="first_name"
+        placeholder="Ingrese el nombre del estudiante"
+        label="Nombre"
+        required
+      />
+    </div>
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="text"
+        name="last_name"
+        id="last_name"
+        placeholder="Ingrese el apellido del estudiante"
+        label="Apellido"
+        required
+      />
+    </div>
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="text"
+        name="dni"
+        id="dni"
+        placeholder="Ingrese el DNI del estudiante"
+        label="DNI"
+        required
+      />
+    </div>
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="date"
+        name="birth_date"
+        id="birth_date"
+        label="Fecha de Nacimiento"
+        placeholder="Seleccione una fecha"
+        required
+      />
+    </div>
+    <div class="flex flex-col space-y-2">
+      <Select
+        label="Padre/Tutor"
+        name="parent"
+        id="parent"
+        options={parentOptions}
+        defaultText="Seleccione un padre/tutor"
+        required={true}
+      />
+    </div>
+    <div class="flex flex-col space-y-2">
+      <Input
+        type="text"
+        name="address"
+        id="address"
+        placeholder="Ingrese la dirección del estudiante"
+        label="Dirección"
+      />
+    </div>
+    <div class="form-footer flex justify-end mt-6">
+      <Button
+        id="Save-Student"
+        type="submit"
+        name="white"
+        icon={{ name: "mdi:account-school", size: 20 }}
+        iconStart={true}
+        class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-md transition-colors"
+      >
+        Guardar Estudiante
+      </Button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Improved toast handling
+  document.querySelector('form')?.addEventListener('submit', (e) => {
+    const birthDateInput = document.querySelector('#birth_date') as HTMLInputElement;
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    
+    if (!dateRegex.test(birthDateInput.value)) {
+      e.preventDefault();
+      alert('La fecha debe estar en formato YYYY-MM-DD');
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const toast = document.querySelector('[data-toast]');
+    if (toast) {
+      // Remove toast params from URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete('toast');
+      url.searchParams.delete('message');
+      url.searchParams.delete('type');
+      window.history.replaceState({}, '', url);
+
+      // Auto-hide toast
+      setTimeout(() => {
+        toast.classList.add('opacity-0');
+        setTimeout(() => {
+          toast.remove();
+        }, 300); // Match transition duration
+      }, 3000);
+    }
+  });
+</script>
+
+<style>
+  [data-toast] {
+    transition: opacity 0.3s ease-in-out;
+  }
+</style>

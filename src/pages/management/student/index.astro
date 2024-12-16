@@ -1,0 +1,8 @@
+---
+import ManagementLayout from "../../../layouts/ManagementLayout.astro";
+import { StudentTable } from "@components/services/student/student-table";
+---
+
+<ManagementLayout title="students">
+  <StudentTable client:visible url="/api/student"/>
+</ManagementLayout>

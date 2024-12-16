@@ -30,7 +30,7 @@ const items = [
     />
   </button>
   <div
-    class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 shadow-md rounded-lg mt-2 border bg-light-background-100 border-light-background-200 dark:bg-dark-background-900 dark:border-dark-background-800"
+    class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 shadow-md rounded-lg mt-2 border bg-card"
     role="menu"
     aria-orientation="vertical"
     aria-labelledby="hs-dropdown-with-header"
@@ -39,12 +39,12 @@ const items = [
       class="py-3 px-4 border-b border-light-background-200 dark:border-dark-background-800"
     >
       <p
-        class="text-sm text-light-foreground-400 dark:text-dark-foreground-300"
+        class="text-sm"
       >
         {user!.name}
       </p>
       <p
-        class="text-sm font-medium text-light-foreground-400 dark:text-dark-foreground-300"
+        class="text-sm font-medium"
       >
         {user!.email}
       </p>

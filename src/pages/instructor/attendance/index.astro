@@ -1,0 +1,8 @@
+---
+import TeacherLayout from "../../../layouts/TeacherLayout.astro";
+import { StudentTableFilter } from "@components/services/attendance/Attendance";
+---
+
+<TeacherLayout title="Attendance">
+  <StudentTableFilter client:visible/>
+</TeacherLayout>

@@ -1,0 +1,184 @@
+---
+import Button from "../../../ui/Button.astro";
+import Select from "../../../ui/Select.astro";
+
+import { getCurriculumList } from "../../../services/curriculum";
+import { getStudents } from "@components/services/student/student";
+import { registerEnrollment } from "../../../services/enrollment";
+
+import { getCoursesByCurriculumByYear } from "../../../services/course";
+
+const params = new URL(Astro.request.url).searchParams;
+let showToast = params.has('toast');
+let toastMessage = params.get('message') || "";
+let toastType: "success" | "error" = (params.get('type') as "success" | "error") || "success";
+
+// Fetch students and curricula for selects
+const studentList = await getStudents();
+const curriculumList = await getCurriculumList();
+const test = await getCoursesByCurriculumByYear(1,1);
+
+
+// Transform lists for Select components
+const studentOptions = studentList
+  .filter(student => student.id_student)
+  .map(student => ({
+    value: String(student.id_student), 
+    label: `${student.first_name} ${student.last_name} (DNI: ${student.dni})`
+  }));
+
+const curriculumOptions = curriculumList
+  .filter(curriculum => curriculum.id_curriculum)
+  .map(curriculum => ({
+    value: String(curriculum.id_curriculum), 
+    label: curriculum.name
+  }));
+
+// School year options
+const schoolYearOptions = Array.from({length: 6}, (_, i) => ({
+  value: String(i + 1),
+  label: `Año ${i + 1}`
+}));
+
+let enrolledCourses: any[] = [];
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const student = Number(data.get("student"));
+    const curriculum = Number(data.get("curriculum"));
+    const school_year = Number(data.get("school_year"));
+    
+    const request = await registerEnrollment({
+      id_enrollment: 0,
+      student, 
+      curriculum,
+      school_year,
+      status: "active",
+      enrollment_date: new Date().toISOString().split('T')[0]
+    });
+    
+    // If enrollment is successful, fetch enrolled courses
+    if (request && request.enrolled_courses) {
+      enrolledCourses = request.enrolled_courses;
+    }
+
+    showToast = true;
+    toastMessage = "¡Inscripción registrada exitosamente!";
+    toastType = "success";
+
+  } catch (error) {
+    showToast = true;
+    toastType = "error";
+    if (error instanceof Response) {
+      const errorData = await error.json();
+      toastMessage = Object.values(errorData).flat().join(", ");
+    } else {
+      toastMessage = error instanceof Error ? error.message : "Error al registrar la inscripción";
+    }
+  }
+}
+
+---
+
+<div class="flex">
+  <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6 w-2/3">
+    <form method="POST" class="space-y-4">
+      <div class="flex flex-col space-y-2">
+        <Select
+          label="Estudiante"
+          name="student"
+          id="student"
+          options={studentOptions}
+          defaultText="Seleccione un estudiante"
+          required={true}
+        />
+      </div>
+      <div class="flex flex-col space-y-2">
+        <Select
+          label="Plan de Estudios"
+          name="curriculum"
+          id="curriculum"
+          options={curriculumOptions}
+          defaultText="Seleccione un plan de estudios"
+          required={true}
+        />
+      </div>
+      <div class="flex flex-col space-y-2">
+        <Select
+          label="Año Escolar"
+          name="school_year"
+          id="school_year"
+          options={schoolYearOptions}
+          defaultText="Seleccione un año escolar"
+          required={true}
+        />
+      </div>
+      <div class="form-footer flex justify-end mt-6">
+        <Button
+          id="Save-Enrollment"
+          type="submit"
+          name="white"
+          icon={{ name: "mdi:school", size: 20 }}
+          iconStart={true}
+          class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-md transition-colors"
+        >
+          Guardar Inscripción
+        </Button>
+      </div>
+    </form>
+  </div>
+
+  <div class="w-1/3 pl-4">
+    {enrolledCourses.length > 0 && (
+      <div>
+        <h3 class="text-lg font-semibold mb-2">Cursos Inscritos</h3>
+        <ul class="max-w-xs flex flex-col">
+          {enrolledCourses.map((course, index) => (
+            <li               
+              class={`
+                inline-flex items-center gap-x-2 py-3 px-4 
+                text-sm font-medium bg-white border border-gray-200 
+                text-gray-800 -mt-px 
+                ${index === 0 ? 'rounded-t-lg mt-0' : ''}
+                ${index === enrolledCourses.length - 1 ? 'rounded-b-lg' : ''}
+                dark:bg-neutral-900 dark:border-neutral-700 dark:text-white
+              `}
+            >
+              {course.name} (Año {course.school_year})
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toast = document.querySelector('[data-toast]');
+    if (toast) {
+      // Remove toast params from URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete('toast');
+      url.searchParams.delete('message');
+      url.searchParams.delete('type');
+      window.history.replaceState({}, '', url);
+
+      // Auto-hide toast
+      setTimeout(() => {
+        toast.classList.add('opacity-0');
+        setTimeout(() => {
+          toast.remove();
+        }, 300); // Match transition duration
+      }, 3000);
+    }
+  });
+</script>
+
+<style>
+  [data-toast] {
+    transition: opacity 0.3s ease-in-out;
+  }
+</style>
