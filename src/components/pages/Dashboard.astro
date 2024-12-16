@@ -4,11 +4,11 @@ import Logo from "../../assets/logo.svg";
 import NavBar from "../ui/NavBar.astro";
 ---
 
-<div class="flex">
+<div class="flex flex-col lg:flex-row">
   <!-- Sidebar -->
   <div
     id="hs-offcanvas-example"
-    class="hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all hidden lg:block duration-300 transform fixed top-0 start-0 bottom-0 z-[60] w-64 bg-light-background-100 dark:bg-dark-background-900 pt-7 pb-0 overflow-y-auto h-screen lg:sticky lg:translate-x-0 lg:end-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-light-background-100 [&::-webkit-scrollbar-thumb]:bg-light-background-300 dark:[&::-webkit-scrollbar-track]:bg-dark-background-900 dark:[&::-webkit-scrollbar-thumb]:bg-dark-background-800 border-e border-light-background-200 dark:border-dark-background-800"
+    class="hs-overlay bg-card [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all hidden lg:block duration-300 transform fixed top-0 start-0 bottom-0 z-[60] w-64 pt-7 pb-0 overflow-y-auto h-screen lg:sticky lg:translate-x-0 lg:end-auto border-e"
     role="dialog"
     tabindex="-1"
     aria-label="Sidebar"
@@ -36,8 +36,7 @@ import NavBar from "../ui/NavBar.astro";
   <div class="flex-1 h-screen flex flex-col">
     <NavBar />
     <main
-      class="overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-light-background-100 [&::-webkit-scrollbar-thumb]:bg-light-background-300 dark:[&::-webkit-scrollbar-track]:bg-dark-background-900 dark:[&::-webkit-scrollbar-thumb]:bg-dark-background-800"
-    >
+      class="overflow-y-auto overflow-x-hidden" >
       <slot name="main-content" />
     </main>
   </div>

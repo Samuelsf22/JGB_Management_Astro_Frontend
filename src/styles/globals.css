@@ -3,8 +3,8 @@
 @tailwind utilities;
 @layer base {
   :root {
-    --gradient: #F36222;
-    
+    --gradient: #f36222;
+
     --background: 18 0% 95%;
     --foreground: 18 0% 0%;
 
@@ -33,10 +33,9 @@
     --input: 18 20% 50%;
     --ring: 18 89.7% 54.3%;
     --radius: 0.75rem;
-   }
+  }
   .dark {
-
-    --gradient: #F36222;
+    --gradient: #f36222;
 
     --background: 20 58.5% 4.4%;
     --foreground: 20 9% 97.75%;
@@ -49,24 +48,24 @@
 
     --card: 20 47% 7.15%;
     --card-foreground: 20 9% 97.75%;
-    
+
     --primary: 20 90% 55%;
     --primary-foreground: 20 9% 5.5%;
-    
+
     --secondary: 20 45% 16.5%;
     --secondary-foreground: 20 9% 97.75%;
-    
+
     --accent: 20 45% 16.5%;
     --accent-foreground: 20 9% 97.75%;
-    
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 20 9% 97.75%;
-    
+
     --border: 20 45% 16.5%;
     --input: 20 45% 16.5%;
     --ring: 20 90% 55%;
     --radius: 0.75rem;
-   }
+  }
 }
 @layer base {
   * {
@@ -74,5 +73,20 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--accent));
+    border-radius: 5px;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--accent)) transparent;
   }
 }
