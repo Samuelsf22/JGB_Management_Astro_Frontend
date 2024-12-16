@@ -4,6 +4,7 @@ export type postUser = {
     password:         string;
     first_name:       string;
     last_name:        string;
+    group_name:     string;
 }
 
 export type Teacher = {
@@ -89,6 +90,7 @@ export type Curriculum = {
 
 
 export type PostEnrollment = {
+    id_enrollment:   number;
     student:         number;
     enrollment_date: string;
     status:          string;
@@ -166,4 +168,33 @@ export type TeacherS = {
     id_teacher: number;
     name:       string;
     specialty:  string;
+}
+
+export type GetEnrollment = {
+    id_enrollment:    number;
+    student:          StudentDetails;
+    curriculum:       Curriculum;
+    enrollment_date:  String;
+    status:           string;
+    enrolled_courses: EnrolledCourse[];
+}
+
+
+export type EnrolledCourse = {
+    id_course:    number;
+    curriculum:   number;
+    name:         string;
+    weekly_hours: number;
+    school_year:  number;
+}
+
+export type StudentDetails = {
+    id_student:      number;
+    first_name:      string;
+    last_name:       string;
+    dni:             string;
+    birth_date:      Date;
+    enrollment_date: Date;
+    address:         string;
+    parent:          number;
 }

@@ -54,8 +54,8 @@ export const registerCourse = async (courseData: PostCourse) => {
 };
 
 
-export const updateCourse = async (id: string, courseData: Partial<Course>) => {
-  const response = await fetch(`${import.meta.env.SERVER_URL}/courses/${id}`, {
+export const editCourse = async (courseData: Course) => {
+  const response = await fetch(`https://sga-api-render.onrender.com/api/courses/${courseData.id_course}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

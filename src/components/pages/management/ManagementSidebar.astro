@@ -20,13 +20,20 @@ import NavLink from "../../ui/NavLink.astro";
   <NavLink text="Enrollment" icon={{ name: "mdi:book-plus-outline" }} 
   items={[ 
     { href: "/management/enrollment", text: "Enrollment Student" },
+    { href: "/management/enrollment/listenrollment", text: "List Enrollment" },
   ]}
   />
   <NavLink text="Schedule" icon={{ name: "mdi:book-schedule" }} 
   items={[ 
-    { href: "/management/schedule", text: "Schedule" },
+    { href: "/management/schedule", text: "Register Schedule" },
     { href: "/management/schedule/schedules", text: "Schedules" },
-    { href: "/management/schedule/listschedules", text: "Schedules" },
+    { href: "/management/schedule/listschedules", text: "List Schedules" },
+  ]}
+  />
+  <NavLink text="User" icon={{ name: "mdi:users-group" }} 
+  items={[ 
+    { href: "/management/user", text: "User List" },
+    { href: "/management/user/adduser", text: "Add Users" },
   ]}
   />
 </div>

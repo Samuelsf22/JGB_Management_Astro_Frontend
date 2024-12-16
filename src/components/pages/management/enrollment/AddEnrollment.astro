@@ -17,7 +17,7 @@ let toastType: "success" | "error" = (params.get('type') as "success" | "error")
 const studentList = await getStudents();
 const curriculumList = await getCurriculumList();
 const test = await getCoursesByCurriculumByYear(1,1);
-console.log('HOLA'+curriculumList);
+
 
 // Transform lists for Select components
 const studentOptions = studentList
@@ -50,6 +50,7 @@ if (Astro.request.method === "POST") {
     const school_year = Number(data.get("school_year"));
     
     const request = await registerEnrollment({
+      id_enrollment: 0,
       student, 
       curriculum,
       school_year,
