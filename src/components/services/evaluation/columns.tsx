@@ -1,7 +1,7 @@
 import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { Student } from "@components/types/api";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Input } from "@/components/ui/input2";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
