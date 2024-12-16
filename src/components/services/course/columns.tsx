@@ -1,6 +1,6 @@
 import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { Course } from "@components/types/api";
-import type { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef, Row } from "@tanstack/react-table";
 import { DataTableRowActions } from "@/components/ui/data-table-row-actions";
 import { Edit } from "./dialog-edit";
 
@@ -8,7 +8,7 @@ interface Props {
   showActions?: boolean;
 }
 
-const actions = (row: any) => {
+const actions = (row: Row<Course>) => {
   return (
     <DataTableRowActions
       row={row}
@@ -16,7 +16,17 @@ const actions = (row: any) => {
       name="name"
       title="course"
       apiUrl="/api/course"
-      dialog_edit={<Edit />}
+      dialog_edit={
+        <Edit
+          course={{
+            id_course: row.original.id_course,
+            name: row.original.name,
+            school_year: row.original.school_year,
+            weekly_hours: row.original.weekly_hours,
+            curriculum: row.original.curriculum,
+          }}
+        />
+      }
     />
   );
 };
@@ -47,12 +57,18 @@ export const columns = ({ showActions }: Props): ColumnDef<Course>[] => {
         return <DataTableColumnHeader column={column} title="Weekly Hours" />;
       },
     },
+    {
+      accessorKey: "curriculum",
+      header: ({ column }) => {
+        return <DataTableColumnHeader column={column} title="Curriculum" />;
+      },
+    },
   ];
 
   if (showActions) {
     cols.push({
       accessorKey: "actions",
-      cell: actions,
+      cell: ({ row }) => actions(row),
     });
   }
 

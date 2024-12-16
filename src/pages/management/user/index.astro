@@ -1,0 +1,8 @@
+---
+import ManagementLayout from "../../../layouts/ManagementLayout.astro";
+import { UserTable } from "@components/services/user/user-table";
+---
+
+<ManagementLayout title="users">
+  <UserTable client:visible/>
+</ManagementLayout>
