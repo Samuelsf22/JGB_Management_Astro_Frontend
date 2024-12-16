@@ -4,7 +4,7 @@ import { getSession } from "auth-astro/server";
 const AUTH_PATHS = "/api/auth";
 const LOGIN_PATHS = ["/login"];
 const ROLE_TEACHER_PATHS = ["/instructor", "/api/instructor"];
-const ROLE_MANAGEMENT_PATHS = ["/management", "/"];
+const ROLE_MANAGEMENT_PATHS = ["/management", "/api"];
 
 export const onRequest = defineMiddleware(async (context, next) => {
   if (context.url.pathname.startsWith("/_image")) {

@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
     <>
       <div className="w-full">
         <div className="flex justify-between items-center py-4">
-          <div className="relative max-w-xs group hover:text-primary focus:text-primary">
+          <div className="relative max-w-xs group text-muted-foreground hover:text-primary focus:text-primary">
             <Input
               type="text"
               value={filtering}
@@ -84,7 +84,7 @@ export function DataTable<TData, TValue>({
               //   table.getColumn("name")?.setFilterValue(event.target.value)
               // }
               placeholder="Filtering by name..."
-              className="ps-9"
+              className="ps-9 w-80"
             />
             <div className="absolute inset-y-0 start-0 flex items-center ps-3">
               <Icon icon="mdi:search" />

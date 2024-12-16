@@ -11,72 +11,22 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { registerParent } from "@services/student/student";
 
-const params = new URL(Astro.request.url).searchParams;
-let showToast = params.has("toast");
-let toastMessage = params.get("message") || "";
-let toastType: "success" | "error" =
-  (params.get("type") as "success" | "error") || "success";
-
 if (Astro.request.method === "POST") {
-  try {
-    const data = await Astro.request.formData();
-    const dni = data.get("dni")?.toString().trim();
-    const first_name = data.get("first_name")?.toString().trim();
-    const last_name = data.get("last_name")?.toString().trim();
-    const phone_number = data.get("phone_number")?.toString().trim();
-    const address = data.get("address")?.toString().trim();
+  const data = await Astro.request.formData();
+  const dni = data.get("dni")?.toString().trim() || "";
+  const first_name = data.get("first_name")?.toString().trim() || "";
+  const last_name = data.get("last_name")?.toString().trim() || "";
+  const phone_number = data.get("phone_number")?.toString().trim() || "";
+  const address = data.get("address")?.toString().trim();
 
-    if (!dni) {
-      showToast = true;
-      toastMessage = "DNI is required";
-      toastType = "error";
-      throw new Error("DNI is required");
-    }
-
-    if (!first_name) {
-      showToast = true;
-      toastMessage = "First name is required";
-      toastType = "error";
-      throw new Error("First name is required");
-    }
-
-    if (!last_name) {
-      showToast = true;
-      toastMessage = "Last name is required";
-      toastType = "error";
-      throw new Error("Last name is required");
-    }
-
-    if (!phone_number) {
-      showToast = true;
-      toastMessage = "Phone number is required";
-      toastType = "error";
-      throw new Error("Phone number is required");
-    }
-
-    const request = await registerParent({
-      id_parent: 0,
-      dni,
-      first_name,
-      last_name,
-      phone_number,
-      address: address || "",
-    });
-
-    showToast = true;
-    toastMessage = "Parent registered successfully!";
-    toastType = "success";
-  } catch (error) {
-    showToast = true;
-    toastType = "error";
-    if (error instanceof Response) {
-      const errorData = await error.json();
-      toastMessage = Object.values(errorData).flat().join(", ");
-    } else {
-      toastMessage =
-        error instanceof Error ? error.message : "Error registering parent";
-    }
-  }
+  const request = await registerParent({
+    id_parent: 0,
+    dni,
+    first_name,
+    last_name,
+    phone_number,
+    address: address || "",
+  });
 }
 ---
 
@@ -140,9 +90,7 @@ if (Astro.request.method === "POST") {
           className="col-span-3"
         />
       </div>
+      <Button id="save-parent" type="submit" variant="default"> Submit </Button>
     </form>
   </CardContent>
-  <CardFooter className="flex justify-end">
-    <Button id="save-parent" type="submit" variant="default"> Submit </Button>
-  </CardFooter>
 </Card>
