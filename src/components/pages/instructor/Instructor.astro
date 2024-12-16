@@ -14,8 +14,10 @@ const session = await getSession(Astro.request);
 <Card className="max-w-3xl mx-auto">
   <CardHeader>
     <CardTitle>
-      Instructor Dashboard
-      <span>BETA</span>
+      <CardTitle className="flex justify-between">
+        Instructor Dashboard
+        <span class="bg-destructive text-sm p-2 font-semibold rounded-lg">BETA</span>
+      </CardTitle>
     </CardTitle>
     <CardDescription
       className="bg-primary/10 border-l-4 border-primary p-4 mb-6"
