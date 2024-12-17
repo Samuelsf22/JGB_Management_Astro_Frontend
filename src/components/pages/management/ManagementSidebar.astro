@@ -2,38 +2,53 @@
 import NavLink from "../../ui/NavLink.astro";
 ---
 
-<div >
-  <NavLink href="/management" text="Dashboard" icon={{ name: "mdi:view-dashboard-outline" }} />
-  <NavLink text="Courses" icon={{ name: "mdi:book-open-variant" }} 
-  items={[ 
-    { href: "/management/course", text: "All Courses" },
-    { href: "/management/course/add-course", text: "Add Course" },
-  ]}
+<div>
+  <NavLink
+    href="/management"
+    text="Dashboard"
+    icon={{ name: "mdi:view-dashboard-outline" }}
   />
-  <NavLink text="Students" icon={{ name: "mdi:account-student" }} 
-  items={[ 
-    { href: "/management/student", text: "All Students" },
-    { href: "/management/student/add-parent", text: "Add Parent" },
-    { href: "/management/student/add-student", text: "Add Student" },
-  ]}
+  <NavLink
+    href="/management/course"
+    text="Courses"
+    icon={{ name: "mdi:book-open-outline" }}
   />
-  <NavLink text="Enrollment" icon={{ name: "mdi:book-plus-outline" }} 
-  items={[ 
-    { href: "/management/enrollment", text: "Enrollment Student" },
-    { href: "/management/enrollment/listenrollment", text: "List Enrollment" },
-  ]}
+
+  <NavLink
+    text="Students"
+    icon={{ name: "mdi:account-student" }}
+    items={[
+      { href: "/management/student", text: "All Students" },
+      { href: "/management/student/add-parent", text: "Add Parent" },
+      { href: "/management/student/add-student", text: "Add Student" },
+    ]}
   />
-  <NavLink text="Schedule" icon={{ name: "mdi:book-schedule" }} 
-  items={[ 
-    { href: "/management/schedule", text: "Register Schedule" },
-    { href: "/management/schedule/schedules", text: "Schedules" },
-    { href: "/management/schedule/listschedules", text: "List Schedules" },
-  ]}
+  <NavLink
+    text="Enrollment"
+    icon={{ name: "mdi:book-plus-outline" }}
+    items={[
+      { href: "/management/enrollment", text: "Enrollment Student" },
+      {
+        href: "/management/enrollment/listenrollment",
+        text: "List Enrollment",
+      },
+    ]}
   />
-  <NavLink text="User" icon={{ name: "mdi:users-group" }} 
-  items={[ 
-    { href: "/management/user", text: "User List" },
-    { href: "/management/user/adduser", text: "Add Users" },
-  ]}
+  <NavLink
+    text="Schedule"
+    icon={{ name: "mdi:book-schedule" }}
+    items={[
+      { href: "/management/schedule", text: "Register Schedule" },
+      { href: "/management/schedule/schedules", text: "Schedules" },
+      { href: "/management/schedule/listschedules", text: "List Schedules" },
+    ]}
+  />
+  <NavLink
+    text="User"
+    icon={{ name: "mdi:users-group" }}
+    items={[
+      { href: "/management/user", text: "User List" },
+      { href: "/management/user/adduser", text: "Add Users" },
+    ]}
   />
 </div>

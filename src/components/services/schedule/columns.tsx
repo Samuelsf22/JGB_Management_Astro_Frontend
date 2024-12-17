@@ -41,35 +41,4 @@ export const columns: ColumnDef<ScheduleS>[] = [
       return <DataTableColumnHeader column={column} title="End Time" />;
     },
   },
-  {
-    id: "actions",
-    cell: ({ row }) => (
-      <DataTableRowActions
-        row={row}
-        idRow="id_schedule"
-        name="name"
-        title="schedule"
-        apiUrl="/api/schedule"
-        dialog_edit={
-          <Edit
-            schedule={{
-              id_schedule: row.original.id_schedule,
-              classroom: row.original.classroom,
-              classroom_details: {
-                id_classroom: 0,
-                name: row.original.classroom_details.name,
-                capacity: 0,
-              },
-              course: row.original.course,
-              course_details: null,
-              teacher: null,
-              day: row.original.day,
-              start_time: row.original.start_time,
-              end_time: row.original.end_time,
-            }}
-          />
-        }
-      />
-    ),
-  },
 ];

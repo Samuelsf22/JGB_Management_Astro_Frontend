@@ -55,31 +55,4 @@ export const columns: ColumnDef<GetEnrollment>[] = [
       return <DataTableColumnHeader column={column} title="Year" />;
     },
   },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const schoolYear = row.original.enrolled_courses?.[0]?.school_year || "N/A";
-      return (
-        <DataTableRowActions
-          row={row}
-          idRow="id_enrollment"
-          name="name"
-          title="enrollment"
-          apiUrl="/api/enrollment"
-          dialog_edit={
-            <Edit
-              enrollment={{
-                id_enrollment: row.original.id_enrollment,
-                student: row.original.student.id_student,
-                curriculum: row.original.curriculum.id_curriculum,
-                school_year: Number(schoolYear), // Usamos la constante previamente calculada
-                status: row.original.status,
-                enrollment_date: String(row.original.enrollment_date),
-              }}
-            />
-          }
-        />
-      );
-    },
-  },
 ];

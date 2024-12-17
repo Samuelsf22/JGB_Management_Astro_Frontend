@@ -9,26 +9,7 @@ interface Props {
 }
 
 const actions = (row: Row<Course>) => {
-  return (
-    <DataTableRowActions
-      row={row}
-      idRow="id_course"
-      name="name"
-      title="course"
-      apiUrl="/api/course"
-      dialog_edit={
-        <Edit
-          course={{
-            id_course: row.original.id_course,
-            name: row.original.name,
-            school_year: row.original.school_year,
-            weekly_hours: row.original.weekly_hours,
-            curriculum: row.original.curriculum,
-          }}
-        />
-      }
-    />
-  );
+  return null
 };
 
 export const columns = ({ showActions }: Props): ColumnDef<Course>[] => {
@@ -64,13 +45,6 @@ export const columns = ({ showActions }: Props): ColumnDef<Course>[] => {
       },
     },
   ];
-
-  if (showActions) {
-    cols.push({
-      accessorKey: "actions",
-      cell: ({ row }) => actions(row),
-    });
-  }
 
   return cols;
 };

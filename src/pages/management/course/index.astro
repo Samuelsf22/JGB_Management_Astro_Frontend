@@ -1,8 +1,0 @@
----
-import { CourseTable } from "@/components/services/course/course-table";
-import ManagementLayout from "../../../layouts/ManagementLayout.astro";
----
-
-<ManagementLayout title="courses">
-  <CourseTable client:visible url="/api/course" showActions={true}/>
-</ManagementLayout>
