@@ -1,7 +1,6 @@
 ---
 import Button from "../../../ui/Button.astro";
 import Select from "../../../ui/Select.astro";
-import Schedule from "../../../ui/Schedule.astro";
 
 // Servicios
 import { getCurriculumList } from "../../../services/curriculum";
@@ -218,9 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function agregarHorario() {
-    // Capturar valores seleccionados
-    const curriculum = curriculumSelect.options[curriculumSelect.selectedIndex]?.text || "";
-    const schoolYear = schoolYearSelect.options[schoolYearSelect.selectedIndex]?.text || "";
     const course = courseSelect.options[courseSelect.selectedIndex]?.text || "";
     const day = daySelect.options[daySelect.selectedIndex]?.text || "";
     const classroom = classroomSelect.options[classroomSelect.selectedIndex]?.text || "";

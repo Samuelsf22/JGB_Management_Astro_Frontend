@@ -1,13 +1,13 @@
 import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { Student } from "@components/types/api";
-import type { ColumnDef } from "@tanstack/react-table";
-import { DataTableRowActions } from "@/components/ui/data-table-row-actions";
+import type { ColumnDef, Row } from "@tanstack/react-table";
+// import { DataTableRowActions } from "@/components/ui/data-table-row-actions";
 // import { Edit } from "./dialog-edit";
 interface Props {
   showActions?: boolean;
 }
 
-const actions = (row: any) => {
+const actions = (row: Row<Student>) => {
   // return (
   //   <DataTableRowActions
   //     row={row}
@@ -60,7 +60,7 @@ export const columns = ({ showActions }: Props): ColumnDef<Student>[] => {
   if (showActions) {
     cols.push({
       accessorKey: "actions",
-      cell: actions,
+      cell: ({ row }) => actions(row),
     });
   }
   return cols;

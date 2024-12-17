@@ -20,12 +20,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+// import {
+//   DropdownMenu,
+//   DropdownMenuCheckboxItem,
+//   DropdownMenuContent,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
+
 import { Input } from "./input";
 
 interface DataTableProps<TData, TValue> {
@@ -179,7 +180,7 @@ export function DataTable<TData, TValue>({
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
-              <Icon icon="mdi:chevron-left" className="" height={22} />
+              <Icon icon="mdi:chevron-left" height={22} />
             </button>
 
             <button
@@ -188,7 +189,7 @@ export function DataTable<TData, TValue>({
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
             >
-              <Icon icon="mdi:chevron-right" className="" height={22} />
+              <Icon icon="mdi:chevron-right" height={22} />
             </button>
           </div>
         </div>

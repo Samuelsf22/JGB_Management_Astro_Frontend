@@ -1,6 +1,6 @@
 import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { Student } from "@components/types/api";
-import type { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef, Row } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 
@@ -8,7 +8,7 @@ interface Props {
   showActions?: boolean;
 }
 
-const AttendanceCell = ({ row }: { row: any }) => {
+const AttendanceCell = (row: Row<Student>) => {
   const [isAttended, setIsAttended] = useState(false);
 
   const handleAttendanceChange = () => {
@@ -28,7 +28,7 @@ const AttendanceCell = ({ row }: { row: any }) => {
   );
 };
 
-const actions = (row: any) => {
+const actions = (row: Row<Student>) => {
   // Previous actions logic (currently commented out)
   return null;
 };
@@ -55,14 +55,14 @@ export const columns = ({ showActions }: Props): ColumnDef<Student>[] => {
     {
       accessorKey: "attendance",
       header: "Attendance",
-      cell: AttendanceCell,
-    }
+      cell: ({ row }) => AttendanceCell(row),
+    },
   ];
 
   if (showActions) {
     cols.push({
       accessorKey: "actions",
-      cell: actions,
+      cell: ({ row }) => actions(row),
     });
   }
 

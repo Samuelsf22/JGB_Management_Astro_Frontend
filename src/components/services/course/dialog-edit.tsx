@@ -7,14 +7,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@components/ui/dialog";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { editCourse } from "@components/services/course";
 import type { Course } from "@components/types/api";
-
-
 
 interface EditProps {
   course: Course;
@@ -29,7 +26,6 @@ export function Edit({ course }: EditProps) {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,7 +38,6 @@ export function Edit({ course }: EditProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
 
     try {
       await editCourse({
@@ -50,7 +45,7 @@ export function Edit({ course }: EditProps) {
         ...formData,
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error updating schedule");
+      console.error(err);
     } finally {
       setIsLoading(false);
     }
