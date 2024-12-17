@@ -8,21 +8,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
 
 const studentSchema = z.object({
   first_name: z
@@ -35,7 +26,7 @@ const studentSchema = z.object({
     .string({ required_error: "DNI is required" })
     .regex(/^\d{8}$/, { message: "DNI must be 8 digits" })
     .transform((val) => parseInt(val)),
-  birth_date: z.date(),
+  birth_date: z.string(),
   parent: z.string().nonempty(),
   address: z.string().optional(),
 });
@@ -45,14 +36,6 @@ type StudentType = z.infer<typeof studentSchema>;
 function FormStudent() {
   const form = useForm<StudentType>({
     resolver: zodResolver(studentSchema),
-    // defaultValues: {
-    //   first_name: "",
-    //   last_name: "",
-    //   dni: "",
-    //   birth_date: "",
-    //   parent: "",
-    //   address: "",
-    // },
   });
 
   const onSubmit = form.handleSubmit((values: StudentType) => {
@@ -118,37 +101,9 @@ function FormStudent() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Birth Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "dd/MM/yyyy")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
                   <FormDescription>
                     Enter the birth date of the student
                   </FormDescription>
