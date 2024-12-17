@@ -27,7 +27,7 @@ interface DataTableRowActionsProps<TData> {
   name: string;
   title: string;
   apiUrl: string;
-  dialog_edit: React.ReactNode;
+  children: (setOpenEdit: React.Dispatch<React.SetStateAction<boolean>>) => React.ReactNode;
 }
 // This is the schema for the form data, it's not implemented yet
 // const formSchema = z.object({
@@ -43,7 +43,7 @@ export function DataTableRowActions<TData>({
   name,
   title,
   apiUrl,
-  dialog_edit,
+  children,
 }: DataTableRowActionsProps<TData>) {
   const { toast } = useToast();
   const deleteCourse = async () => {
@@ -100,10 +100,6 @@ export function DataTableRowActions<TData>({
         </DropdownMenuContent>
       </DropdownMenu>
       <Dialog open={openEdit} onOpenChange={setOpenEdit}>
-        {dialog_edit}
-      </Dialog>
-      {/* Edit dialog - it's not implemented yet */}
-      {/* <Dialog open={openEdit} onOpenChange={setOpenEdit}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
@@ -111,30 +107,9 @@ export function DataTableRowActions<TData>({
               Make changes to your profile here. Click save when you're done.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
-              <Input id="name" className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Username
-              </Label>
-              <Input id="username" className="col-span-3" />
-            </div>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="ghost">
-                Close
-              </Button>
-            </DialogClose>
-            <Button type="submit">Edit</Button>
-          </DialogFooter>
+          {children(setOpenEdit)}
         </DialogContent>
-      </Dialog> */}
+      </Dialog>
       <Dialog open={openDelete} onOpenChange={setOpenDelete}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

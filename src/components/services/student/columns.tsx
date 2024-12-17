@@ -1,23 +1,24 @@
 import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { Student } from "@components/types/api";
 import type { ColumnDef, Row } from "@tanstack/react-table";
-// import { DataTableRowActions } from "@/components/ui/data-table-row-actions";
-// import { Edit } from "./dialog-edit";
+import { DataTableRowActions } from "@/components/ui/data-table-row-actions";
+
 interface Props {
   showActions?: boolean;
 }
 
 const actions = (row: Row<Student>) => {
-  // return (
-  //   <DataTableRowActions
-  //     row={row}
-  //     idRow="id_course"
-  //     name="name"
-  //     title="course"
-  //     apiUrl="/api/course"
-  //     dialog_edit={<Edit />}
-  //   />
-  // );
+  return (
+    <DataTableRowActions
+      row={row}
+      idRow="id_student"
+      name="fist_name"
+      title="student"
+      apiUrl="/api/students"
+    >
+      {(setOpenEdit) => <button onClick={() => setOpenEdit(false)}>test</button>}
+    </DataTableRowActions>
+  );
 };
 
 export const columns = ({ showActions }: Props): ColumnDef<Student>[] => {
