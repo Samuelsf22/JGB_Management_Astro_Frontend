@@ -1,10 +1,8 @@
 ---
-import FormStudent from "@/components/services/student/form-student";
 import ManagementLayout from "../../../layouts/ManagementLayout.astro";
 import { StudentTable } from "@components/services/student/student-table";
 ---
 
 <ManagementLayout title="students">
-  <FormStudent client:load/>
   <StudentTable client:visible url="/api/students" showActions/>
 </ManagementLayout>

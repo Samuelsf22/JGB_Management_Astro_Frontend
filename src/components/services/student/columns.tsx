@@ -2,6 +2,7 @@ import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { Student } from "@components/types/api";
 import type { ColumnDef, Row } from "@tanstack/react-table";
 import { DataTableRowActions } from "@/components/ui/data-table-row-actions";
+import FormStudent from "./form-student";
 
 interface Props {
   showActions?: boolean;
@@ -12,11 +13,11 @@ const actions = (row: Row<Student>) => {
     <DataTableRowActions
       row={row}
       idRow="id_student"
-      name="fist_name"
+      name="id_student"
       title="student"
       apiUrl="/api/students"
     >
-      {(setOpenEdit) => <button onClick={() => setOpenEdit(false)}>test</button>}
+      {(setOpenEdit) => <FormStudent setOpenEdit={setOpenEdit} row={row} />}
     </DataTableRowActions>
   );
 };
@@ -36,7 +37,7 @@ export const columns = ({ showActions }: Props): ColumnDef<Student>[] => {
     {
       accessorKey: "first_name",
       header: ({ column }) => {
-        return <DataTableColumnHeader column={column} title="Name" />;
+        return <DataTableColumnHeader column={column} title="First Name" />;
       },
     },
     {

@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import React, { useState } from "react";
-// import { z } from "zod";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -27,15 +26,10 @@ interface DataTableRowActionsProps<TData> {
   name: string;
   title: string;
   apiUrl: string;
-  children: (setOpenEdit: React.Dispatch<React.SetStateAction<boolean>>) => React.ReactNode;
+  children: (
+    setOpenEdit: React.Dispatch<React.SetStateAction<boolean>>
+  ) => React.ReactNode;
 }
-// This is the schema for the form data, it's not implemented yet
-// const formSchema = z.object({
-//   name: z.string().length(100),
-//   school_year: z.number().int().positive(),
-//   weekly_hours: z.number().int().positive(),
-//   curriculum: z.number().int().positive(),
-// });
 
 export function DataTableRowActions<TData>({
   row,
@@ -100,15 +94,7 @@ export function DataTableRowActions<TData>({
         </DropdownMenuContent>
       </DropdownMenu>
       <Dialog open={openEdit} onOpenChange={setOpenEdit}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          {children(setOpenEdit)}
-        </DialogContent>
+        {children(setOpenEdit)}
       </Dialog>
       <Dialog open={openDelete} onOpenChange={setOpenDelete}>
         <DialogContent className="sm:max-w-[425px]">
