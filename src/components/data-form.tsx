@@ -23,97 +23,47 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useForm, type DefaultValues } from "react-hook-form";
+import { ZodSchema } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import type { Row } from "@tanstack/react-table";
+import type { Path } from "react-hook-form";
 
-const studentSchema = z.object({
-  first_name: z
-    .string()
-    .min(3, { message: "First name be at least 3 characters" }),
-  last_name: z
-    .string()
-    .min(3, { message: "Last name be at least 3 characters" }),
-  dni: z
-    .string({ required_error: "DNI is required" })
-    .regex(/^\d{8}$/, { message: "DNI must be 8 digits" })
-    .transform((val) => parseInt(val)),
-  birth_date: z.string(),
-  parent: z.string().nonempty(),
-  address: z.string().optional(),
-});
+export type FormField<T> = {
+  name: Path<T>;
+  label: string;
+  type: "text" | "number" | "date" | "select";
+  description: string;
+  options?: { value: string; label: string }[];
+};
 
-type StudentType = z.infer<typeof studentSchema>;
-
-interface Props<TData> {
+interface Props<TData, TSchema> {
   setOpenEdit: React.Dispatch<React.SetStateAction<boolean>>;
   row: Row<TData>;
+  formFields: FormField<TSchema>[];
+  schema: ZodSchema<TSchema>;
+  defaultValues: DefaultValues<TSchema>;
+  dialogTitle: string;
+  dialogDescription: string;
 }
 
-function FormStudent<TData>({ setOpenEdit, row }: Props<TData>) {
-  const form = useForm<StudentType>({
-    resolver: zodResolver(studentSchema),
-    defaultValues: {
-      first_name: row.getValue("first_name"),
-      last_name: row.getValue("last_name"),
-      dni: row.getValue("dni"),
-      birth_date: row.getValue("birth_date"),
-      parent: row.getValue("parent_details"),
-      address: row.getValue("address"),
-    },
+function DataForm<TData, TSchema extends Record<string, any>>({
+  setOpenEdit,
+  row,
+  formFields,
+  schema,
+  defaultValues,
+  dialogTitle,
+  dialogDescription,
+}: Props<TData, TSchema>) {
+  const form = useForm<TSchema>({
+    resolver: zodResolver(schema),
+    defaultValues,
   });
 
-  type FormField = {
-    name: string;
-    label: string;
-    type: "text" | "number" | "date" | "select";
-    description: string;
-    options?: { value: string; label: string }[];
-  };
-
-  const formFields: FormField[] = [
-    {
-      name: "first_name",
-      label: "First Name",
-      type: "text",
-      description: "Enter the first name",
-    },
-    {
-      name: "last_name",
-      label: "Last Name",
-      type: "text",
-      description: "Enter the last name",
-    },
-    {
-      name: "dni",
-      label: "DNI",
-      type: "text",
-      description: "Enter the DNI",
-    },
-    {
-      name: "birth_date",
-      label: "Birth Date",
-      type: "date",
-      description: "Enter the birth date",
-    },
-    {
-      name: "parent",
-      label: "Parent",
-      type: "text",
-      description: "Enter the parent of the student",
-    },
-    {
-      name: "address",
-      label: "Address",
-      type: "text",
-      description: "Enter the address",
-    },
-  ];
-
-  const onSubmit = form.handleSubmit((values: StudentType) => {
+  const onSubmit = form.handleSubmit((values: TSchema) => {
     console.log(values);
     setOpenEdit(false);
   });
@@ -121,17 +71,15 @@ function FormStudent<TData>({ setOpenEdit, row }: Props<TData>) {
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>Edit profile</DialogTitle>
-        <DialogDescription>
-          Make changes to your profile here. Click save when you're done.
-        </DialogDescription>
+        <DialogTitle>{dialogTitle}</DialogTitle>
+        <DialogDescription>{dialogDescription}</DialogDescription>
       </DialogHeader>
       <Form {...form}>
         <form onSubmit={onSubmit}>
           {formFields.map((field) => (
             <FormField
-              key={field.name}
-              name={field.name as keyof StudentType}
+              key={String(field.name)}
+              name={field.name}
               control={form.control}
               render={({ field: fieldProps }) => (
                 <FormItem>
@@ -179,4 +127,4 @@ function FormStudent<TData>({ setOpenEdit, row }: Props<TData>) {
   );
 }
 
-export default FormStudent;
+export default DataForm;

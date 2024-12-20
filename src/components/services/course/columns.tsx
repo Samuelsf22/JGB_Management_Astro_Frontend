@@ -2,14 +2,30 @@ import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { Course } from "@components/types/api";
 import type { ColumnDef, Row } from "@tanstack/react-table";
 import { DataTableRowActions } from "@/components/ui/data-table-row-actions";
-import { Edit } from "./dialog-edit";
+import { z } from "zod";
+import DataForm from "@/components/data-form";
+import type { FormField } from "@/components/data-form";
+import CourseForm from "./course-form";
+
 
 interface Props {
   showActions?: boolean;
 }
 
 const actions = (row: Row<Course>) => {
-  return null
+  return (
+    <DataTableRowActions
+      row={row}
+      idRow="id_student"
+      name="id_student"
+      title="student"
+      apiUrl="/api/students"
+    >
+      {(setOpenEdit) => (
+        <CourseForm setOpenEdit={setOpenEdit} row={row} />
+      )}
+    </DataTableRowActions>
+  );
 };
 
 export const columns = ({ showActions }: Props): ColumnDef<Course>[] => {
@@ -45,6 +61,13 @@ export const columns = ({ showActions }: Props): ColumnDef<Course>[] => {
       },
     },
   ];
+
+  if (showActions) {
+    cols.push({
+      accessorKey: "actions",
+      cell: ({ row }) => actions(row),
+    });
+  }
 
   return cols;
 };
