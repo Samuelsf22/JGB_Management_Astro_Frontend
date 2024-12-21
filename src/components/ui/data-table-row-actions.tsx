@@ -22,10 +22,13 @@ import React, { useState } from "react";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
-  idRow: string;
-  name: string;
-  title: string;
-  apiUrl: string;
+  dialogDelete: {
+    id_row: string;
+    name: string;
+    title: string;
+    description: string;
+    apiUrl: string;
+  };
   children: (
     setOpenEdit: React.Dispatch<React.SetStateAction<boolean>>
   ) => React.ReactNode;
@@ -33,16 +36,13 @@ interface DataTableRowActionsProps<TData> {
 
 export function DataTableRowActions<TData>({
   row,
-  idRow,
-  name,
-  title,
-  apiUrl,
+  dialogDelete,
   children,
 }: DataTableRowActionsProps<TData>) {
   const { toast } = useToast();
   const deleteCourse = async () => {
-    const id = row.getValue(idRow);
-    const response = await fetch(apiUrl, {
+    const id = row.getValue(dialogDelete.id_row);
+    const response = await fetch(dialogDelete.apiUrl, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
@@ -56,12 +56,12 @@ export function DataTableRowActions<TData>({
     if (success) {
       toast({
         title: "Success",
-        description: `${title} deleted`,
+        description: `${dialogDelete.name} deleted`,
       });
     } else {
       toast({
         title: "Error",
-        description: `Failed to delete ${title}`,
+        description: `Failed to delete ${dialogDelete.name}`,
         variant: "destructive",
       });
     }
@@ -99,11 +99,8 @@ export function DataTableRowActions<TData>({
       <Dialog open={openDelete} onOpenChange={setOpenDelete}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Delete {row.getValue(name)}</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete this {title}? This action cannot
-              be undone.
-            </DialogDescription>
+            <DialogTitle>{dialogDelete.title}</DialogTitle>
+            <DialogDescription>{dialogDelete.description}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose asChild>

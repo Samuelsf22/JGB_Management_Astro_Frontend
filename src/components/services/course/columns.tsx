@@ -2,11 +2,7 @@ import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { Course } from "@components/types/api";
 import type { ColumnDef, Row } from "@tanstack/react-table";
 import { DataTableRowActions } from "@/components/ui/data-table-row-actions";
-import { z } from "zod";
-import DataForm from "@/components/data-form";
-import type { FormField } from "@/components/data-form";
 import CourseForm from "./course-form";
-
 
 interface Props {
   showActions?: boolean;
@@ -16,14 +12,15 @@ const actions = (row: Row<Course>) => {
   return (
     <DataTableRowActions
       row={row}
-      idRow="id_student"
-      name="id_student"
-      title="student"
-      apiUrl="/api/students"
+      dialogDelete={{
+        id_row: "id_course",
+        name: "course",
+        title: "Delete Course",
+        description: "Are you sure you want to delete this course?",
+        apiUrl: "/api/courses",
+      }}
     >
-      {(setOpenEdit) => (
-        <CourseForm setOpenEdit={setOpenEdit} row={row} />
-      )}
+      {(setOpenEdit) => <CourseForm setOpenEdit={setOpenEdit} row={row} />}
     </DataTableRowActions>
   );
 };

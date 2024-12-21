@@ -12,10 +12,13 @@ const actions = (row: Row<Student>) => {
   return (
     <DataTableRowActions
       row={row}
-      idRow="id_student"
-      name="id_student"
-      title="student"
-      apiUrl="/api/students"
+      dialogDelete={{
+        id_row: "id_student",
+        name: "student",
+        title: "Delete Student",
+        description: "Are you sure you want to delete this student?",
+        apiUrl: "/api/courses",
+      }}
     >
       {(setOpenEdit) => <FormStudent setOpenEdit={setOpenEdit} row={row} />}
     </DataTableRowActions>
