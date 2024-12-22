@@ -1,5 +1,5 @@
-import { CardTable } from "../../ui/CardTable";
-import { columns } from "@services/course/columns";
+import { CardTable } from "@components/ui/CardTable";
+import { columns } from "@/components/pages/management/courses/data/columns";
 interface Props {
   url: string;
   showActions?: boolean;
